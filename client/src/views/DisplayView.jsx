@@ -21,6 +21,8 @@ export default function DisplayView() {
   const currentTrackRef = useRef(null);
   const trackStartTimeRef = useRef(0);
   const hasEndedDispatchedRef = useRef(false);
+  const hasStartedPlayingRef = useRef(false);
+  const unstartedWatchdogRef = useRef(null);
   const bufferWatchdogRef = useRef(null);
   const outroCheckIntervalRef = useRef(null);
   const wakeLockRef = useRef(null);
@@ -41,12 +43,24 @@ export default function DisplayView() {
     console.log('[Display] PLAY_NEXT recibido:', payload);
     setHasError(null);
     hasEndedDispatchedRef.current = false;
+    hasStartedPlayingRef.current = false;
     trackStartTimeRef.current = Date.now();
     currentTrackRef.current = payload;
     setCurrentTrack(payload);
     setNextTrackTitle(payload.nextTrackTitle || '');
     setIsPlaying(true);
     triggerOverlay();
+
+    // Watchdog de arranque: Si en 6.5s el video no comienza a reproducir (ej. pantalla "Video no disponible" de YouTube)
+    if (unstartedWatchdogRef.current) {
+      clearTimeout(unstartedWatchdogRef.current);
+    }
+    unstartedWatchdogRef.current = setTimeout(() => {
+      if (!hasStartedPlayingRef.current && currentTrackRef.current) {
+        console.warn('[Display] El video no arrancó en 6.5s (bloqueo por derechos o error de carga). Activando fallback...');
+        onPlayerError({ data: 150 });
+      }
+    }, 6500);
 
     // No forzamos loadVideoById de forma imperativa para no colisionar con la prop videoId
     if (playerRef.current) {
@@ -57,6 +71,7 @@ export default function DisplayView() {
       }
     }
   }, [triggerOverlay]);
+
 
   const handlePlayerState = useCallback((payload) => {
     console.log('[Display] PLAYER_STATE recibido:', payload);
@@ -213,6 +228,11 @@ export default function DisplayView() {
     // 1: PLAYING, 2: PAUSED, 3: BUFFERING, 0: ENDED
 
     if (state === 1) { // PLAYING
+      hasStartedPlayingRef.current = true;
+      if (unstartedWatchdogRef.current) {
+        clearTimeout(unstartedWatchdogRef.current);
+        unstartedWatchdogRef.current = null;
+      }
       setIsPlaying(true);
       if (bufferWatchdogRef.current) {
         clearTimeout(bufferWatchdogRef.current);
@@ -258,17 +278,25 @@ export default function DisplayView() {
         bufferWatchdogRef.current = null;
       }
     } else if (state === 0) { // ENDED
+      if (unstartedWatchdogRef.current) {
+        clearTimeout(unstartedWatchdogRef.current);
+        unstartedWatchdogRef.current = null;
+      }
       onPlayerEnd();
     }
   }, [onPlayerEnd]);
 
   const onPlayerError = (event) => {
     const errorCode = event.data;
-    console.error('[Display] Error en YouTube IFrame Player:', errorCode);
+    const currentVid = currentTrackRef.current?.videoId || currentTrack?.videoId || 'desconocido';
+    const currentTit = currentTrackRef.current?.title || currentTrack?.title || 'Pista de Video';
 
-    if (hasEndedDispatchedRef.current) return;
-    hasEndedDispatchedRef.current = true;
+    console.error('[Display] Error en YouTube IFrame Player:', errorCode, currentVid, currentTit);
 
+    if (unstartedWatchdogRef.current) {
+      clearTimeout(unstartedWatchdogRef.current);
+      unstartedWatchdogRef.current = null;
+    }
     if (bufferWatchdogRef.current) {
       clearTimeout(bufferWatchdogRef.current);
       bufferWatchdogRef.current = null;
@@ -287,41 +315,52 @@ export default function DisplayView() {
 
     setHasError(errorMessage);
 
-    logger.error('YouTube', `Error ${errorCode} al reproducir "${currentTrackRef.current?.title || 'Video'}": ${errorMessage}`, {
-      videoId: currentTrackRef.current?.videoId,
+    // REGISTRO INMEDIATO E INCONDICIONAL EN LOGGER Y SENTRY
+    const logEntry = logger.error('YouTube', `[Bloqueo YouTube ${errorCode}] "${currentTit}" (${currentVid}): ${errorMessage}`, {
+      videoId: currentVid,
+      title: currentTit,
       errorCode,
+      errorMessage,
     });
 
     try {
-      Sentry.captureMessage(`[YouTube Error ${errorCode}] ${currentTrackRef.current?.title || 'Video Desconocido'}`, {
+      Sentry.captureMessage(`[YouTube Bloqueo ${errorCode}] ${currentTit}`, {
         level: 'error',
         tags: {
           errorCode: String(errorCode),
-          videoId: currentTrackRef.current?.videoId,
-          origen: 'display_proyector',
+          videoId: currentVid,
+          pantalla: 'display_proyector',
+          tipo: 'bloqueo_derechos_autor',
         },
         extra: {
-          title: currentTrackRef.current?.title,
-          videoId: currentTrackRef.current?.videoId,
+          title: currentTit,
+          videoId: currentVid,
           author: currentTrackRef.current?.author,
           errorMessage,
+          timestamp: new Date().toISOString(),
         },
       });
     } catch (e) {}
 
+    // Notificar al operador vía canal para auto-fallback y registro sincronizado
     broadcast(MESSAGE_TYPES.ERROR_RESTRICTED, {
-      videoId: currentTrackRef.current?.videoId,
-      title: currentTrackRef.current?.title,
-      queueId: currentTrackRef.current?.queueId,
+      videoId: currentVid,
+      title: currentTit,
+      queueId: currentTrackRef.current?.queueId || currentTrack?.queueId,
       errorCode,
       message: errorMessage,
     });
 
+    // Enviar también el log para que aparezca en la consola del operador
+    broadcast(MESSAGE_TYPES.LOG_REMOTE, logEntry);
+
+    hasEndedDispatchedRef.current = true;
 
     setTimeout(() => {
       setHasError(null);
     }, 4000);
   };
+
 
   const youtubeOptions = {
     width: '100%',

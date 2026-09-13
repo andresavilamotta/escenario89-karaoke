@@ -11,6 +11,7 @@ import { Mic, Sparkles, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import IntroSplash from '../components/IntroSplash';
 import { logger } from '../utils/logger';
+import * as Sentry from '@sentry/react';
 
 
 const STORAGE_KEY = 'karaoke_operator_state_v1';
@@ -113,7 +114,24 @@ export default function OperatorView() {
 
     setNotifications((prev) => [{ id, message, type, time }, ...prev].slice(0, 50));
     setHasUnread(true);
+
+    // Conexión automática con el Logger central y Sentry
+    if (type === 'error') {
+      logger.error('Operador', message);
+      try {
+        Sentry.captureMessage(`[Operador] ${message}`, {
+          level: 'error',
+          tags: { canal: 'notificacion_operador' },
+          extra: { currentTrack: currentTrackRef.current },
+        });
+      } catch (e) {}
+    } else if (type === 'warning') {
+      logger.warn('Operador', message);
+    } else {
+      logger.info('Operador', message);
+    }
   }, []);
+
 
   // Cargar estado inicial desde localStorage
   useEffect(() => {
@@ -220,12 +238,38 @@ export default function OperatorView() {
     console.warn('[Operador] ERROR_RESTRICTED recibido:', payload);
     const failedVideoId = payload?.videoId;
     const songTitle = payload?.title || currentTrackRef.current?.title || '';
+    const errorCode = payload?.errorCode || 150;
+
+    // REGISTRO EXPLÍCITO EN TELEMETRÍA Y SENTRY
+    logger.error('YouTube', `[Bloqueo Detectado] "${songTitle}" (${failedVideoId}) tiene restricción de derechos (Error ${errorCode}).`, {
+      videoId: failedVideoId,
+      songTitle,
+      payload,
+    });
+
+    try {
+      Sentry.captureMessage(`[Bloqueo Derechos ${errorCode}] "${songTitle}"`, {
+        level: 'error',
+        tags: {
+          errorCode: String(errorCode),
+          videoId: failedVideoId,
+          tipo: 'bloqueo_derechos_operador',
+        },
+        extra: {
+          songTitle,
+          failedVideoId,
+          payload,
+          timestamp: new Date().toISOString(),
+        },
+      });
+    } catch (e) {}
 
     // Validar que el error corresponda a la canción que realmente está al aire
     if (failedVideoId && currentTrackRef.current?.videoId && failedVideoId !== currentTrackRef.current.videoId) {
       console.warn('[Operador] Ignorando error de video obsoleto:', failedVideoId);
       return;
     }
+
 
     if (!songTitle || (failedVideoId && fallbackAttemptsRef.current.has(failedVideoId))) {
       addNotification(
