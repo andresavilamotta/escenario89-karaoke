@@ -6,7 +6,8 @@ import QueueManager from '../components/QueueManager';
 import PlayerControls from '../components/PlayerControls';
 import NotificationCenter from '../components/NotificationCenter';
 import LogViewerModal from '../components/LogViewerModal';
-import { Mic, Sparkles, LogOut, Terminal } from 'lucide-react';
+import { Mic, Sparkles, LogOut } from 'lucide-react';
+
 import { useAuth } from '../context/AuthContext';
 import IntroSplash from '../components/IntroSplash';
 import { logger } from '../utils/logger';
@@ -58,6 +59,47 @@ export default function OperatorView() {
     volumeRef.current = volume;
     searchModeRef.current = searchMode;
   }, [currentTrack, queue, isPlaying, volume, searchMode]);
+
+  // Atajo secreto de teclado: Ctrl + L o Ctrl + Shift + L para abrir Diagnóstico y Logs
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'l' || e.key === 'L')) {
+        e.preventDefault();
+        setIsLogsOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Atajo secreto en pantalla: Triple clic en el logo de Escenario 89
+  const logoClicksRef = useRef({ count: 0, lastTime: 0, timer: null });
+  const handleLogoClick = () => {
+    const now = Date.now();
+    if (now - logoClicksRef.current.lastTime > 1000) {
+      logoClicksRef.current.count = 1;
+    } else {
+      logoClicksRef.current.count += 1;
+    }
+    logoClicksRef.current.lastTime = now;
+
+    if (logoClicksRef.current.timer) {
+      clearTimeout(logoClicksRef.current.timer);
+    }
+
+    if (logoClicksRef.current.count >= 3) {
+      logoClicksRef.current.count = 0;
+      setIsLogsOpen((prev) => !prev);
+    } else {
+      // Si fue solo un clic sencillo, esperar 350ms antes de disparar la intro para permitir triple clic
+      logoClicksRef.current.timer = setTimeout(() => {
+        if (logoClicksRef.current.count === 1) {
+          setShowIntroModal(true);
+        }
+        logoClicksRef.current.count = 0;
+      }, 350);
+    }
+  };
 
   // Registro de notificaciones en el Centro de Notificaciones
   const addNotification = useCallback((message, type = 'info') => {
@@ -463,10 +505,11 @@ export default function OperatorView() {
       <header className="border-b border-[#332C22] bg-[#14120F]/90 backdrop-blur-md sticky top-0 z-30 px-4 lg:px-8 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div 
-            onClick={() => setShowIntroModal(true)} 
-            className="flex items-center gap-3.5 cursor-pointer group"
-            title="Reproducir animación oficial de Escenario 89"
+            onClick={handleLogoClick} 
+            className="flex items-center gap-3.5 cursor-pointer group select-none"
+            title="Escenario 89 • Karaoke Bar (Triple clic: Diagnóstico)"
           >
+
             {/* Logotipo Oficial en miniatura */}
             <div className="w-11 h-11 rounded-full p-[2px] bg-gradient-to-tr from-amber-600 via-yellow-300 to-amber-500 shadow-[0_0_15px_rgba(212,175,55,0.35)] group-hover:shadow-[0_0_20px_rgba(212,175,55,0.6)] group-hover:scale-105 transition-all overflow-hidden flex-shrink-0">
               <img 
@@ -507,19 +550,9 @@ export default function OperatorView() {
               }}
             />
 
-            {/* Botón Diagnóstico y Logs del Sistema (Sentry & Telemetría) */}
-            <button
-              type="button"
-              onClick={() => setIsLogsOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#332C22] bg-[#201C16] hover:bg-[#332C22] hover:border-amber-500/40 text-xs font-semibold text-amber-200/90 hover:text-white transition shadow-sm cursor-pointer"
-              title="Abrir panel de diagnóstico y logs del sistema"
-            >
-              <Terminal className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span className="hidden sm:inline">Logs</span>
-            </button>
-
             {/* Botón Salir / Cerrar Sesión */}
             <button
+
 
               onClick={() => {
                 if (window.confirm('¿Deseas cerrar la sesión del Administrador?')) {
