@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { logger } from '../utils/logger';
 
 export const CHANNEL_NAME = 'karaoke_sync_channel';
 
@@ -14,6 +15,7 @@ export const MESSAGE_TYPES = {
   ERROR_RESTRICTED: 'ERROR_RESTRICTED',
   SYNC_STATE: 'SYNC_STATE',
   STANDBY: 'STANDBY',
+  LOG_REMOTE: 'LOG_REMOTE',
 };
 
 /**

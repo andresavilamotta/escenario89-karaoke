@@ -1,5 +1,7 @@
 import React from 'react';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
+import * as Sentry from '@sentry/react';
+import { logger } from '../utils/logger';
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -13,7 +15,12 @@ export default class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error('ErrorBoundary capturó un error:', error, errorInfo);
+    logger.error('Sistema', `Fallo crítico en interfaz: ${error?.message || error}`, { errorInfo });
+    try {
+      Sentry.captureException(error, { extra: errorInfo });
+    } catch (e) {}
   }
+
 
   render() {
     if (this.state.hasError) {

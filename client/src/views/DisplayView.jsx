@@ -3,6 +3,9 @@ import YouTube from 'react-youtube';
 import { useKaraokeSync, MESSAGE_TYPES } from '../hooks/useKaraokeSync';
 import StandbyScreen from '../components/StandbyScreen';
 import { Music, Radio, ExternalLink, AlertTriangle } from 'lucide-react';
+import { logger } from '../utils/logger';
+import * as Sentry from '@sentry/react';
+
 
 export default function DisplayView() {
   const [currentTrack, setCurrentTrack] = useState(null);
@@ -284,6 +287,28 @@ export default function DisplayView() {
 
     setHasError(errorMessage);
 
+    logger.error('YouTube', `Error ${errorCode} al reproducir "${currentTrackRef.current?.title || 'Video'}": ${errorMessage}`, {
+      videoId: currentTrackRef.current?.videoId,
+      errorCode,
+    });
+
+    try {
+      Sentry.captureMessage(`[YouTube Error ${errorCode}] ${currentTrackRef.current?.title || 'Video Desconocido'}`, {
+        level: 'error',
+        tags: {
+          errorCode: String(errorCode),
+          videoId: currentTrackRef.current?.videoId,
+          origen: 'display_proyector',
+        },
+        extra: {
+          title: currentTrackRef.current?.title,
+          videoId: currentTrackRef.current?.videoId,
+          author: currentTrackRef.current?.author,
+          errorMessage,
+        },
+      });
+    } catch (e) {}
+
     broadcast(MESSAGE_TYPES.ERROR_RESTRICTED, {
       videoId: currentTrackRef.current?.videoId,
       title: currentTrackRef.current?.title,
@@ -291,6 +316,7 @@ export default function DisplayView() {
       errorCode,
       message: errorMessage,
     });
+
 
     setTimeout(() => {
       setHasError(null);

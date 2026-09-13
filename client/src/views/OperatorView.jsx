@@ -5,9 +5,12 @@ import SearchResults from '../components/SearchResults';
 import QueueManager from '../components/QueueManager';
 import PlayerControls from '../components/PlayerControls';
 import NotificationCenter from '../components/NotificationCenter';
-import { Mic, Sparkles, LogOut } from 'lucide-react';
+import LogViewerModal from '../components/LogViewerModal';
+import { Mic, Sparkles, LogOut, Terminal } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import IntroSplash from '../components/IntroSplash';
+import { logger } from '../utils/logger';
+
 
 const STORAGE_KEY = 'karaoke_operator_state_v1';
 
@@ -28,6 +31,7 @@ export default function OperatorView() {
   const [notifications, setNotifications] = useState([]);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [hasUnread, setHasUnread] = useState(false);
+  const [isLogsOpen, setIsLogsOpen] = useState(false);
 
   // Referencias para evitar stale closures en callbacks del BroadcastChannel
   const currentTrackRef = useRef(currentTrack);
@@ -503,8 +507,20 @@ export default function OperatorView() {
               }}
             />
 
+            {/* Botón Diagnóstico y Logs del Sistema (Sentry & Telemetría) */}
+            <button
+              type="button"
+              onClick={() => setIsLogsOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#332C22] bg-[#201C16] hover:bg-[#332C22] hover:border-amber-500/40 text-xs font-semibold text-amber-200/90 hover:text-white transition shadow-sm cursor-pointer"
+              title="Abrir panel de diagnóstico y logs del sistema"
+            >
+              <Terminal className="w-3.5 h-3.5 text-[#D4AF37]" />
+              <span className="hidden sm:inline">Logs</span>
+            </button>
+
             {/* Botón Salir / Cerrar Sesión */}
             <button
+
               onClick={() => {
                 if (window.confirm('¿Deseas cerrar la sesión del Administrador?')) {
                   logout();
@@ -586,6 +602,13 @@ export default function OperatorView() {
       {showIntroModal && (
         <IntroSplash onComplete={() => setShowIntroModal(false)} />
       )}
+
+      {/* Visor de Diagnóstico, Telemetría y Sentry */}
+      <LogViewerModal
+        isOpen={isLogsOpen}
+        onClose={() => setIsLogsOpen(false)}
+      />
     </div>
   );
 }
+
