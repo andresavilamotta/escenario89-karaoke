@@ -1,0 +1,23 @@
+{
+  "name": "escenario89-karaoke",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Escenario 89 Karaoke Bar - Sistema de Karaoke Web Dual-Screen con YouTube",
+  "scripts": {
+    "build": "npm --prefix client install --legacy-peer-deps && npm --prefix client run build",
+    "server": "npm.cmd --prefix server start",
+    "client": "npm.cmd --prefix client run dev"
+  },
+  "dependencies": {
+    "yt-search": "^2.12.1"
+  },
+  "keywords": [
+    "karaoke",
+    "youtube",
+    "dual-screen",
+    "broadcast-channel",
+    "escenario-89"
+  ],
+  "license": "MIT"
+}

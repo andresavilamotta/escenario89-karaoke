@@ -1,0 +1,7 @@
+server/
+start.bat
+node_modules
+client/node_modules
+*.log
+Logo Escenario 89.mp4
+
