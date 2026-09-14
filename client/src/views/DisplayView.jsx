@@ -423,7 +423,7 @@ export default function DisplayView() {
               <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0" />
               <div>
                 <span>{hasError}</span>
-                <span className="block text-xs text-slate-400 font-normal mt-0.5">Buscando alternativa o salta con el operador.</span>
+                <span className="block text-xs text-slate-400 font-normal mt-0.5">El operador está seleccionando una versión compatible...</span>
               </div>
               <button
                 type="button"

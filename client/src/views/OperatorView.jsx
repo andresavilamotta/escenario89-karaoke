@@ -6,6 +6,8 @@ import QueueManager from '../components/QueueManager';
 import PlayerControls from '../components/PlayerControls';
 import NotificationCenter from '../components/NotificationCenter';
 import LogViewerModal from '../components/LogViewerModal';
+import QueueValidator from '../components/QueueValidator';
+import TrackAlertModal from '../components/TrackAlertModal';
 import { Mic, Sparkles, LogOut } from 'lucide-react';
 
 import { useAuth } from '../context/AuthContext';
@@ -27,6 +29,17 @@ export default function OperatorView() {
   const [queue, setQueue] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(80);
+
+  // Estado de validación silenciosa Pre-Flight de la cola
+  const [validationMap, setValidationMap] = useState({});
+
+  // Estado del Modal de Alerta y Rescate de Canción
+  const [alertModalState, setAlertModalState] = useState({
+    isOpen: false,
+    track: null,
+    isCurrentTrack: false,
+    reason: '',
+  });
 
   // Estados del Centro de Notificaciones (sin popups invasivos que tapen la pantalla)
   const [showIntroModal, setShowIntroModal] = useState(false);
@@ -233,8 +246,8 @@ export default function OperatorView() {
     advanceToNextTrack('ended');
   }, [advanceToNextTrack]);
 
-  // Auto-Fallback Inteligente: Cuando un video falla con error 150/101, buscar la misma canción en otra versión
-  const handleRestrictedError = useCallback(async (payload) => {
+  // Manejo de Error Restringido: Abre el Modal de Alerta con opciones claras (Reemplazar, YouTube Web, Omitir)
+  const handleRestrictedError = useCallback((payload) => {
     console.warn('[Operador] ERROR_RESTRICTED recibido:', payload);
     const failedVideoId = payload?.videoId;
     const songTitle = payload?.title || currentTrackRef.current?.title || '';
@@ -270,73 +283,96 @@ export default function OperatorView() {
       return;
     }
 
-
-    if (!songTitle || (failedVideoId && fallbackAttemptsRef.current.has(failedVideoId))) {
-      addNotification(
-        `Video con restricción de derechos en YouTube. Pasando al siguiente tema...`,
-        'error'
-      );
-      advanceToNextTrack('error_fallback');
-      return;
-    }
-
-    if (failedVideoId) {
-      fallbackAttemptsRef.current.add(failedVideoId);
-    }
-
     addNotification(
-      `"${songTitle}" tiene bloqueo de inserción. Buscando versión alternativa compatible automáticamente...`,
-      'info'
+      `"${songTitle}" tiene restricción de derechos (Error ${errorCode}). Selecciona una alternativa o ábrela en YouTube.`,
+      'error'
     );
 
-    try {
-      const cleanTitle = songTitle
-        .replace(/\(Karaoke.*?\)/gi, '')
-        .replace(/\[Karaoke.*?\]/gi, '')
-        .replace(/\(Official.*?\)/gi, '')
-        .replace(/\(Lyrics.*?\)/gi, '')
-        .trim();
+    // Lanzar Modal de Alerta Interactivo para el Operador
+    setAlertModalState({
+      isOpen: true,
+      track: currentTrackRef.current || {
+        videoId: failedVideoId,
+        title: songTitle,
+        thumbnail: `https://i.ytimg.com/vi/${failedVideoId}/hqdefault.jpg`,
+      },
+      isCurrentTrack: true,
+      reason: `YouTube bloqueó la inserción por derechos de autor (Error ${errorCode} - LatinAutor/UMPG/Sony)`,
+    });
+  }, [addNotification]);
 
-      const res = await fetch(`/api/search?q=${encodeURIComponent(cleanTitle)}&mode=lyrics`);
-      if (res.ok) {
-        const data = await res.json();
-        const alternatives = (data.results || []).filter(
-          (v) => v.videoId !== failedVideoId && v.embeddable !== false
-        );
+  // Actualizar estado de validación Pre-Flight desde QueueValidator
+  const handleValidationUpdate = useCallback((videoId, info) => {
+    setValidationMap((prev) => ({
+      ...prev,
+      [videoId]: {
+        ...(prev[videoId] || {}),
+        ...info,
+      },
+    }));
 
-        if (alternatives.length > 0) {
-          const replacement = alternatives[0];
-          const newTrack = {
-            ...replacement,
-            queueId: `${replacement.videoId}-${Date.now()}`,
-          };
-
-          setCurrentTrack(newTrack);
-          setIsPlaying(true);
-
-          broadcast(MESSAGE_TYPES.PLAY_NEXT, {
-            videoId: newTrack.videoId,
-            title: newTrack.title,
-            author: newTrack.author,
-            queueId: newTrack.queueId,
-            duration: newTrack.duration,
-            thumbnail: newTrack.thumbnail,
-            nextTrackTitle: queueRef.current[0]?.title || '',
-          });
-
-          addNotification(
-            `Versión alternativa activada: "${newTrack.title}" (${newTrack.author}).`,
-            'success'
-          );
-          return;
-        }
-      }
-    } catch (e) {
-      console.warn('Error en auto-fallback:', e);
+    if (info.status === 'restricted') {
+      const song = queueRef.current.find((t) => t.videoId === videoId);
+      const title = song?.title || 'Una pista en la cola';
+      addNotification(`⚠️ Pre-Flight: "${title}" tiene restricción de derechos. Pulsa "Resolver" en la lista.`, 'warning');
     }
+  }, [addNotification]);
 
-    advanceToNextTrack('error_no_alt');
-  }, [addNotification, advanceToNextTrack]);
+  // Abrir Modal de Alerta para una pista específica
+  const handleOpenAlertModal = useCallback((track, isCurrent = false, reason = '') => {
+    setAlertModalState({
+      isOpen: true,
+      track,
+      isCurrentTrack: isCurrent,
+      reason: reason || 'Restricción de derechos de autor en YouTube',
+    });
+  }, []);
+
+  // Reemplazar pista en la cola con una versión alternativa compatible conservando el turno
+  const handleReplaceQueueTrack = useCallback((newTrack) => {
+    if (!alertModalState.track) return;
+    const targetQueueId = alertModalState.track.queueId;
+    const targetVideoId = alertModalState.track.videoId;
+
+    setQueue((prevQueue) => {
+      return prevQueue.map((item) => {
+        if ((targetQueueId && item.queueId === targetQueueId) || item.videoId === targetVideoId) {
+          return {
+            ...newTrack,
+            queueId: `${newTrack.videoId}-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+          };
+        }
+        return item;
+      });
+    });
+
+    addNotification(`Pista sustituida en la cola: "${newTrack.title}".`, 'success');
+    setAlertModalState({ isOpen: false, track: null, isCurrentTrack: false, reason: '' });
+  }, [alertModalState.track, addNotification]);
+
+  // Reemplazar pista al aire en el escenario con una versión alternativa compatible
+  const handleReplaceCurrentTrack = useCallback((newTrack) => {
+    const replacement = {
+      ...newTrack,
+      queueId: `${newTrack.videoId}-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+    };
+
+    setCurrentTrack(replacement);
+    setIsPlaying(true);
+
+    broadcast(MESSAGE_TYPES.PLAY_NEXT, {
+      videoId: replacement.videoId,
+      title: replacement.title,
+      author: replacement.author,
+      queueId: replacement.queueId,
+      duration: replacement.duration,
+      thumbnail: replacement.thumbnail,
+      nextTrackTitle: queueRef.current[0]?.title || '',
+    });
+
+    addNotification(`Versión compatible activada en escenario: "${replacement.title}".`, 'success');
+    setAlertModalState({ isOpen: false, track: null, isCurrentTrack: false, reason: '' });
+  }, [broadcast, addNotification]);
 
   // Callback cuando el display se reconecta
   const handlePongOperator = useCallback(() => {
@@ -664,6 +700,7 @@ export default function OperatorView() {
             currentTrack={currentTrack}
             queue={queue}
             isPlaying={isPlaying}
+            validationMap={validationMap}
             onRemoveTrack={handleRemoveTrack}
             onRemoveCurrentTrack={handleRemoveCurrentTrack}
             onMoveUp={handleMoveUp}
@@ -671,9 +708,33 @@ export default function OperatorView() {
             onPlayNow={handlePlayNow}
             onClearQueue={handleClearQueue}
             onOpenDirectYouTube={handleOpenDirectYouTube}
+            onOpenAlertModal={handleOpenAlertModal}
           />
         </section>
       </main>
+
+      {/* Validador Silencioso en Segundo Plano (Queue Pre-Flight Tester) */}
+      <QueueValidator
+        queue={queue}
+        onValidationUpdate={handleValidationUpdate}
+      />
+
+      {/* Modal Interactivo de Alerta y Rescate de Canción */}
+      <TrackAlertModal
+        isOpen={alertModalState.isOpen}
+        track={alertModalState.track}
+        isCurrentTrack={alertModalState.isCurrentTrack}
+        reason={alertModalState.reason}
+        onClose={() => setAlertModalState({ isOpen: false, track: null, isCurrentTrack: false, reason: '' })}
+        onReplaceTrack={alertModalState.isCurrentTrack ? handleReplaceCurrentTrack : handleReplaceQueueTrack}
+        onOpenDirectYouTube={handleOpenDirectYouTube}
+        onSkipTrack={alertModalState.isCurrentTrack ? handleSkip : () => {
+          if (alertModalState.track) {
+            handleRemoveTrack(alertModalState.track.queueId);
+            setAlertModalState({ isOpen: false, track: null, isCurrentTrack: false, reason: '' });
+          }
+        }}
+      />
 
       {/* Modal / Reproductor de la animación oficial de Escenario 89 */}
       {showIntroModal && (

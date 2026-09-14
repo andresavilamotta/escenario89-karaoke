@@ -1,17 +1,19 @@
 import React from 'react';
-import { Trash2, ChevronUp, ChevronDown, ListMusic, Clock, Disc, PlayCircle, ExternalLink, Square } from 'lucide-react';
+import { Trash2, ChevronUp, ChevronDown, ListMusic, Clock, Disc, PlayCircle, ExternalLink, Square, CheckCircle, AlertTriangle, Loader2, ShieldAlert, Sparkles } from 'lucide-react';
 
 export default function QueueManager({
   currentTrack,
   queue = [],
   isPlaying = false,
+  validationMap = {},
   onRemoveTrack,
   onRemoveCurrentTrack,
   onMoveUp,
   onMoveDown,
   onPlayNow,
   onClearQueue,
-  onOpenDirectYouTube
+  onOpenDirectYouTube,
+  onOpenAlertModal,
 }) {
   return (
     <div className="flex flex-col h-full bg-[#14120F]/90 rounded-2xl border border-[#332C22] p-4 shadow-xl backdrop-blur-md">
@@ -137,73 +139,130 @@ export default function QueueManager({
             <p className="text-xs text-slate-500 mt-1">Busca canciones en el panel izquierdo y haz clic en "+ Añadir a la Cola".</p>
           </div>
         ) : (
-          queue.map((track, index) => (
-            <div
-              key={track.queueId || `${track.videoId}-${index}`}
-              className="group flex items-center gap-2.5 p-2 rounded-xl bg-[#201C16]/60 hover:bg-[#201C16] border border-[#332C22]/60 hover:border-amber-500/40 transition-all duration-150"
-            >
-              <div className="w-6 text-center font-mono text-xs font-bold text-amber-400/90 flex-shrink-0">
-                #{index + 1}
-              </div>
+          queue.map((track, index) => {
+            const val = validationMap[track.videoId];
+            const isRestricted = val?.status === 'restricted';
+            const isValid = val?.status === 'valid';
+            const isTesting = val?.status === 'testing';
 
-              <div className="w-14 h-10 rounded overflow-hidden flex-shrink-0 bg-black border border-[#332C22]">
-                <img
-                  src={track.thumbnail}
-                  alt={track.title}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
+            return (
+              <div
+                key={track.queueId || `${track.videoId}-${index}`}
+                className={`group flex items-center gap-2.5 p-2 rounded-xl border transition-all duration-150 ${
+                  isRestricted
+                    ? 'bg-red-950/20 border-red-500/60 shadow-[0_0_12px_rgba(239,68,68,0.15)]'
+                    : 'bg-[#201C16]/60 hover:bg-[#201C16] border-[#332C22]/60 hover:border-amber-500/40'
+                }`}
+              >
+                <div className="w-6 text-center font-mono text-xs font-bold text-amber-400/90 flex-shrink-0">
+                  #{index + 1}
+                </div>
 
-              <div className="flex-1 min-w-0">
-                <h5 className="text-xs font-semibold text-slate-200 truncate leading-tight group-hover:text-amber-300 transition-colors" title={track.title}>
-                  {track.title}
-                </h5>
-                <div className="flex items-center gap-2 mt-0.5 text-[11px] text-slate-400">
-                  <span className="truncate">{track.author}</span>
-                  <span>•</span>
-                  <span className="font-mono text-amber-200/60">{track.duration}</span>
+                <div className="w-14 h-10 rounded overflow-hidden flex-shrink-0 bg-black border border-[#332C22] relative">
+                  <img
+                    src={track.thumbnail}
+                    alt={track.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  {isRestricted && (
+                    <div className="absolute inset-0 bg-red-950/70 flex items-center justify-center">
+                      <AlertTriangle className="w-4 h-4 text-red-400" />
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
+                    <h5
+                      className={`text-xs font-semibold truncate leading-tight transition-colors ${
+                        isRestricted ? 'text-red-200' : 'text-slate-200 group-hover:text-amber-300'
+                      }`}
+                      title={track.title}
+                    >
+                      {track.title}
+                    </h5>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-[11px] text-slate-400 flex-wrap">
+                    <span className="truncate max-w-[120px]">{track.author}</span>
+                    <span>•</span>
+                    <span className="font-mono text-amber-200/60">{track.duration}</span>
+
+                    {/* Badges de Validación Pre-Flight */}
+                    {isValid && (
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        <CheckCircle className="w-2.5 h-2.5 text-emerald-400" />
+                        Verificada
+                      </span>
+                    )}
+                    {isTesting && (
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                        <Loader2 className="w-2.5 h-2.5 text-amber-400 animate-spin" />
+                        Comprobando...
+                      </span>
+                    )}
+                    {isRestricted && (
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-red-500/25 text-red-300 border border-red-500/50">
+                        <AlertTriangle className="w-2.5 h-2.5 text-red-400" />
+                        Restringida
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  {/* Botón especial para pistas restringidas: Resolver con 1 clic */}
+                  {isRestricted && (
+                    <button
+                      type="button"
+                      onClick={() => onOpenAlertModal && onOpenAlertModal(track, false, val?.reason)}
+                      className="px-2 py-1 rounded bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition flex items-center gap-1 shadow active:scale-95 cursor-pointer"
+                      title="Resolver problema: Buscar versión alternativa o abrir en YouTube"
+                    >
+                      <ShieldAlert className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Resolver</span>
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => onPlayNow && onPlayNow(track.queueId, index)}
+                    className="p-1 rounded text-slate-400 hover:text-amber-400 hover:bg-[#332C22] transition"
+                    title="Reproducir este tema ahora"
+                  >
+                    <PlayCircle className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    disabled={index === 0}
+                    onClick={() => onMoveUp && onMoveUp(track.queueId, index)}
+                    className="p-1 rounded text-slate-400 hover:text-white hover:bg-[#332C22] disabled:opacity-25 transition"
+                    title="Subir de posición"
+                  >
+                    <ChevronUp className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    disabled={index === queue.length - 1}
+                    onClick={() => onMoveDown && onMoveDown(track.queueId, index)}
+                    className="p-1 rounded text-slate-400 hover:text-white hover:bg-[#332C22] disabled:opacity-25 transition"
+                    title="Bajar de posición"
+                  >
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onRemoveTrack && onRemoveTrack(track.queueId, index)}
+                    className="p-1 rounded text-slate-400 hover:text-red-400 hover:bg-red-950/30 transition"
+                    title="Eliminar de la cola"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
-
-              <div className="flex items-center gap-1 flex-shrink-0">
-                <button
-                  type="button"
-                  onClick={() => onPlayNow && onPlayNow(track.queueId, index)}
-                  className="p-1 rounded text-slate-400 hover:text-amber-400 hover:bg-[#332C22] transition"
-                  title="Reproducir este tema ahora"
-                >
-                  <PlayCircle className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  disabled={index === 0}
-                  onClick={() => onMoveUp && onMoveUp(track.queueId, index)}
-                  className="p-1 rounded text-slate-400 hover:text-white hover:bg-[#332C22] disabled:opacity-25 transition"
-                  title="Subir de posición"
-                >
-                  <ChevronUp className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  disabled={index === queue.length - 1}
-                  onClick={() => onMoveDown && onMoveDown(track.queueId, index)}
-                  className="p-1 rounded text-slate-400 hover:text-white hover:bg-[#332C22] disabled:opacity-25 transition"
-                  title="Bajar de posición"
-                >
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onRemoveTrack && onRemoveTrack(track.queueId, index)}
-                  className="p-1 rounded text-slate-400 hover:text-red-400 hover:bg-red-950/30 transition"
-                  title="Eliminar de la cola"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
     </div>
