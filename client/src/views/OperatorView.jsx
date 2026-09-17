@@ -8,7 +8,9 @@ import NotificationCenter from '../components/NotificationCenter';
 import LogViewerModal from '../components/LogViewerModal';
 import QueueValidator from '../components/QueueValidator';
 import TrackAlertModal from '../components/TrackAlertModal';
-import { Mic, Sparkles, LogOut } from 'lucide-react';
+import AnimationSelector from '../components/AnimationSelector';
+import { NATIVE_VIDEOS } from '../data/nativeVideos';
+import { Mic, Sparkles, LogOut, Film } from 'lucide-react';
 
 import { useAuth } from '../context/AuthContext';
 import IntroSplash from '../components/IntroSplash';
@@ -25,6 +27,7 @@ export default function OperatorView() {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [searchMode, setSearchMode] = useState('karaoke');
+  const [activeTab, setActiveTab] = useState('search'); // 'search' | 'animations'
   const [currentTrack, setCurrentTrack] = useState(null);
   const [queue, setQueue] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -213,6 +216,8 @@ export default function OperatorView() {
           queueId: nextSong.queueId,
           duration: nextSong.duration,
           thumbnail: nextSong.thumbnail,
+          isNative: !!nextSong.isNative,
+          videoUrl: nextSong.videoUrl || null,
           nextTrackTitle: nextTitle,
         });
 
@@ -438,6 +443,8 @@ export default function OperatorView() {
         queueId: newTrack.queueId,
         duration: newTrack.duration,
         thumbnail: newTrack.thumbnail,
+        isNative: !!newTrack.isNative,
+        videoUrl: newTrack.videoUrl || null,
         nextTrackTitle: '',
       });
       addNotification(`Iniciando reproducción: "${newTrack.title}"`, 'success');
@@ -564,6 +571,8 @@ export default function OperatorView() {
         queueId: selected.queueId,
         duration: selected.duration,
         thumbnail: selected.thumbnail,
+        isNative: !!selected.isNative,
+        videoUrl: selected.videoUrl || null,
         nextTrackTitle: newQueue[0]?.title || '',
       });
 
@@ -571,6 +580,75 @@ export default function OperatorView() {
       return newQueue;
     });
   };
+
+  // Proyectar de inmediato una animación o cortinilla nativa en pantalla
+  const handlePlayNativeNow = useCallback((video) => {
+    const newTrack = {
+      ...video,
+      queueId: `${video.videoId}-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+    };
+
+    setCurrentTrack(newTrack);
+    setIsPlaying(true);
+
+    broadcast(MESSAGE_TYPES.PLAY_NEXT, {
+      videoId: newTrack.videoId,
+      title: newTrack.title,
+      author: newTrack.author,
+      queueId: newTrack.queueId,
+      duration: newTrack.duration,
+      thumbnail: newTrack.thumbnail,
+      isNative: true,
+      videoUrl: newTrack.videoUrl,
+      nextTrackTitle: queueRef.current[0]?.title || '',
+    });
+
+    addNotification(`Proyectando cortinilla en vivo: "${newTrack.title}".`, 'success');
+  }, [broadcast, addNotification]);
+
+  // Intercalar automáticamente cortinillas entre temas de la cola o animar la seccional
+  const handleInterleaveAnimation = useCallback(() => {
+    setQueue((prevQueue) => {
+      if (prevQueue.length === 0) {
+        const defaultAnim = {
+          ...NATIVE_VIDEOS[0],
+          queueId: `${NATIVE_VIDEOS[0].videoId}-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+        };
+        addNotification(`Cortinilla añadida a la cola: "${defaultAnim.title}".`, 'success');
+        return [defaultAnim];
+      }
+
+      const newQueue = [];
+      let animIdx = 0;
+
+      for (let i = 0; i < prevQueue.length; i++) {
+        newQueue.push(prevQueue[i]);
+        // Intercalar si el siguiente existe y ninguno de los dos es ya una cortinilla nativa
+        if (i < prevQueue.length - 1 && !prevQueue[i].isNative && !prevQueue[i + 1].isNative) {
+          const anim = NATIVE_VIDEOS[animIdx % NATIVE_VIDEOS.length];
+          animIdx++;
+          newQueue.push({
+            ...anim,
+            queueId: `${anim.videoId}-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+          });
+        }
+      }
+
+      // Si no se intercaló entre canciones (por ejemplo, había solo 1 tema en cola), añadir al final
+      if (newQueue.length === prevQueue.length) {
+        const anim = NATIVE_VIDEOS[animIdx % NATIVE_VIDEOS.length];
+        newQueue.push({
+          ...anim,
+          queueId: `${anim.videoId}-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+        });
+        addNotification(`Cortinilla añadida al final de la seccional: "${anim.title}".`, 'success');
+      } else {
+        addNotification('Cortinillas intercaladas exitosamente entre los turnos de la cola.', 'success');
+      }
+
+      return newQueue;
+    });
+  }, [addNotification]);
 
   const handleClearQueue = () => {
     if (window.confirm('¿Seguro que deseas vaciar toda la cola de reproducción?')) {
@@ -668,30 +746,76 @@ export default function OperatorView() {
 
       {/* Layout de 2 Columnas Principal */}
       <main className="flex-1 px-4 lg:px-8 pb-8 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Columna Izquierda: Buscador y Catálogo (7 columnas en LG) */}
+        {/* Columna Izquierda: Buscador y Catálogo / Cortinillas Nativas (7 columnas en LG) */}
         <section className="lg:col-span-7 flex flex-col gap-4">
-          <div className="bg-[#14120F]/90 rounded-2xl border border-[#332C22] p-4 shadow-xl">
-            <h2 className="text-sm font-bold text-amber-300/90 mb-3 flex items-center gap-2 uppercase tracking-wider font-['Space_Grotesk',sans-serif]">
-              <Mic className="w-4 h-4 text-amber-400" />
-              Búsqueda de Canciones
-            </h2>
+          {/* Selector de Pestañas: Búsqueda vs Cortinillas Nativas */}
+          <div className="flex items-center gap-2 p-1.5 bg-[#14120F]/90 rounded-2xl border border-[#332C22] shadow-xl backdrop-blur-md">
+            <button
+              type="button"
+              onClick={() => setActiveTab('search')}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold transition-all duration-150 font-['Space_Grotesk',sans-serif] cursor-pointer ${
+                activeTab === 'search'
+                  ? 'bg-gradient-to-r from-[#D4AF37] via-amber-500 to-yellow-400 text-black shadow-lg shadow-amber-500/20'
+                  : 'text-slate-400 hover:text-amber-300 hover:bg-[#201C16]'
+              }`}
+            >
+              <Mic className="w-4 h-4" />
+              <span>Búsqueda de Canciones</span>
+            </button>
 
-            <SearchBar
-              onSearch={handleSearch}
-              isLoading={isSearching}
-              initialMode={searchMode}
-            />
+            <button
+              type="button"
+              onClick={() => setActiveTab('animations')}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold transition-all duration-150 font-['Space_Grotesk',sans-serif] cursor-pointer ${
+                activeTab === 'animations'
+                  ? 'bg-gradient-to-r from-purple-600 via-fuchsia-500 to-amber-500 text-white shadow-lg shadow-purple-500/25'
+                  : 'text-slate-400 hover:text-purple-300 hover:bg-[#201C16]'
+              }`}
+            >
+              <Film className="w-4 h-4 text-purple-300" />
+              <span>Cortinillas & Visuales Nativos</span>
+              <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-purple-950/60 border border-purple-500/40 text-purple-200">
+                4
+              </span>
+            </button>
           </div>
 
-          {/* Resultados de búsqueda */}
-          <div className="min-h-[400px]">
-            <SearchResults
-              results={searchResults}
-              onAddToQueue={handleAddToQueue}
-              onSelectSuggestion={(sug) => handleSearch(sug, searchMode)}
-              searchMode={searchMode}
-            />
-          </div>
+          {activeTab === 'search' ? (
+            <>
+              <div className="bg-[#14120F]/90 rounded-2xl border border-[#332C22] p-4 shadow-xl">
+                <h2 className="text-sm font-bold text-amber-300/90 mb-3 flex items-center gap-2 uppercase tracking-wider font-['Space_Grotesk',sans-serif]">
+                  <Mic className="w-4 h-4 text-amber-400" />
+                  Búsqueda de Canciones
+                </h2>
+
+                <SearchBar
+                  onSearch={handleSearch}
+                  isLoading={isSearching}
+                  initialMode={searchMode}
+                />
+              </div>
+
+              {/* Resultados de búsqueda */}
+              <div className="min-h-[400px]">
+                <SearchResults
+                  results={searchResults}
+                  onAddToQueue={handleAddToQueue}
+                  onSelectSuggestion={(sug) => handleSearch(sug, searchMode)}
+                  searchMode={searchMode}
+                />
+              </div>
+            </>
+          ) : (
+            /* Vista de Videos y Cortinillas Nativas */
+            <div className="min-h-[400px]">
+              <AnimationSelector
+                onAddToQueue={handleAddToQueue}
+                onPlayNow={handlePlayNativeNow}
+                onInterleave={handleInterleaveAnimation}
+                queueLength={queue.length}
+              />
+            </div>
+          )}
         </section>
 
         {/* Columna Derecha: Cola de Reproducción y Monitor (5 columnas en LG) */}

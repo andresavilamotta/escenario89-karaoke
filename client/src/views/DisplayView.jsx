@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import YouTube from 'react-youtube';
 import { useKaraokeSync, MESSAGE_TYPES } from '../hooks/useKaraokeSync';
 import StandbyScreen from '../components/StandbyScreen';
-import { Music, Radio, ExternalLink, AlertTriangle } from 'lucide-react';
+import { Music, Radio, ExternalLink, AlertTriangle, Film } from 'lucide-react';
 import { logger } from '../utils/logger';
 import * as Sentry from '@sentry/react';
 
@@ -17,6 +17,7 @@ export default function DisplayView() {
   const [hasError, setHasError] = useState(null);
 
   const playerRef = useRef(null);
+  const nativeVideoRef = useRef(null);
   const overlayTimerRef = useRef(null);
   const currentTrackRef = useRef(null);
   const trackStartTimeRef = useRef(0);
@@ -51,32 +52,56 @@ export default function DisplayView() {
     setIsPlaying(true);
     triggerOverlay();
 
-    // Watchdog de arranque: Si en 6.5s el video no comienza a reproducir (ej. pantalla "Video no disponible" de YouTube)
-    if (unstartedWatchdogRef.current) {
-      clearTimeout(unstartedWatchdogRef.current);
-    }
-    unstartedWatchdogRef.current = setTimeout(() => {
-      if (!hasStartedPlayingRef.current && currentTrackRef.current) {
-        console.warn('[Display] El video no arrancó en 6.5s (bloqueo por derechos o error de carga). Activando fallback...');
-        onPlayerError({ data: 150 });
+    if (payload.isNative) {
+      // Si es video nativo local, no requiere watchdog de YouTube
+      if (unstartedWatchdogRef.current) {
+        clearTimeout(unstartedWatchdogRef.current);
+        unstartedWatchdogRef.current = null;
       }
-    }, 6500);
+      hasStartedPlayingRef.current = true;
+      setTimeout(() => {
+        if (nativeVideoRef.current) {
+          try {
+            nativeVideoRef.current.currentTime = 0;
+            nativeVideoRef.current.volume = volume / 100;
+            nativeVideoRef.current.play().catch(() => {});
+          } catch (e) {}
+        }
+      }, 50);
+    } else {
+      // Watchdog de arranque: Si en 6.5s el video no comienza a reproducir (ej. pantalla "Video no disponible" de YouTube)
+      if (unstartedWatchdogRef.current) {
+        clearTimeout(unstartedWatchdogRef.current);
+      }
+      unstartedWatchdogRef.current = setTimeout(() => {
+        if (!hasStartedPlayingRef.current && currentTrackRef.current) {
+          console.warn('[Display] El video no arrancó en 6.5s (bloqueo por derechos o error de carga). Activando fallback...');
+          onPlayerError({ data: 150 });
+        }
+      }, 6500);
 
-    // No forzamos loadVideoById de forma imperativa para no colisionar con la prop videoId
-    if (playerRef.current) {
-      try {
-        playerRef.current.playVideo();
-      } catch (err) {
-        console.warn('[Display] Error al intentar reproducir inmediatamente:', err);
+      // No forzamos loadVideoById de forma imperativa para no colisionar con la prop videoId
+      if (playerRef.current) {
+        try {
+          playerRef.current.playVideo();
+        } catch (err) {
+          console.warn('[Display] Error al intentar reproducir inmediatamente:', err);
+        }
       }
     }
-  }, [triggerOverlay]);
+  }, [triggerOverlay, volume]);
 
 
   const handlePlayerState = useCallback((payload) => {
     console.log('[Display] PLAYER_STATE recibido:', payload);
     setIsPlaying(payload.isPlaying);
-    if (playerRef.current) {
+    if (currentTrackRef.current?.isNative && nativeVideoRef.current) {
+      if (payload.isPlaying) {
+        nativeVideoRef.current.play().catch(() => {});
+      } else {
+        nativeVideoRef.current.pause();
+      }
+    } else if (playerRef.current) {
       if (payload.isPlaying) {
         playerRef.current.playVideo();
       } else {
@@ -96,6 +121,12 @@ export default function DisplayView() {
       clearInterval(outroCheckIntervalRef.current);
       outroCheckIntervalRef.current = null;
     }
+    if (nativeVideoRef.current) {
+      try {
+        nativeVideoRef.current.pause();
+        nativeVideoRef.current.currentTime = 0;
+      } catch (e) {}
+    }
     if (playerRef.current) {
       try {
         playerRef.current.stopVideo();
@@ -111,6 +142,12 @@ export default function DisplayView() {
 
   const handleSkipTrack = useCallback((payload) => {
     console.log('[Display] SKIP_TRACK recibido:', payload);
+    if (nativeVideoRef.current) {
+      try {
+        nativeVideoRef.current.pause();
+        nativeVideoRef.current.currentTime = 0;
+      } catch (e) {}
+    }
     if (playerRef.current) {
       try {
         playerRef.current.stopVideo();
@@ -127,7 +164,14 @@ export default function DisplayView() {
     console.log('[Display] RESTART_TRACK recibido');
     trackStartTimeRef.current = Date.now();
     hasEndedDispatchedRef.current = false;
-    if (playerRef.current) {
+    if (currentTrackRef.current?.isNative && nativeVideoRef.current) {
+      try {
+        nativeVideoRef.current.currentTime = 0;
+        nativeVideoRef.current.play().catch(() => {});
+        setIsPlaying(true);
+        triggerOverlay();
+      } catch (e) {}
+    } else if (playerRef.current) {
       try {
         playerRef.current.seekTo(0, true);
         playerRef.current.playVideo();
@@ -140,6 +184,9 @@ export default function DisplayView() {
   const handleSetVolume = useCallback((payload) => {
     const newVol = typeof payload.volume === 'number' ? payload.volume : 80;
     setVolume(newVol);
+    if (nativeVideoRef.current) {
+      nativeVideoRef.current.volume = newVol / 100;
+    }
     if (playerRef.current && typeof playerRef.current.setVolume === 'function') {
       playerRef.current.setVolume(newVol);
     }
@@ -379,6 +426,12 @@ export default function DisplayView() {
 
   const handleUnlockAudio = () => {
     setIsAudioUnlocked(true);
+    if (nativeVideoRef.current) {
+      try {
+        nativeVideoRef.current.muted = false;
+        nativeVideoRef.current.volume = volume / 100;
+      } catch (e) {}
+    }
     if (playerRef.current) {
       try {
         playerRef.current.unMute();
@@ -401,21 +454,41 @@ export default function DisplayView() {
       ) : (
         /* Estado 2: Reproduciendo video en pantalla completa */
         <div className="relative w-full h-full">
-          {/* Contenedor IFrame YouTube calibrado a 100vw / 100vh sin pointer-events */}
-          <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden flex items-center justify-center bg-black">
-            <div className="w-screen h-screen scale-[1.05] pointer-events-none">
-              <YouTube
-                videoId={currentTrack.videoId}
-                opts={youtubeOptions}
-                onReady={onPlayerReady}
-                onEnd={onPlayerEnd}
-                onError={onPlayerError}
-                onStateChange={onStateChange}
-                className="w-full h-full"
-                iframeClassName="w-full h-full border-0 pointer-events-none"
+          {currentTrack.isNative ? (
+            /* Contenedor Video Nativo HTML5 para Cortinillas y Visuales */
+            <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black overflow-hidden">
+              <video
+                ref={nativeVideoRef}
+                src={currentTrack.videoUrl}
+                autoPlay
+                playsInline
+                className="w-full h-full object-cover"
+                onEnded={onPlayerEnd}
+                onError={(err) => {
+                  console.error('[Display] Error en video nativo:', err);
+                  onPlayerEnd();
+                }}
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
               />
             </div>
-          </div>
+          ) : (
+            /* Contenedor IFrame YouTube calibrado a 100vw / 100vh sin pointer-events */
+            <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden flex items-center justify-center bg-black">
+              <div className="w-screen h-screen scale-[1.05] pointer-events-none">
+                <YouTube
+                  videoId={currentTrack.videoId}
+                  opts={youtubeOptions}
+                  onReady={onPlayerReady}
+                  onEnd={onPlayerEnd}
+                  onError={onPlayerError}
+                  onStateChange={onStateChange}
+                  className="w-full h-full"
+                  iframeClassName="w-full h-full border-0 pointer-events-none"
+                />
+              </div>
+            </div>
+          )}
 
           {/* Notificación de Error Restringido en pantalla con botón de rescate directo */}
           {hasError && (
@@ -449,15 +522,28 @@ export default function DisplayView() {
               <div className="flex items-center gap-4 min-w-0">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-600 to-yellow-400 p-[2px] flex-shrink-0 shadow">
                   <div className="w-full h-full bg-[#090807] rounded-[10px] flex items-center justify-center">
-                    <Music className="w-6 h-6 text-amber-400" />
+                    {currentTrack.isNative ? (
+                      <Film className="w-6 h-6 text-purple-400" />
+                    ) : (
+                      <Music className="w-6 h-6 text-amber-400" />
+                    )}
                   </div>
                 </div>
 
                 <div className="min-w-0">
                   <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                    <Radio className="w-3 h-3 text-emerald-400" />
-                    Reproduciendo Ahora • Escenario 89
+                    {currentTrack.isNative ? (
+                      <>
+                        <Film className="w-3.5 h-3.5 text-purple-400" />
+                        <span className="text-purple-300">Cortinilla en Vivo • Escenario 89</span>
+                      </>
+                    ) : (
+                      <>
+                        <Radio className="w-3 h-3 text-emerald-400" />
+                        <span>Reproduciendo Ahora • Escenario 89</span>
+                      </>
+                    )}
                   </div>
                   <h2 className="text-xl font-bold text-white truncate drop-shadow-sm font-['Space_Grotesk',sans-serif]">
                     {currentTrack.title}

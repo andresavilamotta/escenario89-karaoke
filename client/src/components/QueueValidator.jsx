@@ -104,12 +104,23 @@ export default function QueueValidator({ queue = [], onValidationUpdate }) {
 
     // Examinar hasta las primeras 5 pistas de la cola
     const top5 = (queueRef.current || []).slice(0, 5);
-    const pending = top5.find((t) => t?.videoId && !testedMapRef.current.has(t.videoId));
+
+    // Si hay pistas nativas en top 5, marcarlas como válidas inmediatamente sin YouTube
+    top5.forEach((t) => {
+      if (t?.isNative && t?.videoId && !testedMapRef.current.has(t.videoId)) {
+        testedMapRef.current.set(t.videoId, 'valid');
+        if (onValidationUpdate) {
+          onValidationUpdate(t.videoId, { status: 'valid', reason: 'Video nativo local', testedAt: Date.now() });
+        }
+      }
+    });
+
+    const pending = top5.find((t) => !t?.isNative && t?.videoId && !testedMapRef.current.has(t.videoId));
 
     if (pending) {
       startTesting(pending);
     }
-  }, [startTesting]);
+  }, [startTesting, onValidationUpdate]);
 
   // Disparar chequeo cada vez que la cola se modifique
   useEffect(() => {

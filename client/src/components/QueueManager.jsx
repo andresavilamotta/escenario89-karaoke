@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash2, ChevronUp, ChevronDown, ListMusic, Clock, Disc, PlayCircle, ExternalLink, Square, CheckCircle, AlertTriangle, Loader2, ShieldAlert, Sparkles } from 'lucide-react';
+import { Trash2, ChevronUp, ChevronDown, ListMusic, Clock, Disc, PlayCircle, ExternalLink, Square, CheckCircle, AlertTriangle, Loader2, ShieldAlert, Sparkles, Film } from 'lucide-react';
 
 export default function QueueManager({
   currentTrack,
@@ -73,7 +73,7 @@ export default function QueueManager({
               </div>
 
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
                   <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
                     isPlaying 
                       ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' 
@@ -82,6 +82,14 @@ export default function QueueManager({
                     <span className={`w-1.5 h-1.5 rounded-full ${isPlaying ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`}></span>
                     {isPlaying ? 'Al Aire' : 'En Pausa'}
                   </span>
+
+                  {currentTrack.isNative && (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-500/25 text-purple-300 border border-purple-500/40 shadow-sm">
+                      <Film className="w-3 h-3 text-purple-400" />
+                      Cortinilla Nativa
+                    </span>
+                  )}
+
                   <span className="text-[11px] font-mono text-slate-400 flex items-center gap-1">
                     <Clock className="w-3 h-3 text-amber-400/80" />
                     {currentTrack.duration}
@@ -101,21 +109,23 @@ export default function QueueManager({
               <button
                 type="button"
                 onClick={onRemoveCurrentTrack}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#201C16] hover:bg-red-950/50 text-slate-300 hover:text-red-300 border border-[#332C22] hover:border-red-800/60 text-xs font-semibold transition active:scale-95 shadow-sm"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#201C16] hover:bg-red-950/50 text-slate-300 hover:text-red-300 border border-[#332C22] hover:border-red-800/60 text-xs font-semibold transition active:scale-95 shadow-sm cursor-pointer"
                 title="Quitar esta canción del escenario y volver a la pantalla de bienvenida (Home)"
               >
                 <Square className="w-3.5 h-3.5 text-amber-400" />
                 <span>Quitar (Volver al Home)</span>
               </button>
 
-              <button
-                type="button"
-                onClick={() => onOpenDirectYouTube && onOpenDirectYouTube(currentTrack.videoId)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/50 text-red-400 border border-red-800/50 text-xs font-semibold transition active:scale-95 shadow-sm"
-              >
-                <ExternalLink className="w-3.5 h-3.5" />
-                <span>YouTube Web</span>
-              </button>
+              {!currentTrack.isNative && (
+                <button
+                  type="button"
+                  onClick={() => onOpenDirectYouTube && onOpenDirectYouTube(currentTrack.videoId)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/50 text-red-400 border border-red-800/50 text-xs font-semibold transition active:scale-95 shadow-sm cursor-pointer"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>YouTube Web</span>
+                </button>
+              )}
             </div>
           </div>
         ) : (
@@ -140,7 +150,8 @@ export default function QueueManager({
           </div>
         ) : (
           queue.map((track, index) => {
-            const val = validationMap[track.videoId];
+            const isNative = !!track.isNative;
+            const val = isNative ? { status: 'valid' } : validationMap[track.videoId];
             const isRestricted = val?.status === 'restricted';
             const isValid = val?.status === 'valid';
             const isTesting = val?.status === 'testing';
@@ -151,6 +162,8 @@ export default function QueueManager({
                 className={`group flex items-center gap-2.5 p-2 rounded-xl border transition-all duration-150 ${
                   isRestricted
                     ? 'bg-red-950/20 border-red-500/60 shadow-[0_0_12px_rgba(239,68,68,0.15)]'
+                    : isNative
+                    ? 'bg-purple-950/20 hover:bg-purple-950/35 border-purple-500/40 hover:border-purple-500/70 shadow-[0_0_10px_rgba(168,85,247,0.12)]'
                     : 'bg-[#201C16]/60 hover:bg-[#201C16] border-[#332C22]/60 hover:border-amber-500/40'
                 }`}
               >
@@ -170,13 +183,22 @@ export default function QueueManager({
                       <AlertTriangle className="w-4 h-4 text-red-400" />
                     </div>
                   )}
+                  {isNative && !isRestricted && (
+                    <div className="absolute bottom-0 inset-x-0 bg-purple-950/80 text-[8px] font-bold text-purple-200 text-center py-0.2 tracking-wider uppercase">
+                      VIDEO
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
                     <h5
                       className={`text-xs font-semibold truncate leading-tight transition-colors ${
-                        isRestricted ? 'text-red-200' : 'text-slate-200 group-hover:text-amber-300'
+                        isRestricted
+                          ? 'text-red-200'
+                          : isNative
+                          ? 'text-purple-200 group-hover:text-purple-300'
+                          : 'text-slate-200 group-hover:text-amber-300'
                       }`}
                       title={track.title}
                     >
@@ -189,11 +211,17 @@ export default function QueueManager({
                     <span>•</span>
                     <span className="font-mono text-amber-200/60">{track.duration}</span>
 
-                    {/* Badges de Validación Pre-Flight */}
+                    {/* Badges de Validación Pre-Flight / Nativo */}
+                    {isNative && (
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-purple-500/25 text-purple-300 border border-purple-500/40">
+                        <Film className="w-2.5 h-2.5 text-purple-400" />
+                        Cortinilla
+                      </span>
+                    )}
                     {isValid && (
                       <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                         <CheckCircle className="w-2.5 h-2.5 text-emerald-400" />
-                        Verificada
+                        {isNative ? 'Nativo 100%' : 'Verificada'}
                       </span>
                     )}
                     {isTesting && (
