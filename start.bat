@@ -7,12 +7,12 @@ echo.
 echo [1/2] Iniciando Servidor Backend (Proxy YouTube en :3001)...
 start "Karaoke Backend Server" cmd /k "cd /d "%~dp0server" && node src/index.js"
 
-timeout /t 2 /nobreak >nul
+ping -n 3 127.0.0.1 >nul
 
 echo [2/2] Iniciando Cliente Frontend (Vite en :5173)...
 start "Karaoke Frontend Client" cmd /k "cd /d "%~dp0client" && npm.cmd run dev"
 
-timeout /t 3 /nobreak >nul
+ping -n 4 127.0.0.1 >nul
 
 echo.
 echo Abriendo navegador en http://localhost:5173/ ...
