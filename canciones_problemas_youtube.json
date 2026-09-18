@@ -1,0 +1,948 @@
+[
+  {
+    "videoId": "xKvPqbiRK_w",
+    "title": "Juan Gabriel - Querida (Version Karaoke)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=xKvPqbiRK_w",
+    "eventsCount": 17,
+    "issuesCount": 6,
+    "firstSeen": "2026-09-13T16:45:37.638000Z",
+    "lastSeen": "2026-09-18T16:28:59.267000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7729938428/",
+      "https://andres-avila.sentry.io/issues/7729938422/",
+      "https://andres-avila.sentry.io/issues/7729938617/"
+    ]
+  },
+  {
+    "videoId": "vNfNjG5Q6FU",
+    "title": "Juan Gabriel - Querida (Versión Karaoke)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=vNfNjG5Q6FU",
+    "eventsCount": 17,
+    "issuesCount": 5,
+    "firstSeen": "2026-09-14T16:06:45.062000Z",
+    "lastSeen": "2026-09-18T16:22:06.207000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7731665406/",
+      "https://andres-avila.sentry.io/issues/7731664776/",
+      "https://andres-avila.sentry.io/issues/7731664804/"
+    ]
+  },
+  {
+    "videoId": "XCkQ00efb40",
+    "title": "Vicente Fernández - Escuché Las Golondrinas (Letra / Lyrics)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=XCkQ00efb40",
+    "eventsCount": 16,
+    "issuesCount": 4,
+    "firstSeen": "2026-09-14T02:13:47.037000Z",
+    "lastSeen": "2026-09-14T02:21:41.650000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7730501214/",
+      "https://andres-avila.sentry.io/issues/7730501240/",
+      "https://andres-avila.sentry.io/issues/7730501217/"
+    ]
+  },
+  {
+    "videoId": "qfG8iUy_C7k",
+    "title": "Querida | Karaoke Version Lower Key 2 | Juan Gabriel",
+    "youtubeUrl": "https://www.youtube.com/watch?v=qfG8iUy_C7k",
+    "eventsCount": 10,
+    "issuesCount": 5,
+    "firstSeen": "2026-09-17T23:42:09.442000Z",
+    "lastSeen": "2026-09-18T16:23:46.476000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740737182/",
+      "https://andres-avila.sentry.io/issues/7740737180/",
+      "https://andres-avila.sentry.io/issues/7740737248/"
+    ]
+  },
+  {
+    "videoId": "1hf7oFCL1Sg",
+    "title": "*QUERIDA* - JUAN GABRIEL - 1984 (REMASTERIZADO)  Q.E.P.D (1950-2016)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=1hf7oFCL1Sg",
+    "eventsCount": 9,
+    "issuesCount": 5,
+    "firstSeen": "2026-09-17T23:52:26.262000Z",
+    "lastSeen": "2026-09-18T16:23:20.263000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740736251/",
+      "https://andres-avila.sentry.io/issues/7740736257/",
+      "https://andres-avila.sentry.io/issues/7740736312/"
+    ]
+  },
+  {
+    "videoId": "XcTkOFsoMI8",
+    "title": "Juan Gabriel - Querida [Letra]",
+    "youtubeUrl": "https://www.youtube.com/watch?v=XcTkOFsoMI8",
+    "eventsCount": 8,
+    "issuesCount": 4,
+    "firstSeen": "2026-09-18T16:23:10.972000Z",
+    "lastSeen": "2026-09-18T16:23:26.929000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740736069/",
+      "https://andres-avila.sentry.io/issues/7740736100/",
+      "https://andres-avila.sentry.io/issues/7740736077/"
+    ]
+  },
+  {
+    "videoId": "iykbtvLMLYA",
+    "title": "Vicente Fernández - Escuche Las Golondrinas (Letra/Lyrics)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=iykbtvLMLYA",
+    "eventsCount": 8,
+    "issuesCount": 4,
+    "firstSeen": "2026-09-14T02:13:49.582000Z",
+    "lastSeen": "2026-09-14T02:13:50.110000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7730501273/",
+      "https://andres-avila.sentry.io/issues/7730501255/",
+      "https://andres-avila.sentry.io/issues/7730501258/"
+    ]
+  },
+  {
+    "videoId": "kS8uDG3dFz4",
+    "title": "Busco Un Corazón - Raúl Santi (Letra/ Lyrics)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=kS8uDG3dFz4",
+    "eventsCount": 6,
+    "issuesCount": 6,
+    "firstSeen": "2026-09-14T01:40:59.460000Z",
+    "lastSeen": "2026-09-14T01:40:59.472000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7730469569/",
+      "https://andres-avila.sentry.io/issues/7730469588/",
+      "https://andres-avila.sentry.io/issues/7730469627/"
+    ]
+  },
+  {
+    "videoId": "pK1_sbxBG-w",
+    "title": "Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke",
+    "youtubeUrl": "https://www.youtube.com/watch?v=pK1_sbxBG-w",
+    "eventsCount": 5,
+    "issuesCount": 5,
+    "firstSeen": "2026-09-18T16:30:10.156000Z",
+    "lastSeen": "2026-09-18T16:30:29.241000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740749913/",
+      "https://andres-avila.sentry.io/issues/7740749679/",
+      "https://andres-avila.sentry.io/issues/7740749468/"
+    ]
+  },
+  {
+    "videoId": "mzuHmKjnrCA",
+    "title": "Karaokanta - Juan Gabriel - Querida (1 tono más grave)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=mzuHmKjnrCA",
+    "eventsCount": 5,
+    "issuesCount": 2,
+    "firstSeen": "2026-09-13T16:46:00.784000Z",
+    "lastSeen": "2026-09-17T23:43:18.327000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)"
+    ],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7731665368/",
+      "https://andres-avila.sentry.io/issues/7729928425/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Video con restricción de derechos en YouTube. Pasando al siguiente tema...",
+    "youtubeUrl": null,
+    "eventsCount": 5,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-13T16:54:56.298000Z",
+    "lastSeen": "2026-09-14T02:21:41.656000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Alerta a Consola Operador"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7729938615/"
+    ]
+  },
+  {
+    "videoId": "BW2xNLIPxdE",
+    "title": "Vicente Fernández - Volver, Volver (Letra/Lyrics)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=BW2xNLIPxdE",
+    "eventsCount": 4,
+    "issuesCount": 4,
+    "firstSeen": "2026-09-18T16:33:49.804000Z",
+    "lastSeen": "2026-09-18T16:33:49.814000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740755946/",
+      "https://andres-avila.sentry.io/issues/7740755920/",
+      "https://andres-avila.sentry.io/issues/7740755904/"
+    ]
+  },
+  {
+    "videoId": "ul1f-I6gg2E",
+    "title": "Volver Volver - Vicente Fernandez | Karaoke | Instrumental",
+    "youtubeUrl": "https://www.youtube.com/watch?v=ul1f-I6gg2E",
+    "eventsCount": 4,
+    "issuesCount": 4,
+    "firstSeen": "2026-09-18T16:33:31.544000Z",
+    "lastSeen": "2026-09-18T16:33:31.566000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740755284/",
+      "https://andres-avila.sentry.io/issues/7740755259/",
+      "https://andres-avila.sentry.io/issues/7740755258/"
+    ]
+  },
+  {
+    "videoId": "oADpF--uirA",
+    "title": "Juan Gabriel, Juanes - Querida",
+    "youtubeUrl": "https://www.youtube.com/watch?v=oADpF--uirA",
+    "eventsCount": 4,
+    "issuesCount": 4,
+    "firstSeen": "2026-09-18T16:32:29.074000Z",
+    "lastSeen": "2026-09-18T16:32:29.094000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740753366/",
+      "https://andres-avila.sentry.io/issues/7740753372/",
+      "https://andres-avila.sentry.io/issues/7740753490/"
+    ]
+  },
+  {
+    "videoId": "1g17-X0Mej4",
+    "title": "Querida (Karaoke Version)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=1g17-X0Mej4",
+    "eventsCount": 4,
+    "issuesCount": 4,
+    "firstSeen": "2026-09-18T16:30:38.213000Z",
+    "lastSeen": "2026-09-18T16:30:38.231000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740750146/",
+      "https://andres-avila.sentry.io/issues/7740749993/",
+      "https://andres-avila.sentry.io/issues/7740750170/"
+    ]
+  },
+  {
+    "videoId": "uPhjhldugiw",
+    "title": "JUAN GABRIEL, Querida (karaoke)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=uPhjhldugiw",
+    "eventsCount": 4,
+    "issuesCount": 4,
+    "firstSeen": "2026-09-18T16:30:21.539000Z",
+    "lastSeen": "2026-09-18T16:30:21.555000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740749568/",
+      "https://andres-avila.sentry.io/issues/7740749363/",
+      "https://andres-avila.sentry.io/issues/7740749803/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Juan Gabriel - Querida (Version Karaoke)",
+    "youtubeUrl": null,
+    "eventsCount": 4,
+    "issuesCount": 2,
+    "firstSeen": "2026-09-13T16:45:37.632000Z",
+    "lastSeen": "2026-09-18T16:28:59.271000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [
+      "Alerta a Consola Operador"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740746959/",
+      "https://andres-avila.sentry.io/issues/7729927956/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Juan Gabriel - Querida (Versión Karaoke)",
+    "youtubeUrl": null,
+    "eventsCount": 4,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-14T16:06:45.071000Z",
+    "lastSeen": "2026-09-18T16:22:06.209000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)"
+    ],
+    "reasons": [
+      "Alerta a Consola Operador"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7731664992/"
+    ]
+  },
+  {
+    "videoId": "Nf4GNFghEn4",
+    "title": "Si Se Fue Se Fue - Francy (Video Oficial - Explicita)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=Nf4GNFghEn4",
+    "eventsCount": 4,
+    "issuesCount": 4,
+    "firstSeen": "2026-09-18T05:53:07.069000Z",
+    "lastSeen": "2026-09-18T05:53:07.151000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739593133/",
+      "https://andres-avila.sentry.io/issues/7739593132/",
+      "https://andres-avila.sentry.io/issues/7739593129/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Promesa rechazada no controlada: The fetching process for the media resource was aborted by the user agent at the user's request.",
+    "youtubeUrl": null,
+    "eventsCount": 4,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-17T20:33:31.046000Z",
+    "lastSeen": "2026-09-17T20:50:20.643000Z",
+    "errorCodes": [],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7738783651/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "AbortError: The fetching process for the media resource was aborted by the user agent at the user's request.",
+    "youtubeUrl": null,
+    "eventsCount": 4,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-17T20:33:31.043000Z",
+    "lastSeen": "2026-09-17T20:50:20.642000Z",
+    "errorCodes": [],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7738783740/"
+    ]
+  },
+  {
+    "videoId": "W5Sbslo7h_g",
+    "title": "KAROL G - Amargura (Letra/Lyrics)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=W5Sbslo7h_g",
+    "eventsCount": 4,
+    "issuesCount": 4,
+    "firstSeen": "2026-09-14T02:23:08.881000Z",
+    "lastSeen": "2026-09-14T02:23:08.916000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7730509968/",
+      "https://andres-avila.sentry.io/issues/7730509956/",
+      "https://andres-avila.sentry.io/issues/7730509953/"
+    ]
+  },
+  {
+    "videoId": "La2ApKBxFXc",
+    "title": "RAUL SANTI - BUSCO UN CORAZON Karaoke FULL",
+    "youtubeUrl": "https://www.youtube.com/watch?v=La2ApKBxFXc",
+    "eventsCount": 4,
+    "issuesCount": 4,
+    "firstSeen": "2026-09-14T01:40:51.426000Z",
+    "lastSeen": "2026-09-14T01:40:51.439000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7730469475/",
+      "https://andres-avila.sentry.io/issues/7730469471/",
+      "https://andres-avila.sentry.io/issues/7730469454/"
+    ]
+  },
+  {
+    "videoId": "EHpH9HYe9Rg",
+    "title": "🔥 Mix Crossover Discoteca 🔥 ( Salsa, Reggaeton, Merengue, Vallenato )  💎 Junio 2026 💎",
+    "youtubeUrl": "https://www.youtube.com/watch?v=EHpH9HYe9Rg",
+    "eventsCount": 4,
+    "issuesCount": 4,
+    "firstSeen": "2026-09-14T00:16:22.310000Z",
+    "lastSeen": "2026-09-14T00:16:22.333000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7730381154/",
+      "https://andres-avila.sentry.io/issues/7730381137/",
+      "https://andres-avila.sentry.io/issues/7730381126/"
+    ]
+  },
+  {
+    "videoId": "dKbT8gXwzmQ",
+    "title": "Juan Gabriel - Querida (Karaoke Version)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=dKbT8gXwzmQ",
+    "eventsCount": 3,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-14T16:56:20.875000Z",
+    "lastSeen": "2026-09-17T23:42:12.324000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7731754220/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Querida | Karaoke Version Lower Key 2 | Juan Gabriel",
+    "youtubeUrl": null,
+    "eventsCount": 2,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T16:23:46.046000Z",
+    "lastSeen": "2026-09-18T16:23:46.480000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)"
+    ],
+    "reasons": [
+      "Alerta a Consola Operador"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740737204/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Juan Gabriel - Querida [Letra]",
+    "youtubeUrl": null,
+    "eventsCount": 2,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T16:23:10.992000Z",
+    "lastSeen": "2026-09-18T16:23:26.932000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)"
+    ],
+    "reasons": [
+      "Alerta a Consola Operador"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740736093/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "*QUERIDA* - JUAN GABRIEL - 1984 (REMASTERIZADO)  Q.E.P.D (1950-2016)",
+    "youtubeUrl": null,
+    "eventsCount": 2,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T16:23:17.229000Z",
+    "lastSeen": "2026-09-18T16:23:20.267000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)"
+    ],
+    "reasons": [
+      "Alerta a Consola Operador"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740736327/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Promesa rechazada no controlada: The play() request was interrupted by a call to pause().",
+    "youtubeUrl": null,
+    "eventsCount": 2,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-17T23:50:41.508000Z",
+    "lastSeen": "2026-09-18T03:56:11.333000Z",
+    "errorCodes": [],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739077922/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Error: AbortError: The play() request was interrupted by a call to pause().",
+    "youtubeUrl": null,
+    "eventsCount": 2,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-17T23:50:41.499000Z",
+    "lastSeen": "2026-09-18T03:56:11.329000Z",
+    "errorCodes": [],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739077906/"
+    ]
+  },
+  {
+    "videoId": "FqfKsJTVAlE",
+    "title": "Juan Gabriel - Querida Karaoke Version con Testo | Versione Strumentale Originale",
+    "youtubeUrl": "https://www.youtube.com/watch?v=FqfKsJTVAlE",
+    "eventsCount": 2,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-14T16:25:57.666000Z",
+    "lastSeen": "2026-09-17T23:42:22.258000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7731700885/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Vicente Fernández - Volver, Volver (Letra/Lyrics)",
+    "youtubeUrl": null,
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T16:33:49.816000Z",
+    "lastSeen": "2026-09-18T16:33:49.816000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)"
+    ],
+    "reasons": [
+      "Alerta a Consola Operador"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740755975/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Volver Volver - Vicente Fernandez | Karaoke | Instrumental",
+    "youtubeUrl": null,
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T16:33:31.569000Z",
+    "lastSeen": "2026-09-18T16:33:31.569000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)"
+    ],
+    "reasons": [
+      "Alerta a Consola Operador"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740755323/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Juan Gabriel, Juanes - Querida",
+    "youtubeUrl": null,
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T16:32:29.096000Z",
+    "lastSeen": "2026-09-18T16:32:29.096000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)"
+    ],
+    "reasons": [
+      "Alerta a Consola Operador"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740753340/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Querida (Karaoke Version)",
+    "youtubeUrl": null,
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T16:30:38.233000Z",
+    "lastSeen": "2026-09-18T16:30:38.233000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)"
+    ],
+    "reasons": [
+      "Alerta a Consola Operador"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740750015/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke",
+    "youtubeUrl": null,
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T16:30:29.243000Z",
+    "lastSeen": "2026-09-18T16:30:29.243000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)"
+    ],
+    "reasons": [
+      "Alerta a Consola Operador"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740750213/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "JUAN GABRIEL, Querida (karaoke)",
+    "youtubeUrl": null,
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T16:30:21.557000Z",
+    "lastSeen": "2026-09-18T16:30:21.557000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)"
+    ],
+    "reasons": [
+      "Alerta a Consola Operador"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740749921/"
+    ]
+  },
+  {
+    "videoId": "EbIyusl1fos",
+    "title": "Paola Jara - Mala Mujer (Video Oficial)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=EbIyusl1fos",
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T16:24:08.876000Z",
+    "lastSeen": "2026-09-18T16:24:08.876000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740737977/"
+    ]
+  },
+  {
+    "videoId": "BU0IPVzGeKs",
+    "title": "Paola Jara - Mala Mujer (Karaoke)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=BU0IPVzGeKs",
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T16:23:39.007000Z",
+    "lastSeen": "2026-09-18T16:23:39.007000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7740737009/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Si Se Fue Se Fue - Francy (Video Oficial - Explicita)",
+    "youtubeUrl": null,
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T05:53:07.154000Z",
+    "lastSeen": "2026-09-18T05:53:07.154000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)"
+    ],
+    "reasons": [
+      "Alerta a Consola Operador"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739593135/"
+    ]
+  },
+  {
+    "videoId": "hbYCuNfOsuA",
+    "title": "ADRIANA LUCIA CEDRO KARAOKE. COMPLETO",
+    "youtubeUrl": "https://www.youtube.com/watch?v=hbYCuNfOsuA",
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T05:15:39.442000Z",
+    "lastSeen": "2026-09-18T05:15:39.442000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739545467/"
+    ]
+  },
+  {
+    "videoId": "cpednliUC_o",
+    "title": "Karaokanta - Paquita la del barrio - Rata de dos patas",
+    "youtubeUrl": "https://www.youtube.com/watch?v=cpednliUC_o",
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T04:47:06.987000Z",
+    "lastSeen": "2026-09-18T04:47:06.987000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739507237/"
+    ]
+  },
+  {
+    "videoId": "QlLCJZI56w0",
+    "title": "“Hasta ayer” (Marc Anthony karaoke)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=QlLCJZI56w0",
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T04:40:54.902000Z",
+    "lastSeen": "2026-09-18T04:40:54.902000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739499247/"
+    ]
+  },
+  {
+    "videoId": "XW3o_wjtOoA",
+    "title": "Ni Plata Ni Nada - Andrés Franco (Cover) En Vivo.",
+    "youtubeUrl": "https://www.youtube.com/watch?v=XW3o_wjtOoA",
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T03:26:18.901000Z",
+    "lastSeen": "2026-09-18T03:26:18.901000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739400545/"
+    ]
+  },
+  {
+    "videoId": "YY2z-m2Bh64",
+    "title": "BAD BUNNY - EoO (Video Visualizer) | DeBÍ TiRAR MáS FOToS",
+    "youtubeUrl": "https://www.youtube.com/watch?v=YY2z-m2Bh64",
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T01:52:33.936000Z",
+    "lastSeen": "2026-09-18T01:52:33.936000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739268316/"
+    ]
+  },
+  {
+    "videoId": "2j0zvkA1UxU",
+    "title": "DEVUELVEME A MI CHICA-HOMBRES G-(LETRA)+VIDEO",
+    "youtubeUrl": "https://www.youtube.com/watch?v=2j0zvkA1UxU",
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T01:03:34.599000Z",
+    "lastSeen": "2026-09-18T01:03:34.599000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739197891/"
+    ]
+  },
+  {
+    "videoId": "fEOdkXjwhn8",
+    "title": "Hombre G - Devuelveme A Mi Chica (Video Oficial) VideoMusic",
+    "youtubeUrl": "https://www.youtube.com/watch?v=fEOdkXjwhn8",
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T01:03:28.115000Z",
+    "lastSeen": "2026-09-18T01:03:28.115000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739197212/"
+    ]
+  },
+  {
+    "videoId": "Cww1160s78A",
+    "title": "Paisaje - Vicentico // Letra //",
+    "youtubeUrl": "https://www.youtube.com/watch?v=Cww1160s78A",
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T00:55:38.485000Z",
+    "lastSeen": "2026-09-18T00:55:38.485000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739177143/"
+    ]
+  },
+  {
+    "videoId": "4i_JxNPUv5s",
+    "title": "Vicentico   Paisaje  Con Letra",
+    "youtubeUrl": "https://www.youtube.com/watch?v=4i_JxNPUv5s",
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-18T00:55:28.471000Z",
+    "lastSeen": "2026-09-18T00:55:28.471000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739176965/"
+    ]
+  },
+  {
+    "videoId": "Ix7N60uIQh8",
+    "title": "Juan Gabriel - Querida - Letra",
+    "youtubeUrl": "https://www.youtube.com/watch?v=Ix7N60uIQh8",
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-17T23:42:31.394000Z",
+    "lastSeen": "2026-09-17T23:42:31.394000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7739067910/"
+    ]
+  },
+  {
+    "videoId": "ooU5dUa6DJQ",
+    "title": "Juan Gabriel Querida Karaoke",
+    "youtubeUrl": "https://www.youtube.com/watch?v=ooU5dUa6DJQ",
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-14T16:06:44.568000Z",
+    "lastSeen": "2026-09-14T16:06:44.568000Z",
+    "errorCodes": [],
+    "reasons": [
+      "Detectado preventivamente en Cola (Pre-Flight)"
+    ],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7731665053/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Excepción no controlada: Script error.",
+    "youtubeUrl": null,
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-14T01:38:04.310000Z",
+    "lastSeen": "2026-09-14T01:38:04.310000Z",
+    "errorCodes": [],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7730466987/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Karaokanta - Juan Gabriel - Querida (1 tono más grave)",
+    "youtubeUrl": null,
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-13T16:46:00.782000Z",
+    "lastSeen": "2026-09-13T16:46:00.782000Z",
+    "errorCodes": [
+      "150 (Inserción Prohibida / Derechos)",
+      "101 (Inserción Prohibida)"
+    ],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7729928411/"
+    ]
+  },
+  {
+    "videoId": null,
+    "title": "Notificación manual de diagnóstico desde Escenario 89",
+    "youtubeUrl": null,
+    "eventsCount": 1,
+    "issuesCount": 1,
+    "firstSeen": "2026-09-13T16:16:16.560000Z",
+    "lastSeen": "2026-09-13T16:16:16.560000Z",
+    "errorCodes": [],
+    "reasons": [],
+    "sentryLinks": [
+      "https://andres-avila.sentry.io/issues/7729893525/"
+    ]
+  }
+]

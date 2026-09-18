@@ -16,12 +16,18 @@ Aplicación web profesional para gestión de sesiones de Karaoke en modalidad de
    - Utiliza la API del navegador `BroadcastChannel` (`karaoke_sync_channel`).
    - Sin dependencias de WebSockets ni servidores externos: latencia cero entre pantallas locales.
    - Heartbeat automático (`PING_DISPLAY` / `PONG_OPERATOR`) para detectar conexión y reconexión en tiempo real.
-3. **Manejo Robusto de Casos Borde (Errores 101 / 150)**:
-   - Si un video tiene bloqueada la inserción externa en YouTube, la pantalla de proyección notifica al operador y salta automáticamente a la siguiente pista para no interrumpir el evento.
+3. **Canciones Descargadas en Servidor Local (Inmunes a Errores 101/150)**:
+   - Para canciones con restricciones de derechos de autor en YouTube (como Juan Gabriel, Vicente Fernández, José José, Adriana Lucía), el sistema cuenta con un catálogo de videos MP4 almacenados localmente en disco SSD.
+   - Servidor Express con streaming de alto rendimiento `HTTP 206 (Range Requests)`.
+   - Búsqueda con prioridad local y badge destacado `✅ Descargada en Servidor`.
+   - Reproducción automática en `DisplayView` mediante reproductor nativo HTML5 `<video>`, sin anuncios ni buffering.
 4. **Persistencia Local**:
    - Toda la lista de canciones en cola y el estado de reproducción se guardan en el `localStorage` del navegador.
 5. **Estética Dark Neon**:
    - Diseñado con Tailwind CSS, paleta cyberpunk (magenta, violeta, cian, ámbar, verde neón), ecualizador animado y tipografía estilizada.
+
+> 📖 **¿Vas a instalar este proyecto en otro PC?**  
+> Consulta la guía completa paso a paso en [GUIA_INSTALACION_Y_NUEVO_PC.md](./GUIA_INSTALACION_Y_NUEVO_PC.md).
 
 ---
 

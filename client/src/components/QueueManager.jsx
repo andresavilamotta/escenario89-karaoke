@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash2, ChevronUp, ChevronDown, ListMusic, Clock, Disc, PlayCircle, ExternalLink, Square, CheckCircle, AlertTriangle, Loader2, ShieldAlert, Sparkles, Film } from 'lucide-react';
+import { Trash2, ChevronUp, ChevronDown, ListMusic, Clock, Disc, PlayCircle, ExternalLink, Square, CheckCircle, AlertTriangle, Loader2, ShieldAlert, Sparkles, Film, Check, Server } from 'lucide-react';
 
 export default function QueueManager({
   currentTrack,
@@ -83,12 +83,17 @@ export default function QueueManager({
                     {isPlaying ? 'Al Aire' : 'En Pausa'}
                   </span>
 
-                  {currentTrack.isNative && (
+                  {currentTrack.isServerHosted ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold tracking-wider bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 shadow-sm">
+                      <Check className="w-3 h-3 stroke-[3]" />
+                      ✅ Descargada en Servidor
+                    </span>
+                  ) : currentTrack.isNative ? (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-500/25 text-purple-300 border border-purple-500/40 shadow-sm">
                       <Film className="w-3 h-3 text-purple-400" />
                       Cortinilla Nativa
                     </span>
-                  )}
+                  ) : null}
 
                   <span className="text-[11px] font-mono text-slate-400 flex items-center gap-1">
                     <Clock className="w-3 h-3 text-amber-400/80" />
@@ -211,13 +216,17 @@ export default function QueueManager({
                     <span>•</span>
                     <span className="font-mono text-amber-200/60">{track.duration}</span>
 
-                    {/* Badges de Validación Pre-Flight / Nativo */}
-                    {isNative && (
+                    {track.isServerHosted ? (
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-500/40">
+                        <Check className="w-2.5 h-2.5 stroke-[3]" />
+                        ✅ Descargada en Servidor
+                      </span>
+                    ) : isNative ? (
                       <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-purple-500/25 text-purple-300 border border-purple-500/40">
                         <Film className="w-2.5 h-2.5 text-purple-400" />
                         Cortinilla
                       </span>
-                    )}
+                    ) : null}
                     {isValid && (
                       <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                         <CheckCircle className="w-2.5 h-2.5 text-emerald-400" />

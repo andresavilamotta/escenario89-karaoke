@@ -10,6 +10,7 @@ import QueueValidator from '../components/QueueValidator';
 import TrackAlertModal from '../components/TrackAlertModal';
 import AnimationSelector from '../components/AnimationSelector';
 import { NATIVE_VIDEOS } from '../data/nativeVideos';
+import { searchServerCatalog, findServerTrackByVideoId } from '../data/serverCatalog';
 import { Mic, Sparkles, LogOut, Film } from 'lucide-react';
 
 import { useAuth } from '../context/AuthContext';
@@ -217,6 +218,7 @@ export default function OperatorView() {
           duration: nextSong.duration,
           thumbnail: nextSong.thumbnail,
           isNative: !!nextSong.isNative,
+          isServerHosted: !!nextSong.isServerHosted,
           videoUrl: nextSong.videoUrl || null,
           nextTrackTitle: nextTitle,
         });
@@ -402,7 +404,7 @@ export default function OperatorView() {
     broadcastRef.current = realBroadcast;
   }, [realBroadcast]);
 
-  // Búsqueda en el backend Express con filtro anti-restricción y modos
+  // Búsqueda en el backend Express con filtro anti-restricción y modos, priorizando canciones en Servidor
   const handleSearch = useCallback(async (query, mode = searchModeRef.current) => {
     if (!query || query.trim().length < 2) {
       setSearchResults([]);
@@ -412,25 +414,59 @@ export default function OperatorView() {
     setSearchMode(mode);
     setIsSearching(true);
     try {
+      // 1. Buscar coincidencias instantáneas en el catálogo de canciones descargadas en servidor
+      const serverMatches = searchServerCatalog(query);
+
       const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&mode=${mode}`);
       if (!res.ok) {
         throw new Error(`Error en el servidor (${res.status})`);
       }
       const data = await res.json();
-      setSearchResults(data.results || []);
+      const ytResults = data.results || [];
+
+      // 2. Enriquecer los resultados de YouTube que ya estén descargados en servidor
+      const enrichedYtResults = ytResults.map((ytVid) => {
+        const matchingServer = findServerTrackByVideoId(ytVid.videoId);
+        if (matchingServer) {
+          return {
+            ...ytVid,
+            ...matchingServer,
+            isNative: true,
+            isServerHosted: true,
+            badge: '✅ Descargada en Servidor',
+          };
+        }
+        return ytVid;
+      });
+
+      // 3. Fusionar evitando duplicados: pistas en servidor primero
+      const serverVideoIds = new Set(serverMatches.map((s) => s.videoId));
+      const filteredYt = enrichedYtResults.filter((y) => !serverVideoIds.has(y.videoId));
+
+      setSearchResults([...serverMatches, ...filteredYt]);
     } catch (err) {
       console.error('Error al consultar API de búsqueda:', err);
-      addNotification('No se pudo completar la búsqueda en YouTube. Verifica el servidor.', 'error');
+      // Fallback: si falla YouTube o no hay internet, mostrar las coincidencias locales
+      const serverMatches = searchServerCatalog(query);
+      if (serverMatches.length > 0) {
+        setSearchResults(serverMatches);
+      } else {
+        addNotification('No se pudo completar la búsqueda en YouTube. Verifica el servidor.', 'error');
+      }
     } finally {
       setIsSearching(false);
     }
   }, [addNotification]);
 
-  // Añadir tema a la cola
+  // Añadir tema a la cola con auto-intercepción de servidor
   const handleAddToQueue = (video) => {
+    // Si la pista coincide con una descargada en el servidor, usar la versión nativa
+    const serverMatch = findServerTrackByVideoId(video.videoId);
+    const trackToEnqueue = serverMatch ? { ...video, ...serverMatch, isNative: true } : video;
+
     const newTrack = {
-      ...video,
-      queueId: `${video.videoId}-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+      ...trackToEnqueue,
+      queueId: `${trackToEnqueue.videoId}-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
     };
 
     if (!currentTrack) {
@@ -444,13 +480,24 @@ export default function OperatorView() {
         duration: newTrack.duration,
         thumbnail: newTrack.thumbnail,
         isNative: !!newTrack.isNative,
+        isServerHosted: !!newTrack.isServerHosted,
         videoUrl: newTrack.videoUrl || null,
         nextTrackTitle: '',
       });
-      addNotification(`Iniciando reproducción: "${newTrack.title}"`, 'success');
+      addNotification(
+        newTrack.isServerHosted
+          ? `Iniciando pista en Servidor (Sin YouTube): "${newTrack.title}"`
+          : `Iniciando reproducción: "${newTrack.title}"`,
+        'success'
+      );
     } else {
       setQueue((prev) => [...prev, newTrack]);
-      addNotification(`Añadido a la cola: "${newTrack.title}"`, 'info');
+      addNotification(
+        newTrack.isServerHosted
+          ? `Añadido a la cola [Servidor VIP]: "${newTrack.title}"`
+          : `Añadido a la cola: "${newTrack.title}"`,
+        'info'
+      );
     }
   };
 
@@ -572,6 +619,7 @@ export default function OperatorView() {
         duration: selected.duration,
         thumbnail: selected.thumbnail,
         isNative: !!selected.isNative,
+        isServerHosted: !!selected.isServerHosted,
         videoUrl: selected.videoUrl || null,
         nextTrackTitle: newQueue[0]?.title || '',
       });

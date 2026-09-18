@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import YouTube from 'react-youtube';
 import { useKaraokeSync, MESSAGE_TYPES } from '../hooks/useKaraokeSync';
 import StandbyScreen from '../components/StandbyScreen';
-import { Music, Radio, ExternalLink, AlertTriangle, Film } from 'lucide-react';
+import { Music, Radio, ExternalLink, AlertTriangle, Film, Server } from 'lucide-react';
 import { logger } from '../utils/logger';
 import * as Sentry from '@sentry/react';
 
@@ -523,7 +523,11 @@ export default function DisplayView() {
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-600 to-yellow-400 p-[2px] flex-shrink-0 shadow">
                   <div className="w-full h-full bg-[#090807] rounded-[10px] flex items-center justify-center">
                     {currentTrack.isNative ? (
-                      <Film className="w-6 h-6 text-purple-400" />
+                      currentTrack.isServerHosted ? (
+                        <Server className="w-6 h-6 text-emerald-400" />
+                      ) : (
+                        <Film className="w-6 h-6 text-purple-400" />
+                      )
                     ) : (
                       <Music className="w-6 h-6 text-amber-400" />
                     )}
@@ -534,10 +538,17 @@ export default function DisplayView() {
                   <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                     {currentTrack.isNative ? (
-                      <>
-                        <Film className="w-3.5 h-3.5 text-purple-400" />
-                        <span className="text-purple-300">Cortinilla en Vivo • Escenario 89</span>
-                      </>
+                      currentTrack.isServerHosted ? (
+                        <>
+                          <Server className="w-3.5 h-3.5 text-emerald-400" />
+                          <span className="text-emerald-300">Pista en Servidor Local • Escenario 89</span>
+                        </>
+                      ) : (
+                        <>
+                          <Film className="w-3.5 h-3.5 text-purple-400" />
+                          <span className="text-purple-300">Cortinilla en Vivo • Escenario 89</span>
+                        </>
+                      )
                     ) : (
                       <>
                         <Radio className="w-3 h-3 text-emerald-400" />

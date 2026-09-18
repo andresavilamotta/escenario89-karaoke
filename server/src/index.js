@@ -1,12 +1,40 @@
 import express from 'express';
 import cors from 'cors';
 import ytSearch from 'yt-search';
+import os from 'os';
+import path from 'path';
+import fs from 'fs';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+
+// Directorios prioritarios para videos locales descargados:
+// 1. Carpeta de Videos predeterminada del Usuario en Windows (C:\Users\<Usuario>\Videos\Canciones_Descargadas)
+// 2. Carpeta local en el proyecto (Canciones_Descargadas)
+const USER_VIDEOS_DIR = path.join(os.homedir(), 'Videos', 'Canciones_Descargadas');
+const PROJECT_VIDEOS_DIR = path.resolve('..', 'Canciones_Descargadas');
+const ROOT_VIDEOS_DIR = path.resolve('Canciones_Descargadas');
+
+function resolveLocalVideoPath(filename) {
+  if (!filename) return null;
+  const decoded = decodeURIComponent(filename);
+
+  const candidates = [
+    path.join(USER_VIDEOS_DIR, decoded),
+    path.join(PROJECT_VIDEOS_DIR, decoded),
+    path.join(ROOT_VIDEOS_DIR, decoded),
+  ];
+
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+  }
+  return null;
+}
 
 // Helper para extraer ID de video de una URL de YouTube si el usuario pega un enlace directo
 function extractYouTubeVideoId(input) {
@@ -51,6 +79,24 @@ async function isVideoEmbeddable(videoId) {
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', service: 'karaoke-search-proxy', timestamp: new Date().toISOString() });
+});
+
+// Endpoint de streaming de videos locales descargados con soporte de HTTP Range Requests (códigos 206)
+app.get('/api/videos/:filename', (req, res) => {
+  const filePath = resolveLocalVideoPath(req.params.filename);
+  if (!filePath) {
+    console.warn(`[Karaoke Backend] Video local no encontrado: ${req.params.filename}`);
+    return res.status(404).json({ error: 'Video no encontrado en el almacenamiento local.' });
+  }
+
+  // res.sendFile soporta automáticamente HTTP Range Requests (Partial Content 206)
+  // para permitir saltos en la barra de reproducción sin cargar todo el archivo a la memoria RAM.
+  res.sendFile(filePath, { acceptRanges: true }, (err) => {
+    if (err && !res.headersSent) {
+      console.error(`[Karaoke Backend] Error al transmitir video local: ${err.message}`);
+      res.status(500).end();
+    }
+  });
 });
 
 // Endpoint de búsqueda inteligente con modos (karaoke, lyrics, original, directo) y filtro de inserción

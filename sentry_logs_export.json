@@ -1,0 +1,5056 @@
+[
+  {
+    "id": "7740755975",
+    "shortId": "JAVASCRIPT-REACT-3M",
+    "title": "[Operador] \"Vicente Fernández - Volver, Volver (Letra/Lyrics)\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:33:49.816000Z",
+    "lastSeen": "2026-09-18T16:33:49.816000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740755975/",
+    "events": [
+      {
+        "id": "7514c1d2f1274ca5813584438dc44ca0",
+        "eventID": "7514c1d2f1274ca5813584438dc44ca0",
+        "dateCreated": "2026-09-18T16:33:49Z",
+        "message": "[Operador] \"Vicente Fernández - Volver, Volver (Letra/Lyrics)\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "Operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740755946",
+    "shortId": "JAVASCRIPT-REACT-3K",
+    "title": "[Bloqueo Derechos 150] \"Vicente Fernández - Volver, Volver (Letra/Lyrics)\"",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:33:49.814000Z",
+    "lastSeen": "2026-09-18T16:33:49.814000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740755946/",
+    "events": [
+      {
+        "id": "7ac550df3bcf4921b66dfd3d9e3f36ca",
+        "eventID": "7ac550df3bcf4921b66dfd3d9e3f36ca",
+        "dateCreated": "2026-09-18T16:33:49Z",
+        "message": "[Bloqueo Derechos 150] \"Vicente Fernández - Volver, Volver (Letra/Lyrics)\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "BW2xNLIPxdE"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740755920",
+    "shortId": "JAVASCRIPT-REACT-3J",
+    "title": "[YouTube] [Bloqueo Detectado] \"Vicente Fernández - Volver, Volver (Letra/Lyrics)\" (BW2xNLIPxdE) tiene restricción de derechos (Error 150).",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:33:49.811000Z",
+    "lastSeen": "2026-09-18T16:33:49.811000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740755920/",
+    "events": [
+      {
+        "id": "affb65561f434ebbb2cf3a69ba63c5df",
+        "eventID": "affb65561f434ebbb2cf3a69ba63c5df",
+        "dateCreated": "2026-09-18T16:33:49Z",
+        "message": "[YouTube] [Bloqueo Detectado] \"Vicente Fernández - Volver, Volver (Letra/Lyrics)\" (BW2xNLIPxdE) tiene restricción de derechos (Error 150).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740755904",
+    "shortId": "JAVASCRIPT-REACT-3H",
+    "title": "[YouTube Bloqueo 150] Vicente Fernández - Volver, Volver (Letra/Lyrics)",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:33:49.807000Z",
+    "lastSeen": "2026-09-18T16:33:49.807000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740755904/",
+    "events": [
+      {
+        "id": "1804ad7e0b364dd0acebbe3128287d93",
+        "eventID": "1804ad7e0b364dd0acebbe3128287d93",
+        "dateCreated": "2026-09-18T16:33:49Z",
+        "message": "[YouTube Bloqueo 150] Vicente Fernández - Volver, Volver (Letra/Lyrics)",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "pantalla",
+            "value": "display_proyector"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_autor"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          },
+          {
+            "key": "videoId",
+            "value": "BW2xNLIPxdE"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740755900",
+    "shortId": "JAVASCRIPT-REACT-3G",
+    "title": "[YouTube] [Bloqueo YouTube 150] \"Vicente Fernández - Volver, Volver (Letra/Lyrics)\" (BW2xNLIPxdE): Video con restricción de derechos para inserción externa (Error 150/101).",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:33:49.804000Z",
+    "lastSeen": "2026-09-18T16:33:49.804000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740755900/",
+    "events": [
+      {
+        "id": "f37d751e99d0451e867bdfe601d1cc15",
+        "eventID": "f37d751e99d0451e867bdfe601d1cc15",
+        "dateCreated": "2026-09-18T16:33:49Z",
+        "message": "[YouTube] [Bloqueo YouTube 150] \"Vicente Fernández - Volver, Volver (Letra/Lyrics)\" (BW2xNLIPxdE): Video con restricción de derechos para inserción externa (Error 150/101).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740755323",
+    "shortId": "JAVASCRIPT-REACT-3F",
+    "title": "[Operador] \"Volver Volver - Vicente Fernandez | Karaoke | Instrumental\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:33:31.569000Z",
+    "lastSeen": "2026-09-18T16:33:31.569000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740755323/",
+    "events": [
+      {
+        "id": "24d03e56d977411f8af33f307d70e293",
+        "eventID": "24d03e56d977411f8af33f307d70e293",
+        "dateCreated": "2026-09-18T16:33:31Z",
+        "message": "[Operador] \"Volver Volver - Vicente Fernandez | Karaoke | Instrumental\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "Operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740755284",
+    "shortId": "JAVASCRIPT-REACT-3E",
+    "title": "[Bloqueo Derechos 150] \"Volver Volver - Vicente Fernandez | Karaoke | Instrumental\"",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:33:31.566000Z",
+    "lastSeen": "2026-09-18T16:33:31.566000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740755284/",
+    "events": [
+      {
+        "id": "d2f36fe205b74bd9ab18b88f198a87b9",
+        "eventID": "d2f36fe205b74bd9ab18b88f198a87b9",
+        "dateCreated": "2026-09-18T16:33:31Z",
+        "message": "[Bloqueo Derechos 150] \"Volver Volver - Vicente Fernandez | Karaoke | Instrumental\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "ul1f-I6gg2E"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740755259",
+    "shortId": "JAVASCRIPT-REACT-3C",
+    "title": "[YouTube] [Bloqueo Detectado] \"Volver Volver - Vicente Fernandez | Karaoke | Instrumental\" (ul1f-I6gg2E) tiene restricción de derechos (Error 150).",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:33:31.563000Z",
+    "lastSeen": "2026-09-18T16:33:31.563000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740755259/",
+    "events": [
+      {
+        "id": "36a25fc2d3d54a88be1c0798624b16de",
+        "eventID": "36a25fc2d3d54a88be1c0798624b16de",
+        "dateCreated": "2026-09-18T16:33:31Z",
+        "message": "[YouTube] [Bloqueo Detectado] \"Volver Volver - Vicente Fernandez | Karaoke | Instrumental\" (ul1f-I6gg2E) tiene restricción de derechos (Error 150).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740755258",
+    "shortId": "JAVASCRIPT-REACT-3B",
+    "title": "[YouTube Bloqueo 150] Volver Volver - Vicente Fernandez | Karaoke | Instrumental",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:33:31.546000Z",
+    "lastSeen": "2026-09-18T16:33:31.546000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740755258/",
+    "events": [
+      {
+        "id": "77c5262fb2e94bdcaba1aa702e747d46",
+        "eventID": "77c5262fb2e94bdcaba1aa702e747d46",
+        "dateCreated": "2026-09-18T16:33:31Z",
+        "message": "[YouTube Bloqueo 150] Volver Volver - Vicente Fernandez | Karaoke | Instrumental",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "pantalla",
+            "value": "display_proyector"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_autor"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          },
+          {
+            "key": "videoId",
+            "value": "ul1f-I6gg2E"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740755271",
+    "shortId": "JAVASCRIPT-REACT-3D",
+    "title": "[YouTube] [Bloqueo YouTube 150] \"Volver Volver - Vicente Fernandez | Karaoke | Instrumental\" (ul1f-I6gg2E): Video con restricción de derechos para inserción externa (Error 150/101).",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:33:31.544000Z",
+    "lastSeen": "2026-09-18T16:33:31.544000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740755271/",
+    "events": [
+      {
+        "id": "97bca42fc27b47eb9528b79b5ec35261",
+        "eventID": "97bca42fc27b47eb9528b79b5ec35261",
+        "dateCreated": "2026-09-18T16:33:31Z",
+        "message": "[YouTube] [Bloqueo YouTube 150] \"Volver Volver - Vicente Fernandez | Karaoke | Instrumental\" (ul1f-I6gg2E): Video con restricción de derechos para inserción externa (Error 150/101).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740753340",
+    "shortId": "JAVASCRIPT-REACT-36",
+    "title": "[Operador] \"Juan Gabriel, Juanes - Querida\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:32:29.096000Z",
+    "lastSeen": "2026-09-18T16:32:29.096000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740753340/",
+    "events": [
+      {
+        "id": "c4e0b576d3514e6397d51897104657ea",
+        "eventID": "c4e0b576d3514e6397d51897104657ea",
+        "dateCreated": "2026-09-18T16:32:29Z",
+        "message": "[Operador] \"Juan Gabriel, Juanes - Querida\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "Operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740753366",
+    "shortId": "JAVASCRIPT-REACT-38",
+    "title": "[Bloqueo Derechos 150] \"Juan Gabriel, Juanes - Querida\"",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:32:29.094000Z",
+    "lastSeen": "2026-09-18T16:32:29.094000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740753366/",
+    "events": [
+      {
+        "id": "f3272fcaf5d043e0a45523bbad489853",
+        "eventID": "f3272fcaf5d043e0a45523bbad489853",
+        "dateCreated": "2026-09-18T16:32:29Z",
+        "message": "[Bloqueo Derechos 150] \"Juan Gabriel, Juanes - Querida\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "oADpF--uirA"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740753372",
+    "shortId": "JAVASCRIPT-REACT-39",
+    "title": "[YouTube] [Bloqueo Detectado] \"Juan Gabriel, Juanes - Querida\" (oADpF--uirA) tiene restricción de derechos (Error 150).",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:32:29.092000Z",
+    "lastSeen": "2026-09-18T16:32:29.092000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740753372/",
+    "events": [
+      {
+        "id": "3547e867f18d4360b869413a877a619e",
+        "eventID": "3547e867f18d4360b869413a877a619e",
+        "dateCreated": "2026-09-18T16:32:29Z",
+        "message": "[YouTube] [Bloqueo Detectado] \"Juan Gabriel, Juanes - Querida\" (oADpF--uirA) tiene restricción de derechos (Error 150).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740753490",
+    "shortId": "JAVASCRIPT-REACT-3A",
+    "title": "[YouTube Bloqueo 150] Juan Gabriel, Juanes - Querida",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:32:29.077000Z",
+    "lastSeen": "2026-09-18T16:32:29.077000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740753490/",
+    "events": [
+      {
+        "id": "7f628885e2584621a23ea7dabbc82b0d",
+        "eventID": "7f628885e2584621a23ea7dabbc82b0d",
+        "dateCreated": "2026-09-18T16:32:29Z",
+        "message": "[YouTube Bloqueo 150] Juan Gabriel, Juanes - Querida",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "pantalla",
+            "value": "display_proyector"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_autor"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          },
+          {
+            "key": "videoId",
+            "value": "oADpF--uirA"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740753358",
+    "shortId": "JAVASCRIPT-REACT-37",
+    "title": "[YouTube] [Bloqueo YouTube 150] \"Juan Gabriel, Juanes - Querida\" (oADpF--uirA): Video con restricción de derechos para inserción externa (Error 150/101).",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:32:29.074000Z",
+    "lastSeen": "2026-09-18T16:32:29.074000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740753358/",
+    "events": [
+      {
+        "id": "d7a786392b774341a3ffda997c09934a",
+        "eventID": "d7a786392b774341a3ffda997c09934a",
+        "dateCreated": "2026-09-18T16:32:29Z",
+        "message": "[YouTube] [Bloqueo YouTube 150] \"Juan Gabriel, Juanes - Querida\" (oADpF--uirA): Video con restricción de derechos para inserción externa (Error 150/101).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740750015",
+    "shortId": "JAVASCRIPT-REACT-32",
+    "title": "[Operador] \"Querida (Karaoke Version)\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:38.233000Z",
+    "lastSeen": "2026-09-18T16:30:38.233000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740750015/",
+    "events": [
+      {
+        "id": "4b03a5686f374465b0929339537691a9",
+        "eventID": "4b03a5686f374465b0929339537691a9",
+        "dateCreated": "2026-09-18T16:30:38Z",
+        "message": "[Operador] \"Querida (Karaoke Version)\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "Operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740750146",
+    "shortId": "JAVASCRIPT-REACT-33",
+    "title": "[Bloqueo Derechos 150] \"Querida (Karaoke Version)\"",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:38.231000Z",
+    "lastSeen": "2026-09-18T16:30:38.231000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740750146/",
+    "events": [
+      {
+        "id": "0d66e9e861874ca296fdc16122a8d8fe",
+        "eventID": "0d66e9e861874ca296fdc16122a8d8fe",
+        "dateCreated": "2026-09-18T16:30:38Z",
+        "message": "[Bloqueo Derechos 150] \"Querida (Karaoke Version)\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "1g17-X0Mej4"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740749993",
+    "shortId": "JAVASCRIPT-REACT-31",
+    "title": "[YouTube] [Bloqueo Detectado] \"Querida (Karaoke Version)\" (1g17-X0Mej4) tiene restricción de derechos (Error 150).",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:38.229000Z",
+    "lastSeen": "2026-09-18T16:30:38.229000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740749993/",
+    "events": [
+      {
+        "id": "0e149fd37b1343e28846bdf47fd9f65a",
+        "eventID": "0e149fd37b1343e28846bdf47fd9f65a",
+        "dateCreated": "2026-09-18T16:30:38Z",
+        "message": "[YouTube] [Bloqueo Detectado] \"Querida (Karaoke Version)\" (1g17-X0Mej4) tiene restricción de derechos (Error 150).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740750170",
+    "shortId": "JAVASCRIPT-REACT-34",
+    "title": "[YouTube Bloqueo 150] Querida (Karaoke Version)",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:38.216000Z",
+    "lastSeen": "2026-09-18T16:30:38.216000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740750170/",
+    "events": [
+      {
+        "id": "048e3042cadd4e159eb2d2ee6f879f54",
+        "eventID": "048e3042cadd4e159eb2d2ee6f879f54",
+        "dateCreated": "2026-09-18T16:30:38Z",
+        "message": "[YouTube Bloqueo 150] Querida (Karaoke Version)",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "pantalla",
+            "value": "display_proyector"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_autor"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          },
+          {
+            "key": "videoId",
+            "value": "1g17-X0Mej4"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740749827",
+    "shortId": "JAVASCRIPT-REACT-2Y",
+    "title": "[YouTube] [Bloqueo YouTube 150] \"Querida (Karaoke Version)\" (1g17-X0Mej4): Video con restricción de derechos para inserción externa (Error 150/101).",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:38.213000Z",
+    "lastSeen": "2026-09-18T16:30:38.213000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740749827/",
+    "events": [
+      {
+        "id": "60bf9009d69b4ef0b336d266ba356164",
+        "eventID": "60bf9009d69b4ef0b336d266ba356164",
+        "dateCreated": "2026-09-18T16:30:38Z",
+        "message": "[YouTube] [Bloqueo YouTube 150] \"Querida (Karaoke Version)\" (1g17-X0Mej4): Video con restricción de derechos para inserción externa (Error 150/101).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740750213",
+    "shortId": "JAVASCRIPT-REACT-35",
+    "title": "[Operador] \"Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:29.243000Z",
+    "lastSeen": "2026-09-18T16:30:29.243000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740750213/",
+    "events": [
+      {
+        "id": "3ec24bfe303c444791fd73c3af0b3e72",
+        "eventID": "3ec24bfe303c444791fd73c3af0b3e72",
+        "dateCreated": "2026-09-18T16:30:29Z",
+        "message": "[Operador] \"Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "Operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740749913",
+    "shortId": "JAVASCRIPT-REACT-2Z",
+    "title": "[Bloqueo Derechos 150] \"Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke\"",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:29.241000Z",
+    "lastSeen": "2026-09-18T16:30:29.241000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740749913/",
+    "events": [
+      {
+        "id": "714ff784adc54a43b060b289df8180d2",
+        "eventID": "714ff784adc54a43b060b289df8180d2",
+        "dateCreated": "2026-09-18T16:30:29Z",
+        "message": "[Bloqueo Derechos 150] \"Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "pK1_sbxBG-w"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740749679",
+    "shortId": "JAVASCRIPT-REACT-2W",
+    "title": "[YouTube] [Bloqueo Detectado] \"Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke\" (pK1_sbxBG-w) tiene restricción de derechos (Error 150).",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:29.239000Z",
+    "lastSeen": "2026-09-18T16:30:29.239000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740749679/",
+    "events": [
+      {
+        "id": "addae63124334e4298fc7a17fee2c1ac",
+        "eventID": "addae63124334e4298fc7a17fee2c1ac",
+        "dateCreated": "2026-09-18T16:30:29Z",
+        "message": "[YouTube] [Bloqueo Detectado] \"Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke\" (pK1_sbxBG-w) tiene restricción de derechos (Error 150).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740749468",
+    "shortId": "JAVASCRIPT-REACT-2R",
+    "title": "[YouTube Bloqueo 150] Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:29.226000Z",
+    "lastSeen": "2026-09-18T16:30:29.226000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740749468/",
+    "events": [
+      {
+        "id": "ee881d6ad5fa4237996bcc2c11a87f60",
+        "eventID": "ee881d6ad5fa4237996bcc2c11a87f60",
+        "dateCreated": "2026-09-18T16:30:29Z",
+        "message": "[YouTube Bloqueo 150] Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "pantalla",
+            "value": "display_proyector"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_autor"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          },
+          {
+            "key": "videoId",
+            "value": "pK1_sbxBG-w"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740749642",
+    "shortId": "JAVASCRIPT-REACT-2V",
+    "title": "[YouTube] [Bloqueo YouTube 150] \"Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke\" (pK1_sbxBG-w): Video con restricción de derechos para inserción externa (Error 150/101).",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:29.224000Z",
+    "lastSeen": "2026-09-18T16:30:29.224000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740749642/",
+    "events": [
+      {
+        "id": "a1f1df0615bc4e41ac1c4d48fda21fbf",
+        "eventID": "a1f1df0615bc4e41ac1c4d48fda21fbf",
+        "dateCreated": "2026-09-18T16:30:29Z",
+        "message": "[YouTube] [Bloqueo YouTube 150] \"Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke\" (pK1_sbxBG-w): Video con restricción de derechos para inserción externa (Error 150/101).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740749921",
+    "shortId": "JAVASCRIPT-REACT-30",
+    "title": "[Operador] \"JUAN GABRIEL, Querida (karaoke)\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:21.557000Z",
+    "lastSeen": "2026-09-18T16:30:21.557000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740749921/",
+    "events": [
+      {
+        "id": "fa5c7890d2a645ebbbfa529ad3c627e7",
+        "eventID": "fa5c7890d2a645ebbbfa529ad3c627e7",
+        "dateCreated": "2026-09-18T16:30:21Z",
+        "message": "[Operador] \"JUAN GABRIEL, Querida (karaoke)\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "Operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740749568",
+    "shortId": "JAVASCRIPT-REACT-2T",
+    "title": "[Bloqueo Derechos 150] \"JUAN GABRIEL, Querida (karaoke)\"",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:21.555000Z",
+    "lastSeen": "2026-09-18T16:30:21.555000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740749568/",
+    "events": [
+      {
+        "id": "3c961c724c5d40efadc414f66381014d",
+        "eventID": "3c961c724c5d40efadc414f66381014d",
+        "dateCreated": "2026-09-18T16:30:21Z",
+        "message": "[Bloqueo Derechos 150] \"JUAN GABRIEL, Querida (karaoke)\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "uPhjhldugiw"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740749363",
+    "shortId": "JAVASCRIPT-REACT-2Q",
+    "title": "[YouTube] [Bloqueo Detectado] \"JUAN GABRIEL, Querida (karaoke)\" (uPhjhldugiw) tiene restricción de derechos (Error 150).",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:21.552000Z",
+    "lastSeen": "2026-09-18T16:30:21.552000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740749363/",
+    "events": [
+      {
+        "id": "cd1cd435451147499a40492e843de620",
+        "eventID": "cd1cd435451147499a40492e843de620",
+        "dateCreated": "2026-09-18T16:30:21Z",
+        "message": "[YouTube] [Bloqueo Detectado] \"JUAN GABRIEL, Querida (karaoke)\" (uPhjhldugiw) tiene restricción de derechos (Error 150).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740749803",
+    "shortId": "JAVASCRIPT-REACT-2X",
+    "title": "[YouTube Bloqueo 150] JUAN GABRIEL, Querida (karaoke)",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:21.542000Z",
+    "lastSeen": "2026-09-18T16:30:21.542000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740749803/",
+    "events": [
+      {
+        "id": "a015abec17b04485bc6639380319fd9e",
+        "eventID": "a015abec17b04485bc6639380319fd9e",
+        "dateCreated": "2026-09-18T16:30:21Z",
+        "message": "[YouTube Bloqueo 150] JUAN GABRIEL, Querida (karaoke)",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "pantalla",
+            "value": "display_proyector"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_autor"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          },
+          {
+            "key": "videoId",
+            "value": "uPhjhldugiw"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740749490",
+    "shortId": "JAVASCRIPT-REACT-2S",
+    "title": "[YouTube] [Bloqueo YouTube 150] \"JUAN GABRIEL, Querida (karaoke)\" (uPhjhldugiw): Video con restricción de derechos para inserción externa (Error 150/101).",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:21.539000Z",
+    "lastSeen": "2026-09-18T16:30:21.539000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740749490/",
+    "events": [
+      {
+        "id": "783499f9cc28432b86bb66fc5530f69e",
+        "eventID": "783499f9cc28432b86bb66fc5530f69e",
+        "dateCreated": "2026-09-18T16:30:21Z",
+        "message": "[YouTube] [Bloqueo YouTube 150] \"JUAN GABRIEL, Querida (karaoke)\" (uPhjhldugiw): Video con restricción de derechos para inserción externa (Error 150/101).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740748954",
+    "shortId": "JAVASCRIPT-REACT-2P",
+    "title": "[Pre-Flight Detectó Restricción] \"Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke\"",
+    "culprit": "/",
+    "level": "warning",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:30:10.156000Z",
+    "lastSeen": "2026-09-18T16:30:10.156000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740748954/",
+    "events": [
+      {
+        "id": "1650c201fef1453fae378b0aeed386b7",
+        "eventID": "1650c201fef1453fae378b0aeed386b7",
+        "dateCreated": "2026-09-18T16:30:10Z",
+        "message": "[Pre-Flight Detectó Restricción] \"Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "warning"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "pre_flight_queue_validator"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "pK1_sbxBG-w"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740746959",
+    "shortId": "JAVASCRIPT-REACT-2N",
+    "title": "[Operador] \"Juan Gabriel - Querida (Version Karaoke)\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:28:59.271000Z",
+    "lastSeen": "2026-09-18T16:28:59.271000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740746959/",
+    "events": [
+      {
+        "id": "c390448f6a60489dbcc973686f2f1354",
+        "eventID": "c390448f6a60489dbcc973686f2f1354",
+        "dateCreated": "2026-09-18T16:28:59Z",
+        "message": "[Operador] \"Juan Gabriel - Querida (Version Karaoke)\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "Operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7729938428",
+    "shortId": "JAVASCRIPT-REACT-7",
+    "title": "[Bloqueo Derechos 150] \"Juan Gabriel - Querida (Version Karaoke)\"",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "3",
+    "userCount": 2,
+    "firstSeen": "2026-09-13T16:54:46.291000Z",
+    "lastSeen": "2026-09-18T16:28:59.267000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7729938428/",
+    "events": [
+      {
+        "id": "7323dcf5ea154c94a192966da3a566dd",
+        "eventID": "7323dcf5ea154c94a192966da3a566dd",
+        "dateCreated": "2026-09-18T16:28:59Z",
+        "message": "[Bloqueo Derechos 150] \"Juan Gabriel - Querida (Version Karaoke)\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "xKvPqbiRK_w"
+          }
+        ]
+      },
+      {
+        "id": "6f09c2a9285546f0a8d2ae3222299615",
+        "eventID": "6f09c2a9285546f0a8d2ae3222299615",
+        "dateCreated": "2026-09-13T16:54:56Z",
+        "message": "[Bloqueo Derechos 150] \"Juan Gabriel - Querida (Version Karaoke)\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Chrome 152.0.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Chrome"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:185.236.182.206",
+            "query": "user.ip:\"185.236.182.206\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/operator"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/operator"
+          },
+          {
+            "key": "videoId",
+            "value": "xKvPqbiRK_w"
+          }
+        ]
+      },
+      {
+        "id": "823057276cde4da6913bf3444e5e1437",
+        "eventID": "823057276cde4da6913bf3444e5e1437",
+        "dateCreated": "2026-09-13T16:54:46Z",
+        "message": "[Bloqueo Derechos 150] \"Juan Gabriel - Querida (Version Karaoke)\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Chrome 152.0.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Chrome"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:185.236.182.206",
+            "query": "user.ip:\"185.236.182.206\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/operator"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/operator"
+          },
+          {
+            "key": "videoId",
+            "value": "xKvPqbiRK_w"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7729938422",
+    "shortId": "JAVASCRIPT-REACT-6",
+    "title": "[YouTube] [Bloqueo Detectado] \"Juan Gabriel - Querida (Version Karaoke)\" (xKvPqbiRK_w) tiene restricción de derechos (Error 150).",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "3",
+    "userCount": 2,
+    "firstSeen": "2026-09-13T16:54:46.288000Z",
+    "lastSeen": "2026-09-18T16:28:59.261000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7729938422/",
+    "events": [
+      {
+        "id": "4c1b24d2c4514640b6bcefb08a7c2b93",
+        "eventID": "4c1b24d2c4514640b6bcefb08a7c2b93",
+        "dateCreated": "2026-09-18T16:28:59Z",
+        "message": "[YouTube] [Bloqueo Detectado] \"Juan Gabriel - Querida (Version Karaoke)\" (xKvPqbiRK_w) tiene restricción de derechos (Error 150).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      },
+      {
+        "id": "dff4a183fcf24b5a82eef78d75178e6f",
+        "eventID": "dff4a183fcf24b5a82eef78d75178e6f",
+        "dateCreated": "2026-09-13T16:54:56Z",
+        "message": "[YouTube] [Bloqueo Detectado] \"Juan Gabriel - Querida (Version Karaoke)\" (xKvPqbiRK_w) tiene restricción de derechos (Error 150).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Chrome 152.0.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Chrome"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:185.236.182.206",
+            "query": "user.ip:\"185.236.182.206\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/operator"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/operator"
+          }
+        ]
+      },
+      {
+        "id": "82aae1ff74a544ad836f5800cda6382b",
+        "eventID": "82aae1ff74a544ad836f5800cda6382b",
+        "dateCreated": "2026-09-13T16:54:46Z",
+        "message": "[YouTube] [Bloqueo Detectado] \"Juan Gabriel - Querida (Version Karaoke)\" (xKvPqbiRK_w) tiene restricción de derechos (Error 150).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Chrome 152.0.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Chrome"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:185.236.182.206",
+            "query": "user.ip:\"185.236.182.206\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/operator"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/operator"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7729938617",
+    "shortId": "JAVASCRIPT-REACT-A",
+    "title": "[YouTube Bloqueo 150] Juan Gabriel - Querida (Version Karaoke)",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 2,
+    "firstSeen": "2026-09-13T16:54:56.283000Z",
+    "lastSeen": "2026-09-18T16:28:59.254000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7729938617/",
+    "events": [
+      {
+        "id": "e4c95007764142c688272985f9817f0d",
+        "eventID": "e4c95007764142c688272985f9817f0d",
+        "dateCreated": "2026-09-18T16:28:59Z",
+        "message": "[YouTube Bloqueo 150] Juan Gabriel - Querida (Version Karaoke)",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "pantalla",
+            "value": "display_proyector"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_autor"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          },
+          {
+            "key": "videoId",
+            "value": "xKvPqbiRK_w"
+          }
+        ]
+      },
+      {
+        "id": "a70a03c9e9a04bc9aa94d4ecad71eb5a",
+        "eventID": "a70a03c9e9a04bc9aa94d4ecad71eb5a",
+        "dateCreated": "2026-09-13T16:54:56Z",
+        "message": "[YouTube Bloqueo 150] Juan Gabriel - Querida (Version Karaoke)",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Chrome 152.0.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Chrome"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "pantalla",
+            "value": "display_proyector"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:185.236.182.206",
+            "query": "user.ip:\"185.236.182.206\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_autor"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          },
+          {
+            "key": "videoId",
+            "value": "xKvPqbiRK_w"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7729938601",
+    "shortId": "JAVASCRIPT-REACT-8",
+    "title": "[YouTube] [Bloqueo YouTube 150] \"Juan Gabriel - Querida (Version Karaoke)\" (xKvPqbiRK_w): Video con restricción de derechos para inserción externa (Error 150/101).",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 2,
+    "firstSeen": "2026-09-13T16:54:56.280000Z",
+    "lastSeen": "2026-09-18T16:28:59.249000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7729938601/",
+    "events": [
+      {
+        "id": "aea6b050342b4f6eae9b7f5bd9d7b11e",
+        "eventID": "aea6b050342b4f6eae9b7f5bd9d7b11e",
+        "dateCreated": "2026-09-18T16:28:59Z",
+        "message": "[YouTube] [Bloqueo YouTube 150] \"Juan Gabriel - Querida (Version Karaoke)\" (xKvPqbiRK_w): Video con restricción de derechos para inserción externa (Error 150/101).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          }
+        ]
+      },
+      {
+        "id": "902f05f45bee4d88a893aa00a76e89a5",
+        "eventID": "902f05f45bee4d88a893aa00a76e89a5",
+        "dateCreated": "2026-09-13T16:54:56Z",
+        "message": "[YouTube] [Bloqueo YouTube 150] \"Juan Gabriel - Querida (Version Karaoke)\" (xKvPqbiRK_w): Video con restricción de derechos para inserción externa (Error 150/101).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Chrome 152.0.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Chrome"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:185.236.182.206",
+            "query": "user.ip:\"185.236.182.206\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740737977",
+    "shortId": "JAVASCRIPT-REACT-2M",
+    "title": "[Pre-Flight Detectó Restricción] \"Paola Jara - Mala Mujer (Video Oficial)\"",
+    "culprit": "/",
+    "level": "warning",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:24:08.876000Z",
+    "lastSeen": "2026-09-18T16:24:08.876000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740737977/",
+    "events": [
+      {
+        "id": "23e4d46a1b474b81b81d2ab4980601b8",
+        "eventID": "23e4d46a1b474b81b81d2ab4980601b8",
+        "dateCreated": "2026-09-18T16:24:08Z",
+        "message": "[Pre-Flight Detectó Restricción] \"Paola Jara - Mala Mujer (Video Oficial)\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "warning"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "pre_flight_queue_validator"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "EbIyusl1fos"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740737204",
+    "shortId": "JAVASCRIPT-REACT-2H",
+    "title": "[Operador] \"Querida | Karaoke Version Lower Key 2 | Juan Gabriel\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:23:46.046000Z",
+    "lastSeen": "2026-09-18T16:23:46.480000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740737204/",
+    "events": [
+      {
+        "id": "db799c068d5f462498cd577e6e2fe989",
+        "eventID": "db799c068d5f462498cd577e6e2fe989",
+        "dateCreated": "2026-09-18T16:23:46Z",
+        "message": "[Operador] \"Querida | Karaoke Version Lower Key 2 | Juan Gabriel\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "Operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      },
+      {
+        "id": "eefd51bb6a194611beaa8166d6139372",
+        "eventID": "eefd51bb6a194611beaa8166d6139372",
+        "dateCreated": "2026-09-18T16:23:46Z",
+        "message": "[Operador] \"Querida | Karaoke Version Lower Key 2 | Juan Gabriel\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "Operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740737182",
+    "shortId": "JAVASCRIPT-REACT-2G",
+    "title": "[Bloqueo Derechos 150] \"Querida | Karaoke Version Lower Key 2 | Juan Gabriel\"",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:23:46.043000Z",
+    "lastSeen": "2026-09-18T16:23:46.476000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740737182/",
+    "events": [
+      {
+        "id": "142bfb81f1244c97bdcb61417aab35b3",
+        "eventID": "142bfb81f1244c97bdcb61417aab35b3",
+        "dateCreated": "2026-09-18T16:23:46Z",
+        "message": "[Bloqueo Derechos 150] \"Querida | Karaoke Version Lower Key 2 | Juan Gabriel\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "qfG8iUy_C7k"
+          }
+        ]
+      },
+      {
+        "id": "ecd0361efcfd48028932be39697f4273",
+        "eventID": "ecd0361efcfd48028932be39697f4273",
+        "dateCreated": "2026-09-18T16:23:46Z",
+        "message": "[Bloqueo Derechos 150] \"Querida | Karaoke Version Lower Key 2 | Juan Gabriel\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "qfG8iUy_C7k"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740737180",
+    "shortId": "JAVASCRIPT-REACT-2F",
+    "title": "[YouTube] [Bloqueo Detectado] \"Querida | Karaoke Version Lower Key 2 | Juan Gabriel\" (qfG8iUy_C7k) tiene restricción de derechos (Error 150).",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:23:46.040000Z",
+    "lastSeen": "2026-09-18T16:23:46.472000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740737180/",
+    "events": [
+      {
+        "id": "38234eb18bc74f3f91929cef4c1b0152",
+        "eventID": "38234eb18bc74f3f91929cef4c1b0152",
+        "dateCreated": "2026-09-18T16:23:46Z",
+        "message": "[YouTube] [Bloqueo Detectado] \"Querida | Karaoke Version Lower Key 2 | Juan Gabriel\" (qfG8iUy_C7k) tiene restricción de derechos (Error 150).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      },
+      {
+        "id": "5caf3c78b9fc4c358a1b36685e410922",
+        "eventID": "5caf3c78b9fc4c358a1b36685e410922",
+        "dateCreated": "2026-09-18T16:23:46Z",
+        "message": "[YouTube] [Bloqueo Detectado] \"Querida | Karaoke Version Lower Key 2 | Juan Gabriel\" (qfG8iUy_C7k) tiene restricción de derechos (Error 150).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740737248",
+    "shortId": "JAVASCRIPT-REACT-2K",
+    "title": "[YouTube Bloqueo 150] Querida | Karaoke Version Lower Key 2 | Juan Gabriel",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:23:46.025000Z",
+    "lastSeen": "2026-09-18T16:23:46.459000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740737248/",
+    "events": [
+      {
+        "id": "98b94c2e205644088eaac92200ae993f",
+        "eventID": "98b94c2e205644088eaac92200ae993f",
+        "dateCreated": "2026-09-18T16:23:46Z",
+        "message": "[YouTube Bloqueo 150] Querida | Karaoke Version Lower Key 2 | Juan Gabriel",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "pantalla",
+            "value": "display_proyector"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_autor"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          },
+          {
+            "key": "videoId",
+            "value": "qfG8iUy_C7k"
+          }
+        ]
+      },
+      {
+        "id": "e733b63bf1b9443791dc0a516ed3cf8a",
+        "eventID": "e733b63bf1b9443791dc0a516ed3cf8a",
+        "dateCreated": "2026-09-18T16:23:46Z",
+        "message": "[YouTube Bloqueo 150] Querida | Karaoke Version Lower Key 2 | Juan Gabriel",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "pantalla",
+            "value": "display_proyector"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_autor"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          },
+          {
+            "key": "videoId",
+            "value": "qfG8iUy_C7k"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740737244",
+    "shortId": "JAVASCRIPT-REACT-2J",
+    "title": "[YouTube] [Bloqueo YouTube 150] \"Querida | Karaoke Version Lower Key 2 | Juan Gabriel\" (qfG8iUy_C7k): Video con restricción de derechos para inserción externa (Error 150/101).",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:23:46.023000Z",
+    "lastSeen": "2026-09-18T16:23:46.456000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740737244/",
+    "events": [
+      {
+        "id": "ae3003f66f1b4c51ae19f7efe768a7a4",
+        "eventID": "ae3003f66f1b4c51ae19f7efe768a7a4",
+        "dateCreated": "2026-09-18T16:23:46Z",
+        "message": "[YouTube] [Bloqueo YouTube 150] \"Querida | Karaoke Version Lower Key 2 | Juan Gabriel\" (qfG8iUy_C7k): Video con restricción de derechos para inserción externa (Error 150/101).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          }
+        ]
+      },
+      {
+        "id": "d587d2ca02d343a0bef24015c963f045",
+        "eventID": "d587d2ca02d343a0bef24015c963f045",
+        "dateCreated": "2026-09-18T16:23:46Z",
+        "message": "[YouTube] [Bloqueo YouTube 150] \"Querida | Karaoke Version Lower Key 2 | Juan Gabriel\" (qfG8iUy_C7k): Video con restricción de derechos para inserción externa (Error 150/101).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740737009",
+    "shortId": "JAVASCRIPT-REACT-2E",
+    "title": "[Pre-Flight Detectó Restricción] \"Paola Jara - Mala Mujer (Karaoke)\"",
+    "culprit": "/",
+    "level": "warning",
+    "status": "unresolved",
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:23:39.007000Z",
+    "lastSeen": "2026-09-18T16:23:39.007000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740737009/",
+    "events": [
+      {
+        "id": "443f6732c1cb4238866235c3eedf58aa",
+        "eventID": "443f6732c1cb4238866235c3eedf58aa",
+        "dateCreated": "2026-09-18T16:23:39Z",
+        "message": "[Pre-Flight Detectó Restricción] \"Paola Jara - Mala Mujer (Karaoke)\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "warning"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "pre_flight_queue_validator"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "BU0IPVzGeKs"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740736093",
+    "shortId": "JAVASCRIPT-REACT-27",
+    "title": "[Operador] \"Juan Gabriel - Querida [Letra]\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:23:10.992000Z",
+    "lastSeen": "2026-09-18T16:23:26.932000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740736093/",
+    "events": [
+      {
+        "id": "2c9ce645ec404c51bbb0311fb5a16299",
+        "eventID": "2c9ce645ec404c51bbb0311fb5a16299",
+        "dateCreated": "2026-09-18T16:23:26Z",
+        "message": "[Operador] \"Juan Gabriel - Querida [Letra]\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "Operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      },
+      {
+        "id": "5b0384e21d2a408287f04359e4357329",
+        "eventID": "5b0384e21d2a408287f04359e4357329",
+        "dateCreated": "2026-09-18T16:23:10Z",
+        "message": "[Operador] \"Juan Gabriel - Querida [Letra]\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "Operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740736069",
+    "shortId": "JAVASCRIPT-REACT-25",
+    "title": "[Bloqueo Derechos 150] \"Juan Gabriel - Querida [Letra]\"",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:23:10.990000Z",
+    "lastSeen": "2026-09-18T16:23:26.929000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740736069/",
+    "events": [
+      {
+        "id": "f7d3a83e616a4a038d41d20c8d086797",
+        "eventID": "f7d3a83e616a4a038d41d20c8d086797",
+        "dateCreated": "2026-09-18T16:23:26Z",
+        "message": "[Bloqueo Derechos 150] \"Juan Gabriel - Querida [Letra]\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "XcTkOFsoMI8"
+          }
+        ]
+      },
+      {
+        "id": "ffa867a50b55416b8092b5bd93a406dd",
+        "eventID": "ffa867a50b55416b8092b5bd93a406dd",
+        "dateCreated": "2026-09-18T16:23:10Z",
+        "message": "[Bloqueo Derechos 150] \"Juan Gabriel - Querida [Letra]\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "XcTkOFsoMI8"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740736100",
+    "shortId": "JAVASCRIPT-REACT-28",
+    "title": "[YouTube] [Bloqueo Detectado] \"Juan Gabriel - Querida [Letra]\" (XcTkOFsoMI8) tiene restricción de derechos (Error 150).",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:23:10.988000Z",
+    "lastSeen": "2026-09-18T16:23:26.927000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740736100/",
+    "events": [
+      {
+        "id": "939a8c7f64734c02a8cc75d988ef824a",
+        "eventID": "939a8c7f64734c02a8cc75d988ef824a",
+        "dateCreated": "2026-09-18T16:23:26Z",
+        "message": "[YouTube] [Bloqueo Detectado] \"Juan Gabriel - Querida [Letra]\" (XcTkOFsoMI8) tiene restricción de derechos (Error 150).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      },
+      {
+        "id": "8ffce94348004a1caeea2aa4f63934b1",
+        "eventID": "8ffce94348004a1caeea2aa4f63934b1",
+        "dateCreated": "2026-09-18T16:23:10Z",
+        "message": "[YouTube] [Bloqueo Detectado] \"Juan Gabriel - Querida [Letra]\" (XcTkOFsoMI8) tiene restricción de derechos (Error 150).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740736077",
+    "shortId": "JAVASCRIPT-REACT-26",
+    "title": "[YouTube Bloqueo 150] Juan Gabriel - Querida [Letra]",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:23:10.974000Z",
+    "lastSeen": "2026-09-18T16:23:26.909000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740736077/",
+    "events": [
+      {
+        "id": "5db4ce6406424b6ab7679b8fb8efb3f7",
+        "eventID": "5db4ce6406424b6ab7679b8fb8efb3f7",
+        "dateCreated": "2026-09-18T16:23:26Z",
+        "message": "[YouTube Bloqueo 150] Juan Gabriel - Querida [Letra]",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "pantalla",
+            "value": "display_proyector"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_autor"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          },
+          {
+            "key": "videoId",
+            "value": "XcTkOFsoMI8"
+          }
+        ]
+      },
+      {
+        "id": "0e6a4be4516646a08924f02efc5fda0b",
+        "eventID": "0e6a4be4516646a08924f02efc5fda0b",
+        "dateCreated": "2026-09-18T16:23:10Z",
+        "message": "[YouTube Bloqueo 150] Juan Gabriel - Querida [Letra]",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "pantalla",
+            "value": "display_proyector"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_autor"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          },
+          {
+            "key": "videoId",
+            "value": "XcTkOFsoMI8"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740736051",
+    "shortId": "JAVASCRIPT-REACT-24",
+    "title": "[YouTube] [Bloqueo YouTube 150] \"Juan Gabriel - Querida [Letra]\" (XcTkOFsoMI8): Video con restricción de derechos para inserción externa (Error 150/101).",
+    "culprit": "/display",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:23:10.972000Z",
+    "lastSeen": "2026-09-18T16:23:26.907000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740736051/",
+    "events": [
+      {
+        "id": "3200ce4707ad44b6886f8200a3197ec4",
+        "eventID": "3200ce4707ad44b6886f8200a3197ec4",
+        "dateCreated": "2026-09-18T16:23:26Z",
+        "message": "[YouTube] [Bloqueo YouTube 150] \"Juan Gabriel - Querida [Letra]\" (XcTkOFsoMI8): Video con restricción de derechos para inserción externa (Error 150/101).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          }
+        ]
+      },
+      {
+        "id": "89625b09e09d4bde93cb75669907b824",
+        "eventID": "89625b09e09d4bde93cb75669907b824",
+        "dateCreated": "2026-09-18T16:23:10Z",
+        "message": "[YouTube] [Bloqueo YouTube 150] \"Juan Gabriel - Querida [Letra]\" (XcTkOFsoMI8): Video con restricción de derechos para inserción externa (Error 150/101).",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "YouTube"
+          },
+          {
+            "key": "transaction",
+            "value": "/display"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/display"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740736327",
+    "shortId": "JAVASCRIPT-REACT-2D",
+    "title": "[Operador] \"*QUERIDA* - JUAN GABRIEL - 1984 (REMASTERIZADO)  Q.E.P.D (1950-2016)\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:23:17.229000Z",
+    "lastSeen": "2026-09-18T16:23:20.267000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740736327/",
+    "events": [
+      {
+        "id": "bae4b64a0e7d4241b33aa11e58e09b2d",
+        "eventID": "bae4b64a0e7d4241b33aa11e58e09b2d",
+        "dateCreated": "2026-09-18T16:23:20Z",
+        "message": "[Operador] \"*QUERIDA* - JUAN GABRIEL - 1984 (REMASTERIZADO)  Q.E.P.D (1950-2016)\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "Operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      },
+      {
+        "id": "797a5dcbb69a4688bec4aa5b1addd61e",
+        "eventID": "797a5dcbb69a4688bec4aa5b1addd61e",
+        "dateCreated": "2026-09-18T16:23:17Z",
+        "message": "[Operador] \"*QUERIDA* - JUAN GABRIEL - 1984 (REMASTERIZADO)  Q.E.P.D (1950-2016)\" tiene restricción de derechos (Error 150). Selecciona una alternativa o ábrela en YouTube.",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "remote",
+            "value": "false"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "source",
+            "value": "Operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7740736251",
+    "shortId": "JAVASCRIPT-REACT-29",
+    "title": "[Bloqueo Derechos 150] \"*QUERIDA* - JUAN GABRIEL - 1984 (REMASTERIZADO)  Q.E.P.D (1950-2016)\"",
+    "culprit": "/",
+    "level": "error",
+    "status": "unresolved",
+    "count": "2",
+    "userCount": 1,
+    "firstSeen": "2026-09-18T16:23:17.227000Z",
+    "lastSeen": "2026-09-18T16:23:20.263000Z",
+    "permalink": "https://andres-avila.sentry.io/issues/7740736251/",
+    "events": [
+      {
+        "id": "f95031eea9264ad7abc0b6792530fbbd",
+        "eventID": "f95031eea9264ad7abc0b6792530fbbd",
+        "dateCreated": "2026-09-18T16:23:20Z",
+        "message": "[Bloqueo Derechos 150] \"*QUERIDA* - JUAN GABRIEL - 1984 (REMASTERIZADO)  Q.E.P.D (1950-2016)\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "1hf7oFCL1Sg"
+          }
+        ]
+      },
+      {
+        "id": "2e6d65f94c5a4f96a0f21667fab2e57d",
+        "eventID": "2e6d65f94c5a4f96a0f21667fab2e57d",
+        "dateCreated": "2026-09-18T16:23:17Z",
+        "message": "[Bloqueo Derechos 150] \"*QUERIDA* - JUAN GABRIEL - 1984 (REMASTERIZADO)  Q.E.P.D (1950-2016)\"",
+        "tags": [
+          {
+            "key": "browser",
+            "value": "Firefox 156.0"
+          },
+          {
+            "key": "browser.name",
+            "value": "Firefox"
+          },
+          {
+            "key": "environment",
+            "value": "production"
+          },
+          {
+            "key": "errorCode",
+            "value": "150"
+          },
+          {
+            "key": "interface_type",
+            "value": "request"
+          },
+          {
+            "key": "level",
+            "value": "error"
+          },
+          {
+            "key": "os",
+            "value": "Windows >=10"
+          },
+          {
+            "key": "os.name",
+            "value": "Windows"
+          },
+          {
+            "key": "release",
+            "value": "escenario89-karaoke@1.0.0"
+          },
+          {
+            "key": "user",
+            "value": "ip:190.66.14.230",
+            "query": "user.ip:\"190.66.14.230\""
+          },
+          {
+            "key": "tipo",
+            "value": "bloqueo_derechos_operador"
+          },
+          {
+            "key": "transaction",
+            "value": "/"
+          },
+          {
+            "key": "url",
+            "value": "https://escenario89.andresavila.org/"
+          },
+          {
+            "key": "videoId",
+            "value": "1hf7oFCL1Sg"
+          }
+        ]
+      }
+    ]
+  }
+]
