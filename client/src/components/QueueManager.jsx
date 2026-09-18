@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash2, ChevronUp, ChevronDown, ListMusic, Clock, Disc, PlayCircle, ExternalLink, Square, CheckCircle, AlertTriangle, Loader2, ShieldAlert, Sparkles, Film, Check, Server } from 'lucide-react';
+import { Trash2, ChevronUp, ChevronDown, ListMusic, Clock, Disc, PlayCircle, ExternalLink, Square, CheckCircle, AlertTriangle, Loader2, ShieldAlert, Sparkles, Film, Check, Server, Cloud } from 'lucide-react';
 
 export default function QueueManager({
   currentTrack,
@@ -83,7 +83,12 @@ export default function QueueManager({
                     {isPlaying ? 'Al Aire' : 'En Pausa'}
                   </span>
 
-                  {currentTrack.isServerHosted ? (
+                  {currentTrack.isDriveHosted ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold tracking-wider bg-sky-500/25 text-sky-300 border border-sky-500/40 shadow-sm">
+                      <Cloud className="w-3 h-3 text-sky-400" />
+                      ☁️ Google Drive
+                    </span>
+                  ) : currentTrack.isServerHosted ? (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold tracking-wider bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 shadow-sm">
                       <Check className="w-3 h-3 stroke-[3]" />
                       ✅ Descargada en Servidor
@@ -216,7 +221,12 @@ export default function QueueManager({
                     <span>•</span>
                     <span className="font-mono text-amber-200/60">{track.duration}</span>
 
-                    {track.isServerHosted ? (
+                    {track.isDriveHosted ? (
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-sky-500/25 text-sky-300 border border-sky-500/40">
+                        <Cloud className="w-2.5 h-2.5 text-sky-400" />
+                        ☁️ Google Drive
+                      </span>
+                    ) : track.isServerHosted ? (
                       <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-500/40">
                         <Check className="w-2.5 h-2.5 stroke-[3]" />
                         ✅ Descargada en Servidor

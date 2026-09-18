@@ -4,6 +4,7 @@ import ytSearch from 'yt-search';
 import os from 'os';
 import path from 'path';
 import fs from 'fs';
+import https from 'https';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -95,6 +96,70 @@ app.get('/api/videos/:filename', (req, res) => {
     if (err && !res.headersSent) {
       console.error(`[Karaoke Backend] Error al transmitir video local: ${err.message}`);
       res.status(500).end();
+    }
+  });
+});
+
+// Endpoint de streaming y proxy para videos alojados en Google Drive con HTTP Range Requests (206)
+app.get('/api/videos/drive/:fileId', (req, res) => {
+  const fileId = req.params.fileId;
+  if (!fileId || !/^[a-zA-Z0-9_-]+$/.test(fileId)) {
+    return res.status(400).json({ error: 'ID de archivo de Google Drive no válido.' });
+  }
+
+  const driveUrl = `https://drive.usercontent.google.com/download?id=${fileId}&export=download`;
+  const headers = {};
+
+  if (req.headers.range) {
+    headers['Range'] = req.headers.range;
+  }
+
+  const driveReq = https.get(driveUrl, { headers }, (driveRes) => {
+    // Si Drive devuelve redirección 301, 302, 303 o 307
+    if (driveRes.statusCode >= 300 && driveRes.statusCode < 400 && driveRes.headers.location) {
+      return https.get(driveRes.headers.location, { headers }, (redirectRes) => {
+        res.status(redirectRes.statusCode);
+        const copyHeaders = [
+          'content-type',
+          'content-length',
+          'content-range',
+          'accept-ranges',
+          'content-disposition',
+        ];
+        copyHeaders.forEach((h) => {
+          if (redirectRes.headers[h]) {
+            res.setHeader(h, redirectRes.headers[h]);
+          }
+        });
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        redirectRes.pipe(res);
+      }).on('error', (err) => {
+        console.error(`[Karaoke Backend] Error en redirección de Drive (${fileId}):`, err.message);
+        if (!res.headersSent) res.status(502).end();
+      });
+    }
+
+    res.status(driveRes.statusCode);
+    const copyHeaders = [
+      'content-type',
+      'content-length',
+      'content-range',
+      'accept-ranges',
+      'content-disposition',
+    ];
+    copyHeaders.forEach((h) => {
+      if (driveRes.headers[h]) {
+        res.setHeader(h, driveRes.headers[h]);
+      }
+    });
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    driveRes.pipe(res);
+  });
+
+  driveReq.on('error', (err) => {
+    console.error(`[Karaoke Backend] Error al consultar Google Drive (${fileId}):`, err.message);
+    if (!res.headersSent) {
+      res.status(502).json({ error: 'Error al contactar con Google Drive.' });
     }
   });
 });

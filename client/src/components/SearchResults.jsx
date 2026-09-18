@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Check, Clock, Eye, Music, Disc3, Sparkles, ShieldCheck, ExternalLink, Server, Zap } from 'lucide-react';
+import { Plus, Check, Clock, Eye, Music, Disc3, Sparkles, ShieldCheck, ExternalLink, Server, Zap, Cloud } from 'lucide-react';
 
 export default function SearchResults({ results = [], onAddToQueue, onSelectSuggestion, searchMode = 'karaoke' }) {
   const [addedIds, setAddedIds] = useState({});
@@ -80,13 +80,16 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
         {results.map((video) => {
           const isAdded = !!addedIds[video.videoId];
+          const isDrive = !!video.isDriveHosted;
           const isServer = !!video.isServerHosted;
 
           return (
             <div
               key={video.videoId}
               className={`group relative flex gap-3 p-2.5 rounded-xl border transition-all duration-200 shadow-lg hover:shadow-xl ${
-                isServer
+                isDrive
+                  ? 'bg-[#0c1a24]/95 hover:bg-[#102433]/95 border-sky-500/50 hover:border-sky-400 shadow-[0_0_15px_rgba(14,165,233,0.15)] hover:shadow-[0_0_25px_rgba(14,165,233,0.3)]'
+                  : isServer
                   ? 'bg-[#0d1813]/95 hover:bg-[#12231c]/95 border-emerald-500/50 hover:border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)]'
                   : 'bg-[#14120F]/90 hover:bg-[#201C16]/90 border-[#332C22] hover:border-amber-500/50'
               }`}
@@ -107,7 +110,12 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
                   {video.duration}
                 </span>
 
-                {isServer ? (
+                {isDrive ? (
+                  <span className="absolute top-1 left-1 px-2 py-0.5 rounded bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-500 text-black text-[10px] font-extrabold tracking-wider flex items-center gap-1 shadow-md">
+                    <Cloud className="w-2.5 h-2.5" />
+                    ☁️ Google Drive
+                  </span>
+                ) : isServer ? (
                   <span className="absolute top-1 left-1 px-2 py-0.5 rounded bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 text-black text-[10px] font-extrabold tracking-wider flex items-center gap-1 shadow-md">
                     <Check className="w-2.5 h-2.5 stroke-[3]" />
                     ✅ Descargada en Servidor
@@ -125,19 +133,28 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
                 <div>
                   <h4
                     className={`text-sm font-semibold line-clamp-2 leading-snug transition-colors font-['Space_Grotesk',sans-serif] ${
-                      isServer ? 'text-emerald-200 group-hover:text-emerald-300' : 'text-slate-100 group-hover:text-amber-300'
+                      isDrive
+                        ? 'text-sky-200 group-hover:text-sky-300'
+                        : isServer
+                        ? 'text-emerald-200 group-hover:text-emerald-300'
+                        : 'text-slate-100 group-hover:text-amber-300'
                     }`}
                     title={video.title}
                   >
                     {video.title}
                   </h4>
                   <p className={`text-xs mt-1 truncate flex items-center gap-1 ${
-                    isServer ? 'text-emerald-300/80' : 'text-amber-200/70'
+                    isDrive ? 'text-sky-300/80' : isServer ? 'text-emerald-300/80' : 'text-amber-200/70'
                   }`}>
-                    {isServer ? <Server className="w-3 h-3 text-emerald-400" /> : <Music className="w-3 h-3 text-amber-400" />}
+                    {isDrive ? <Cloud className="w-3 h-3 text-sky-400" /> : isServer ? <Server className="w-3 h-3 text-emerald-400" /> : <Music className="w-3 h-3 text-amber-400" />}
                     {video.author}
                   </p>
-                  {isServer ? (
+                  {isDrive ? (
+                    <p className="text-[10px] text-sky-400/90 mt-0.5 flex items-center gap-1 font-medium">
+                      <Zap className="w-2.5 h-2.5" />
+                      Streaming desde Google Drive • Cero espacio en disco
+                    </p>
+                  ) : isServer ? (
                     <p className="text-[10px] text-emerald-400/90 mt-0.5 flex items-center gap-1 font-medium">
                       <Zap className="w-2.5 h-2.5" />
                       Arranque instantáneo • Sin IFrame YouTube
@@ -151,7 +168,7 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
                 </div>
 
                 <div className="mt-2 flex items-center justify-end gap-1.5">
-                  {!isServer && (
+                  {!isDrive && !isServer && (
                     <button
                       type="button"
                       onClick={() => window.open(`https://www.youtube.com/watch?v=${video.videoId}&autoplay=1`, '_blank')}
@@ -168,6 +185,8 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all duration-200 cursor-pointer ${
                       isAdded
                         ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                        : isDrive
+                        ? 'bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-500 hover:brightness-110 text-black shadow-md shadow-sky-500/30'
                         : isServer
                         ? 'bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 hover:brightness-110 text-black shadow-md shadow-emerald-500/30'
                         : 'bg-gradient-to-r from-[#FDE047] via-[#D4AF37] to-[#B8860B] hover:brightness-110 text-black shadow-sm hover:shadow-amber-500/30'

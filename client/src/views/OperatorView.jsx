@@ -10,6 +10,7 @@ import QueueValidator from '../components/QueueValidator';
 import TrackAlertModal from '../components/TrackAlertModal';
 import AnimationSelector from '../components/AnimationSelector';
 import { NATIVE_VIDEOS } from '../data/nativeVideos';
+import { searchDriveCatalog, findDriveTrackByVideoId } from '../data/driveCatalog';
 import { searchServerCatalog, findServerTrackByVideoId } from '../data/serverCatalog';
 import { Mic, Sparkles, LogOut, Film } from 'lucide-react';
 
@@ -219,6 +220,7 @@ export default function OperatorView() {
           thumbnail: nextSong.thumbnail,
           isNative: !!nextSong.isNative,
           isServerHosted: !!nextSong.isServerHosted,
+          isDriveHosted: !!nextSong.isDriveHosted,
           videoUrl: nextSong.videoUrl || null,
           nextTrackTitle: nextTitle,
         });
@@ -414,8 +416,8 @@ export default function OperatorView() {
     setSearchMode(mode);
     setIsSearching(true);
     try {
-      // 1. Buscar coincidencias instantáneas en el catálogo de canciones descargadas en servidor
-      const serverMatches = searchServerCatalog(query);
+      // 1. Buscar coincidencias instantáneas en el catálogo de Google Drive (y servidor local como apoyo)
+      const driveMatches = searchDriveCatalog(query);
 
       const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&mode=${mode}`);
       if (!res.ok) {
@@ -424,8 +426,18 @@ export default function OperatorView() {
       const data = await res.json();
       const ytResults = data.results || [];
 
-      // 2. Enriquecer los resultados de YouTube que ya estén descargados en servidor
+      // 2. Enriquecer los resultados de YouTube que ya estén alojados en Google Drive
       const enrichedYtResults = ytResults.map((ytVid) => {
+        const matchingDrive = findDriveTrackByVideoId(ytVid.videoId);
+        if (matchingDrive) {
+          return {
+            ...ytVid,
+            ...matchingDrive,
+            isNative: true,
+            isDriveHosted: true,
+            badge: '☁️ Google Drive',
+          };
+        }
         const matchingServer = findServerTrackByVideoId(ytVid.videoId);
         if (matchingServer) {
           return {
@@ -439,17 +451,17 @@ export default function OperatorView() {
         return ytVid;
       });
 
-      // 3. Fusionar evitando duplicados: pistas en servidor primero
-      const serverVideoIds = new Set(serverMatches.map((s) => s.videoId));
-      const filteredYt = enrichedYtResults.filter((y) => !serverVideoIds.has(y.videoId));
+      // 3. Fusionar evitando duplicados: pistas en Google Drive primero
+      const driveVideoIds = new Set(driveMatches.map((s) => s.videoId));
+      const filteredYt = enrichedYtResults.filter((y) => !driveVideoIds.has(y.videoId));
 
-      setSearchResults([...serverMatches, ...filteredYt]);
+      setSearchResults([...driveMatches, ...filteredYt]);
     } catch (err) {
       console.error('Error al consultar API de búsqueda:', err);
-      // Fallback: si falla YouTube o no hay internet, mostrar las coincidencias locales
-      const serverMatches = searchServerCatalog(query);
-      if (serverMatches.length > 0) {
-        setSearchResults(serverMatches);
+      // Fallback: si falla YouTube o no hay internet, mostrar las coincidencias de Google Drive
+      const driveMatches = searchDriveCatalog(query);
+      if (driveMatches.length > 0) {
+        setSearchResults(driveMatches);
       } else {
         addNotification('No se pudo completar la búsqueda en YouTube. Verifica el servidor.', 'error');
       }
@@ -458,11 +470,16 @@ export default function OperatorView() {
     }
   }, [addNotification]);
 
-  // Añadir tema a la cola con auto-intercepción de servidor
+  // Añadir tema a la cola con auto-intercepción de Google Drive
   const handleAddToQueue = (video) => {
-    // Si la pista coincide con una descargada en el servidor, usar la versión nativa
+    // Si la pista coincide con una alojada en Google Drive, usar la versión nativa de Drive
+    const driveMatch = findDriveTrackByVideoId(video.videoId);
     const serverMatch = findServerTrackByVideoId(video.videoId);
-    const trackToEnqueue = serverMatch ? { ...video, ...serverMatch, isNative: true } : video;
+    const trackToEnqueue = driveMatch
+      ? { ...video, ...driveMatch, isNative: true, isDriveHosted: true }
+      : serverMatch
+      ? { ...video, ...serverMatch, isNative: true, isServerHosted: true }
+      : video;
 
     const newTrack = {
       ...trackToEnqueue,
@@ -481,11 +498,14 @@ export default function OperatorView() {
         thumbnail: newTrack.thumbnail,
         isNative: !!newTrack.isNative,
         isServerHosted: !!newTrack.isServerHosted,
+        isDriveHosted: !!newTrack.isDriveHosted,
         videoUrl: newTrack.videoUrl || null,
         nextTrackTitle: '',
       });
       addNotification(
-        newTrack.isServerHosted
+        newTrack.isDriveHosted
+          ? `Iniciando pista en Google Drive: "${newTrack.title}"`
+          : newTrack.isServerHosted
           ? `Iniciando pista en Servidor (Sin YouTube): "${newTrack.title}"`
           : `Iniciando reproducción: "${newTrack.title}"`,
         'success'
@@ -493,7 +513,9 @@ export default function OperatorView() {
     } else {
       setQueue((prev) => [...prev, newTrack]);
       addNotification(
-        newTrack.isServerHosted
+        newTrack.isDriveHosted
+          ? `Añadido a la cola [Google Drive ☁️]: "${newTrack.title}"`
+          : newTrack.isServerHosted
           ? `Añadido a la cola [Servidor VIP]: "${newTrack.title}"`
           : `Añadido a la cola: "${newTrack.title}"`,
         'info'
@@ -620,6 +642,7 @@ export default function OperatorView() {
         thumbnail: selected.thumbnail,
         isNative: !!selected.isNative,
         isServerHosted: !!selected.isServerHosted,
+        isDriveHosted: !!selected.isDriveHosted,
         videoUrl: selected.videoUrl || null,
         nextTrackTitle: newQueue[0]?.title || '',
       });
