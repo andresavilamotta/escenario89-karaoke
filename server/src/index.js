@@ -17,10 +17,34 @@ const ROOT_VIDEOS_DIR = path.resolve('Canciones_Descargadas');
 
 // Caché en memoria para resolución instantánea O(1) de rutas de video
 const videoPathCache = new Map();
+let videoIdToPathMap = null;
+
+function buildVideoIdMap() {
+  if (videoIdToPathMap) return videoIdToPathMap;
+  videoIdToPathMap = new Map();
+  const dirs = [PROJECT_VIDEOS_DIR, ROOT_VIDEOS_DIR];
+  for (const dir of dirs) {
+    if (fs.existsSync(dir)) {
+      try {
+        const files = fs.readdirSync(dir);
+        for (const f of files) {
+          const m = f.match(/\[([a-zA-Z0-9_-]{11})\]\.(mp4|webm|mkv)$/i);
+          if (m && !videoIdToPathMap.has(m[1])) {
+            videoIdToPathMap.set(m[1], path.join(dir, f));
+          }
+        }
+      } catch (e) {}
+    }
+  }
+  return videoIdToPathMap;
+}
 
 function resolveLocalVideoPath(filename) {
   if (!filename) return null;
-  const decoded = decodeURIComponent(filename);
+  let decoded = filename;
+  try {
+    decoded = decodeURIComponent(filename);
+  } catch (e) {}
 
   if (videoPathCache.has(decoded)) {
     return videoPathCache.get(decoded);
@@ -37,6 +61,18 @@ function resolveLocalVideoPath(filename) {
       return candidate;
     }
   }
+
+  // Fallback por videoId
+  const idMatch = decoded.match(/\[([a-zA-Z0-9_-]{11})\]/i) || decoded.match(/([a-zA-Z0-9_-]{11})\.(mp4|webm|mkv)$/i);
+  if (idMatch) {
+    const map = buildVideoIdMap();
+    if (map.has(idMatch[1])) {
+      const foundPath = map.get(idMatch[1]);
+      videoPathCache.set(decoded, foundPath);
+      return foundPath;
+    }
+  }
+
   return null;
 }
 

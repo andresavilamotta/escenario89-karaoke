@@ -15,6 +15,7 @@ export default function DisplayView() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [isAudioUnlocked, setIsAudioUnlocked] = useState(false);
   const [hasError, setHasError] = useState(null);
+  const [nativeVideoFailed, setNativeVideoFailed] = useState(false);
 
   const playerRef = useRef(null);
   const nativeVideoRef = useRef(null);
@@ -43,6 +44,7 @@ export default function DisplayView() {
   const handlePlayNext = useCallback((payload) => {
     console.log('[Display] PLAY_NEXT recibido:', payload);
     setHasError(null);
+    setNativeVideoFailed(false);
     hasEndedDispatchedRef.current = false;
     hasStartedPlayingRef.current = false;
     trackStartTimeRef.current = Date.now();
@@ -53,31 +55,18 @@ export default function DisplayView() {
     triggerOverlay();
 
     if (payload.isNative) {
-      // Si es video nativo local, no requiere watchdog de YouTube
+      // Watchdog para video nativo/VIP: si en 3.5s no ha arrancado a reproducir, activar fallback automático a YouTube
       if (unstartedWatchdogRef.current) {
         clearTimeout(unstartedWatchdogRef.current);
-        unstartedWatchdogRef.current = null;
       }
-      hasStartedPlayingRef.current = true;
-      setTimeout(() => {
-        if (nativeVideoRef.current) {
-          try {
-            nativeVideoRef.current.currentTime = 0;
-            nativeVideoRef.current.volume = volume / 100;
-            const p = nativeVideoRef.current.play();
-            if (p !== undefined) {
-              p.catch((err) => {
-                console.warn('[Display] Autoplay with audio was blocked. Starting muted:', err);
-                nativeVideoRef.current.muted = true;
-                nativeVideoRef.current.play().catch(() => {});
-                setIsAudioUnlocked(false);
-              });
-            }
-          } catch (e) {}
+      unstartedWatchdogRef.current = setTimeout(() => {
+        if (!hasStartedPlayingRef.current && currentTrackRef.current) {
+          console.warn('[Display] El video nativo/VIP no arrancó en 3.5s. Activando fallback automático a YouTube...');
+          setNativeVideoFailed(true);
         }
-      }, 50);
+      }, 3500);
     } else {
-      // Watchdog de arranque: Si en 6.5s el video no comienza a reproducir (ej. pantalla "Video no disponible" de YouTube)
+      // Watchdog de arranque YouTube: Si en 6.5s el video no comienza a reproducir
       if (unstartedWatchdogRef.current) {
         clearTimeout(unstartedWatchdogRef.current);
       }
@@ -88,7 +77,6 @@ export default function DisplayView() {
         }
       }, 6500);
 
-      // No forzamos loadVideoById de forma imperativa para no colisionar con la prop videoId
       if (playerRef.current) {
         try {
           playerRef.current.playVideo();
@@ -211,24 +199,16 @@ export default function DisplayView() {
       }
       triggerOverlay();
       if (payload.currentTrack.isNative) {
-        setTimeout(() => {
-          if (nativeVideoRef.current) {
-            nativeVideoRef.current.volume = (typeof payload.volume === 'number' ? payload.volume : volume) / 100;
-            if (payload.isPlaying) {
-              const p = nativeVideoRef.current.play();
-              if (p !== undefined) {
-                p.catch((err) => {
-                  console.warn('[Display] Autoplay with audio was blocked on sync. Starting muted:', err);
-                  nativeVideoRef.current.muted = true;
-                  nativeVideoRef.current.play().catch(() => {});
-                  setIsAudioUnlocked(false);
-                });
-              }
-            } else {
-              nativeVideoRef.current.pause();
-            }
+        setNativeVideoFailed(false);
+        if (unstartedWatchdogRef.current) {
+          clearTimeout(unstartedWatchdogRef.current);
+        }
+        unstartedWatchdogRef.current = setTimeout(() => {
+          if (!hasStartedPlayingRef.current && currentTrackRef.current) {
+            console.warn('[Display] Video nativo VIP no arrancó en sync tras 3.5s. Activando fallback a YouTube...');
+            setNativeVideoFailed(true);
           }
-        }, 100);
+        }, 3500);
       }
     } else {
       handleStandby();
@@ -483,8 +463,8 @@ export default function DisplayView() {
       ) : (
         /* Estado 2: Reproduciendo video en pantalla completa */
         <div className="relative w-full h-full">
-          {currentTrack.isNative ? (
-            /* Contenedor Video Nativo HTML5 para Cortinillas y Visuales */
+          {currentTrack.isNative && !nativeVideoFailed ? (
+            /* Contenedor Video Nativo HTML5 para Servidor VIP y Cortinillas */
             <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black overflow-hidden">
               <video
                 ref={nativeVideoRef}
@@ -492,15 +472,22 @@ export default function DisplayView() {
                 src={currentTrack.videoUrl}
                 autoPlay
                 playsInline
+                muted={!isAudioUnlocked}
                 preload="auto"
-                className="w-full h-full object-cover"
-                onLoadedMetadata={(e) => {
-                  e.target.volume = volume / 100;
+                className="w-full h-full object-contain bg-black"
+                onCanPlay={(e) => {
                   if (isPlaying) {
+                    e.target.volume = volume / 100;
                     const p = e.target.play();
                     if (p !== undefined) {
-                      p.catch((err) => {
-                        console.warn('[Display] Autoplay with audio prevented in onLoadedMetadata:', err);
+                      p.then(() => {
+                        hasStartedPlayingRef.current = true;
+                        if (unstartedWatchdogRef.current) {
+                          clearTimeout(unstartedWatchdogRef.current);
+                          unstartedWatchdogRef.current = null;
+                        }
+                      }).catch((err) => {
+                        console.warn('[Display] Autoplay con audio bloqueado en canPlay. Reproduciendo en silencio:', err);
                         e.target.muted = true;
                         e.target.play().catch(() => {});
                         setIsAudioUnlocked(false);
@@ -508,9 +495,18 @@ export default function DisplayView() {
                     }
                   }
                 }}
+                onPlaying={() => {
+                  hasStartedPlayingRef.current = true;
+                  if (unstartedWatchdogRef.current) {
+                    clearTimeout(unstartedWatchdogRef.current);
+                    unstartedWatchdogRef.current = null;
+                  }
+                  setIsPlaying(true);
+                }}
                 onEnded={onPlayerEnd}
                 onError={(err) => {
-                  console.error('[Display] Error en video nativo:', err);
+                  console.warn('[Display] Error en video nativo/VIP (código o formato inaccesible). Activando fallback inmediato a YouTube:', err);
+                  setNativeVideoFailed(true);
                 }}
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
