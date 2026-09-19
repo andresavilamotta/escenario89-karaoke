@@ -105,8 +105,8 @@ function sync() {
     if (driveFileId) driveMatchCount++;
 
     const driveStreamUrl = driveFileId 
-      ? `https://drive.usercontent.google.com/download?id=${driveFileId}&export=download` 
-      : null;
+      ? `/api/stream?id=${driveFileId}` 
+      : `/api/stream?v=${videoId}`;
 
     rawEntries.push({
       id: `drive_${videoId}`,
@@ -125,7 +125,7 @@ function sync() {
       description: "Pista de alta fidelidad en Servidor VIP. Reproducción instantánea sin anuncios.",
       seconds: seconds,
       driveStreamUrl: driveStreamUrl,
-      videoUrl: driveStreamUrl || `/api/videos/${encodeURIComponent(file)}`
+      videoUrl: driveStreamUrl
     });
   }
 

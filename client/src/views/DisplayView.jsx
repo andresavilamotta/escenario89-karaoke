@@ -553,20 +553,20 @@ export default function DisplayView() {
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
               >
-                {/* 1. Streaming directo desde Google Drive Cloud CDN (Servidor VIP) */}
+                {/* 1. Streaming unificado desde Servidor VIP (/api/stream) */}
+                {currentTrack.driveFileId && (
+                  <source src={`/api/stream?id=${currentTrack.driveFileId}`} type="video/mp4" />
+                )}
+                {currentTrack.videoId && (
+                  <source src={`/api/stream?v=${currentTrack.videoId}`} type="video/mp4" />
+                )}
                 {currentTrack.driveStreamUrl && (
                   <source src={currentTrack.driveStreamUrl} type="video/mp4" />
-                )}
-                {currentTrack.driveFileId && (
-                  <>
-                    <source src={`https://drive.usercontent.google.com/download?id=${currentTrack.driveFileId}&export=download`} type="video/mp4" />
-                    <source src={`https://drive.google.com/uc?export=download&id=${currentTrack.driveFileId}`} type="video/mp4" />
-                  </>
                 )}
                 {currentTrack.videoUrl && (
                   <source src={currentTrack.videoUrl} type="video/mp4" />
                 )}
-                {/* 2. Fallbacks relativos seguros (sin localhost) */}
+                {/* 2. Fallbacks relativos locales */}
                 {currentTrack.filename && (
                   <source src={`/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
                 )}

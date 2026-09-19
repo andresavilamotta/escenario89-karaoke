@@ -227,6 +227,52 @@ app.get('/api/videos/drive/:fileId', (req, res) => {
   });
 });
 
+// Endpoint unificado /api/stream (compatible con Vercel y Servidor local)
+app.get('/api/stream', (req, res) => {
+  const fileId = req.query.id;
+  const videoId = req.query.v;
+
+  // 1. Si tenemos videoId, intentar servir desde archivo local en disco para latencia 0
+  if (videoId) {
+    const localPath = resolveLocalVideoPath(videoId);
+    if (localPath) {
+      res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
+      res.setHeader('Accept-Ranges', 'bytes');
+      return res.sendFile(localPath, { acceptRanges: true, maxAge: '7d', immutable: true });
+    }
+  }
+
+  // 2. Si no está en disco local o se pide por fileId, streaming desde Google Drive
+  let targetFileId = fileId;
+  if (!targetFileId && videoId) {
+    try {
+      const minMap = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', 'api', 'drive_file_ids.min.json'), 'utf8'));
+      targetFileId = minMap[videoId];
+    } catch (e) {}
+  }
+
+  if (!targetFileId) {
+    return res.status(404).json({ error: 'Video no encontrado en catálogo de Google Drive.' });
+  }
+
+  const driveUrl = `https://drive.usercontent.google.com/download?id=${targetFileId}&export=download`;
+  const headers = {};
+  if (req.headers.range) {
+    headers['Range'] = req.headers.range;
+  }
+  https.get(driveUrl, { headers }, (driveRes) => {
+    res.status(driveRes.statusCode || 200);
+    const copyHeaders = ['content-type', 'content-length', 'content-range', 'accept-ranges', 'content-disposition'];
+    copyHeaders.forEach((h) => {
+      if (driveRes.headers[h]) res.setHeader(h, driveRes.headers[h]);
+    });
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    driveRes.pipe(res);
+  }).on('error', (err) => {
+    if (!res.headersSent) res.status(502).json({ error: err.message });
+  });
+});
+
 // Endpoint de búsqueda inteligente con modos (karaoke, lyrics, original, directo) y filtro de inserción
 app.get('/api/search', async (req, res) => {
   const query = req.query.q;
