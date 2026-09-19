@@ -223,6 +223,8 @@ export default function OperatorView() {
           isServerHosted: !!nextSong.isServerHosted,
           isDriveHosted: !!nextSong.isDriveHosted,
           videoUrl: nextSong.videoUrl || null,
+          filename: nextSong.filename || null,
+          storageKey: nextSong.storageKey || null,
           nextTrackTitle: nextTitle,
         });
 
@@ -477,7 +479,7 @@ export default function OperatorView() {
   // Añadir tema a la cola con auto-intercepción de Servidor VIP
   const handleAddToQueue = (video) => {
     // Si la pista coincide con una del Servidor VIP, usar la versión nativa de alta fidelidad
-    const driveMatch = findDriveTrackByVideoId(video.videoId);
+    const driveMatch = findDriveTrackByVideoId(video.videoId) || (video.title ? searchDriveCatalog(video.title)[0] : null);
     const serverMatch = findServerTrackByVideoId(video.videoId);
     const trackToEnqueue = driveMatch
       ? { ...video, ...driveMatch, isNative: true, isDriveHosted: true, badge: '👑 Servidor VIP' }
@@ -504,6 +506,8 @@ export default function OperatorView() {
         isServerHosted: !!newTrack.isServerHosted,
         isDriveHosted: !!newTrack.isDriveHosted,
         videoUrl: newTrack.videoUrl || null,
+        filename: newTrack.filename || null,
+        storageKey: newTrack.storageKey || null,
         nextTrackTitle: '',
       });
       addNotification(
@@ -645,6 +649,8 @@ export default function OperatorView() {
         isServerHosted: !!selected.isServerHosted,
         isDriveHosted: !!selected.isDriveHosted,
         videoUrl: selected.videoUrl || null,
+        filename: selected.filename || null,
+        storageKey: selected.storageKey || null,
         nextTrackTitle: newQueue[0]?.title || '',
       });
 

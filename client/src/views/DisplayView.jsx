@@ -5,6 +5,7 @@ import StandbyScreen from '../components/StandbyScreen';
 import { Music, Radio, ExternalLink, AlertTriangle, Film, Server, Cloud, Crown, Volume2 } from 'lucide-react';
 import { logger } from '../utils/logger';
 import * as Sentry from '@sentry/react';
+import { findDriveTrackByVideoId, searchDriveCatalog } from '../data/driveCatalog';
 
 
 export default function DisplayView() {
@@ -46,13 +47,27 @@ export default function DisplayView() {
     hasEndedDispatchedRef.current = false;
     hasStartedPlayingRef.current = false;
     trackStartTimeRef.current = Date.now();
-    currentTrackRef.current = payload;
-    setCurrentTrack(payload);
-    setNextTrackTitle(payload.nextTrackTitle || '');
+
+    // Verificación de máxima seguridad: Si la pista existe en el catálogo descargado en Google Drive, forzar Servidor VIP nativo
+    let track = { ...payload };
+    const driveMatch = findDriveTrackByVideoId(track.videoId) || (track.title ? searchDriveCatalog(track.title)[0] : null);
+    if (driveMatch) {
+      track = {
+        ...track,
+        ...driveMatch,
+        isNative: true,
+        isDriveHosted: true,
+        badge: '👑 Servidor VIP',
+      };
+    }
+
+    currentTrackRef.current = track;
+    setCurrentTrack(track);
+    setNextTrackTitle(track.nextTrackTitle || '');
     setIsPlaying(true);
     triggerOverlay();
 
-    if (payload.isNative) {
+    if (track.isNative) {
       // Si es video de Servidor VIP o cortinilla nativa, garantizar reproducción directa
       if (unstartedWatchdogRef.current) {
         clearTimeout(unstartedWatchdogRef.current);
@@ -200,15 +215,27 @@ export default function DisplayView() {
 
   const handleSyncState = useCallback((payload) => {
     if (payload && payload.currentTrack) {
-      currentTrackRef.current = payload.currentTrack;
-      setCurrentTrack(payload.currentTrack);
+      let track = { ...payload.currentTrack };
+      const driveMatch = findDriveTrackByVideoId(track.videoId) || (track.title ? searchDriveCatalog(track.title)[0] : null);
+      if (driveMatch) {
+        track = {
+          ...track,
+          ...driveMatch,
+          isNative: true,
+          isDriveHosted: true,
+          badge: '👑 Servidor VIP',
+        };
+      }
+
+      currentTrackRef.current = track;
+      setCurrentTrack(track);
       setNextTrackTitle(payload.nextTrackTitle || '');
       setIsPlaying(payload.isPlaying);
       if (typeof payload.volume === 'number') {
         setVolume(payload.volume);
       }
       triggerOverlay();
-      if (payload.currentTrack.isNative) {
+      if (track.isNative) {
         setTimeout(() => {
           if (nativeVideoRef.current) {
             nativeVideoRef.current.volume = (typeof payload.volume === 'number' ? payload.volume : volume) / 100;
@@ -519,12 +546,17 @@ export default function DisplayView() {
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
               >
-                <source src={currentTrack.videoUrl} type="video/mp4" />
+                <source src={`http://localhost:3001/api/videos/${currentTrack.videoId}.mp4`} type="video/mp4" />
+                <source src={`http://127.0.0.1:3001/api/videos/${currentTrack.videoId}.mp4`} type="video/mp4" />
+                <source src={`/api/videos/${currentTrack.videoId}.mp4`} type="video/mp4" />
+                {currentTrack.videoUrl && (
+                  <source src={currentTrack.videoUrl} type="video/mp4" />
+                )}
                 {currentTrack.filename && (
                   <>
                     <source src={`http://localhost:3001/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
                     <source src={`http://127.0.0.1:3001/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
-                    <source src={`http://localhost:3001/api/videos/${currentTrack.videoId}.mp4`} type="video/mp4" />
+                    <source src={`/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
                   </>
                 )}
               </video>

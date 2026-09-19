@@ -4,6 +4,10 @@ import ytSearch from 'yt-search';
 import path from 'path';
 import fs from 'fs';
 import https from 'https';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -21,9 +25,18 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 
-// Directorios para videos de Servidor VIP (Canciones_Descargadas):
-const PROJECT_VIDEOS_DIR = path.resolve('..', 'Canciones_Descargadas');
-const ROOT_VIDEOS_DIR = path.resolve('Canciones_Descargadas');
+// Directorios para videos de Servidor VIP (Canciones_Descargadas en Google Drive):
+const CANDIDATE_DIRS = [
+  path.resolve(__dirname, '..', '..', 'Canciones_Descargadas'),
+  path.resolve(__dirname, '..', 'Canciones_Descargadas'),
+  path.resolve('Canciones_Descargadas'),
+  path.resolve('..', 'Canciones_Descargadas'),
+  'H:\\Mi unidad\\02_Desarrollo_y_Apps\\APP\\Empresas\\APP Karaoke\\Canciones_Descargadas',
+];
+
+function getValidVideoDirs() {
+  return [...new Set(CANDIDATE_DIRS.filter((d) => fs.existsSync(d)))];
+}
 
 // Caché en memoria para resolución instantánea O(1) de rutas de video
 const videoPathCache = new Map();
@@ -32,19 +45,17 @@ let videoIdToPathMap = null;
 function buildVideoIdMap() {
   if (videoIdToPathMap) return videoIdToPathMap;
   videoIdToPathMap = new Map();
-  const dirs = [PROJECT_VIDEOS_DIR, ROOT_VIDEOS_DIR];
+  const dirs = getValidVideoDirs();
   for (const dir of dirs) {
-    if (fs.existsSync(dir)) {
-      try {
-        const files = fs.readdirSync(dir);
-        for (const f of files) {
-          const m = f.match(/\[([a-zA-Z0-9_-]{11})\]\.(mp4|webm|mkv)$/i);
-          if (m && !videoIdToPathMap.has(m[1])) {
-            videoIdToPathMap.set(m[1], path.join(dir, f));
-          }
+    try {
+      const files = fs.readdirSync(dir);
+      for (const f of files) {
+        const m = f.match(/\[([a-zA-Z0-9_-]{11})\]\.(mp4|webm|mkv)$/i);
+        if (m && !videoIdToPathMap.has(m[1])) {
+          videoIdToPathMap.set(m[1], path.join(dir, f));
         }
-      } catch (e) {}
-    }
+      }
+    } catch (e) {}
   }
   return videoIdToPathMap;
 }
@@ -60,26 +71,25 @@ function resolveLocalVideoPath(filename) {
     return videoPathCache.get(decoded);
   }
 
-  const candidates = [
-    path.join(PROJECT_VIDEOS_DIR, decoded),
-    path.join(ROOT_VIDEOS_DIR, decoded),
-  ];
-
-  for (const candidate of candidates) {
-    if (fs.existsSync(candidate)) {
-      videoPathCache.set(decoded, candidate);
-      return candidate;
-    }
-  }
-
-  // Fallback por videoId
-  const idMatch = decoded.match(/\[([a-zA-Z0-9_-]{11})\]/i) || decoded.match(/([a-zA-Z0-9_-]{11})\.(mp4|webm|mkv)$/i);
-  if (idMatch) {
+  // 1. Fallback inmediato por videoId: [videoId], videoId.mp4 o videoId puro (11 caracteres)
+  const idMatch = decoded.match(/\[([a-zA-Z0-9_-]{11})\]/i) ||
+                  decoded.match(/(?:^|\/)([a-zA-Z0-9_-]{11})\.(mp4|webm|mkv)$/i) ||
+                  (decoded.length === 11 && /^[a-zA-Z0-9_-]{11}$/.test(decoded) ? [, decoded] : null);
+  if (idMatch && idMatch[1]) {
     const map = buildVideoIdMap();
     if (map.has(idMatch[1])) {
       const foundPath = map.get(idMatch[1]);
       videoPathCache.set(decoded, foundPath);
       return foundPath;
+    }
+  }
+
+  // 2. Búsqueda exacta de archivo en los directorios de Google Drive
+  for (const dir of getValidVideoDirs()) {
+    const candidate = path.join(dir, decoded);
+    if (fs.existsSync(candidate)) {
+      videoPathCache.set(decoded, candidate);
+      return candidate;
     }
   }
 
