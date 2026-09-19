@@ -156,11 +156,10 @@
     "title": "“Hasta ayer” (Marc Anthony karaoke)"
   },
   {
-    "success": false,
+    "success": true,
     "skipped": false,
     "videoId": "XW3o_wjtOoA",
-    "title": "Ni Plata Ni Nada - Andrés Franco (Cover) En Vivo.",
-    "errorCode": 1
+    "title": "Ni Plata Ni Nada - Andrés Franco (Cover) En Vivo."
   },
   {
     "success": true,
@@ -199,10 +198,9 @@
     "title": "Juan Gabriel - Querida - Letra"
   },
   {
-    "success": false,
+    "success": true,
     "skipped": false,
     "videoId": "ooU5dUa6DJQ",
-    "title": "Juan Gabriel Querida Karaoke",
-    "errorCode": 1
+    "title": "Juan Gabriel Querida Karaoke"
   }
 ]
