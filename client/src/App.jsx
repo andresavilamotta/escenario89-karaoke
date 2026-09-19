@@ -13,11 +13,15 @@ export default function App() {
         {/* Ruta Pública de Login */}
         <Route path="/login" element={<LoginView />} />
 
-        {/* Ruta Principal: Pantalla Única de Karaoke (Display con Controles Integrados) */}
-        <Route path="/" element={<DisplayView />} />
-        <Route path="/display" element={<DisplayView />} />
-
-        {/* Consola Tradicional de Operador Dual-Screen (opcional) */}
+        {/* Vistas Protegidas del Operador */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <OperatorView />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/operator"
           element={
@@ -26,6 +30,9 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Vista de Proyección para el segundo monitor */}
+        <Route path="/display" element={<DisplayView />} />
 
         {/* Redirección por defecto */}
         <Route path="*" element={<Navigate to="/" replace />} />
