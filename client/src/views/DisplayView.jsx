@@ -29,15 +29,15 @@ export default function DisplayView() {
   const outroCheckIntervalRef = useRef(null);
   const wakeLockRef = useRef(null);
 
-  // Manejador del banner inferior con fade-out a los 5 segundos
-  const triggerOverlay = useCallback(() => {
+  // Manejador del banner inferior con fade-out a los 12 segundos (10 a 15s según preferencia del usuario)
+  const triggerOverlay = useCallback((durationMs = 12000) => {
     setShowOverlay(true);
     if (overlayTimerRef.current) {
       clearTimeout(overlayTimerRef.current);
     }
     overlayTimerRef.current = setTimeout(() => {
       setShowOverlay(false);
-    }, 5000);
+    }, durationMs);
   }, []);
 
   // BroadcastChannel callbacks para Display
@@ -227,6 +227,7 @@ export default function DisplayView() {
         };
       }
 
+      const isNewTrack = !currentTrackRef.current || currentTrackRef.current.queueId !== track.queueId;
       currentTrackRef.current = track;
       setCurrentTrack(track);
       setNextTrackTitle(payload.nextTrackTitle || '');
@@ -234,7 +235,9 @@ export default function DisplayView() {
       if (typeof payload.volume === 'number') {
         setVolume(payload.volume);
       }
-      triggerOverlay();
+      if (isNewTrack) {
+        triggerOverlay(12000);
+      }
       if (track.isNative) {
         setTimeout(() => {
           if (nativeVideoRef.current) {
@@ -612,9 +615,9 @@ export default function DisplayView() {
             </div>
           )}
 
-          {/* Overlay Inferior de Marca Escenario 89 con Fade-Out automático a los 5s */}
+          {/* Overlay Inferior de Marca Escenario 89 con Fade-Out automático a los 12s (10-15s) */}
           <div
-            className={`absolute bottom-8 left-8 right-8 z-40 transition-all duration-700 ease-out transform ${
+            className={`absolute bottom-8 left-8 right-8 z-40 transition-all duration-1000 ease-out transform ${
               showOverlay
                 ? 'opacity-100 translate-y-0'
                 : 'opacity-0 translate-y-6 pointer-events-none'

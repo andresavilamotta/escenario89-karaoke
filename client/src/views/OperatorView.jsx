@@ -386,9 +386,11 @@ export default function OperatorView() {
     setAlertModalState({ isOpen: false, track: null, isCurrentTrack: false, reason: '' });
   }, [broadcast, addNotification]);
 
-  // Callback cuando el display se reconecta
+  // Sincronizar estado cuando el display se conecta por primera vez o tras reconexión
+  const hasSyncedDisplayRef = useRef(false);
   const handlePongOperator = useCallback(() => {
-    if (currentTrackRef.current) {
+    if (!hasSyncedDisplayRef.current && currentTrackRef.current) {
+      hasSyncedDisplayRef.current = true;
       broadcast(MESSAGE_TYPES.SYNC_STATE, {
         currentTrack: currentTrackRef.current,
         isPlaying: isPlayingRef.current,
@@ -396,7 +398,7 @@ export default function OperatorView() {
         nextTrackTitle: queueRef.current[0]?.title || '',
       });
     }
-  }, []);
+  }, [broadcast]);
 
   // Hook de sincronización
   const { broadcast: realBroadcast, isDisplayConnected } = useKaraokeSync('operator', {
@@ -408,6 +410,12 @@ export default function OperatorView() {
   useEffect(() => {
     broadcastRef.current = realBroadcast;
   }, [realBroadcast]);
+
+  useEffect(() => {
+    if (!isDisplayConnected) {
+      hasSyncedDisplayRef.current = false;
+    }
+  }, [isDisplayConnected]);
 
   // Búsqueda en el backend Express con filtro anti-restricción y modos, priorizando canciones en Servidor
   const handleSearch = useCallback(async (query, mode = searchModeRef.current) => {
