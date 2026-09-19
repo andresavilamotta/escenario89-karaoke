@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, Wifi, Star } from 'lucide-react';
+import { Volume2, Wifi, Star, Search } from 'lucide-react';
 
-export default function StandbyScreen({ onUnlockAudio, isAudioUnlocked = true }) {
+export default function StandbyScreen({ onUnlockAudio, isAudioUnlocked = true, onOpenSearch }) {
   const [time, setTime] = useState('');
 
   useEffect(() => {
@@ -78,9 +78,21 @@ export default function StandbyScreen({ onUnlockAudio, isAudioUnlocked = true })
           <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
         </div>
 
-        <p className="text-xl md:text-2xl font-light text-slate-200 leading-relaxed max-w-lg mb-8 font-['Space_Grotesk',sans-serif]">
+        <p className="text-xl md:text-2xl font-light text-slate-200 leading-relaxed max-w-lg mb-6 font-['Space_Grotesk',sans-serif]">
           Acércate a la cabina o pídele tu canción favorita al <span className="text-amber-300 font-semibold underline decoration-amber-500 decoration-2 underline-offset-4">DJ / Operador</span> para subir al escenario.
         </p>
+
+        {/* Botón Principal para Elegir Canción en Pantalla Única */}
+        {onOpenSearch && (
+          <button
+            type="button"
+            onClick={onOpenSearch}
+            className="flex items-center gap-2.5 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 text-black text-sm font-extrabold tracking-wide hover:brightness-110 active:scale-95 transition-all shadow-[0_0_30px_rgba(245,158,11,0.5)] cursor-pointer mb-6"
+          >
+            <Search className="w-5 h-5 text-black stroke-[2.5]" />
+            <span>Elegir Canción para Cantar (Buscar)</span>
+          </button>
+        )}
 
         {/* Ecualizador de Audio Estilizado en Oro Metálico */}
         <div className="flex items-end justify-center gap-1.5 h-11 mb-8">
@@ -112,7 +124,7 @@ export default function StandbyScreen({ onUnlockAudio, isAudioUnlocked = true })
 
       {/* Footer minimalista */}
       <div className="absolute bottom-6 text-center text-xs text-[#8C6314] tracking-widest uppercase font-mono">
-        ESCENARIO 89 KARAOKE BAR • SISTEMA DUAL SCREEN
+        ESCENARIO 89 KARAOKE BAR • SISTEMA EN VIVO
       </div>
     </div>
   );
