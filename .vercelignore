@@ -1,7 +1,27 @@
+Canciones_Descargadas/
+*.mp4
+*.webm
+*.mkv
+*.part
+*.ytdl
+Videos/
+/Videos/
+Logo Escenario 89.mp4
 server/
 start.bat
 node_modules
 client/node_modules
+client/dist
 *.log
-Logo Escenario 89.mp4
-
+desktop.ini
+channel_clean.json
+channel_info.json
+lote_alto.json
+lote_medio.json
+top_500_karaoke_colombia_putumayo.json
+top_500_karaoke_songs.json
+resumen_descarga.json
+REPORTE_ACCIONES.md
+TOP_500_KARAOKE_COLOMBIA_PUTUMAYO.md
+scripts/
+.git
