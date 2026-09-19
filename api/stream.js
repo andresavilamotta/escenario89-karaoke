@@ -51,9 +51,6 @@ function streamFromDrive(driveUrl, clientReq, clientRes, maxRedirects = 3) {
     } else {
       headers['Range'] = range;
     }
-  } else {
-    // Si la petición no tiene Range inicial, entregamos el primer segmento para los metadatos MP4
-    headers['Range'] = `bytes=0-${CHUNK_SIZE - 1}`;
   }
 
   const req = https.get(driveUrl, { headers }, (driveRes) => {

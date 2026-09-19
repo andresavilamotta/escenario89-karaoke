@@ -78,7 +78,9 @@ export default function DisplayView() {
       setTimeout(() => {
         if (nativeVideoRef.current) {
           try {
-            nativeVideoRef.current.currentTime = 0;
+            if (nativeVideoRef.current.currentTime > 0) {
+              nativeVideoRef.current.currentTime = 0;
+            }
             nativeVideoRef.current.volume = volume / 100;
             const p = nativeVideoRef.current.play();
             if (p !== undefined) {
@@ -515,24 +517,30 @@ export default function DisplayView() {
       ) : (
         /* Estado 2: Reproduciendo video en pantalla completa */
         <div className="relative w-full h-full">
-          {currentTrack.isNative || currentTrack.isDriveHosted || currentTrack.driveFileId ? (
-            /* Contenedor Video Nativo HTML5 para Servidor VIP y Cortinillas */
-            <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black overflow-hidden">
-              <video
-                ref={nativeVideoRef}
-                key={currentTrack.driveFileId || currentTrack.videoUrl || currentTrack.videoId}
-                autoPlay
-                playsInline
-                muted={!isAudioUnlocked}
-                preload="auto"
-                className="w-full h-full object-contain bg-black"
-                onCanPlay={(e) => {
-                  if (isPlaying) {
+          {currentTrack.isNative || currentTrack.isDriveHosted || currentTrack.driveFileId ? (() => {
+            const streamSrc = currentTrack.driveFileId
+              ? `/api/stream?id=${currentTrack.driveFileId}`
+              : (currentTrack.videoId ? `/api/stream?v=${currentTrack.videoId}` : currentTrack.videoUrl);
+
+            return (
+              /* Contenedor Video Nativo HTML5 para Servidor VIP y Cortinillas */
+              <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black overflow-hidden">
+                <video
+                  ref={nativeVideoRef}
+                  key={currentTrack.driveFileId || currentTrack.videoId || currentTrack.videoUrl}
+                  src={streamSrc}
+                  autoPlay
+                  playsInline
+                  muted={!isAudioUnlocked}
+                  preload="auto"
+                  className="w-full h-full object-contain bg-black"
+                  onCanPlay={(e) => {
                     e.target.volume = volume / 100;
                     const p = e.target.play();
                     if (p !== undefined) {
                       p.then(() => {
                         hasStartedPlayingRef.current = true;
+                        setIsPlaying(true);
                       }).catch((err) => {
                         console.warn('[Display] Autoplay con audio bloqueado en canPlay. Reproduciendo en silencio:', err);
                         e.target.muted = true;
@@ -540,42 +548,26 @@ export default function DisplayView() {
                         setIsAudioUnlocked(false);
                       });
                     }
-                  }
-                }}
-                onPlaying={() => {
-                  hasStartedPlayingRef.current = true;
-                  setIsPlaying(true);
-                }}
-                onEnded={onPlayerEnd}
-                onError={(err) => {
-                  console.warn('[Display] Video VIP error de carga:', err);
-                }}
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-              >
-                {/* 1. Streaming unificado desde Servidor VIP (/api/stream) */}
-                {currentTrack.driveFileId && (
-                  <source src={`/api/stream?id=${currentTrack.driveFileId}`} type="video/mp4" />
-                )}
-                {currentTrack.videoId && (
-                  <source src={`/api/stream?v=${currentTrack.videoId}`} type="video/mp4" />
-                )}
-                {currentTrack.driveStreamUrl && (
-                  <source src={currentTrack.driveStreamUrl} type="video/mp4" />
-                )}
-                {currentTrack.videoUrl && (
-                  <source src={currentTrack.videoUrl} type="video/mp4" />
-                )}
-                {/* 2. Fallbacks relativos locales */}
-                {currentTrack.filename && (
-                  <source src={`/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
-                )}
-                {currentTrack.videoId && (
-                  <source src={`/api/videos/${currentTrack.videoId}.mp4`} type="video/mp4" />
-                )}
-              </video>
-            </div>
-          ) : (
+                  }}
+                  onPlaying={() => {
+                    hasStartedPlayingRef.current = true;
+                    setIsPlaying(true);
+                  }}
+                  onEnded={onPlayerEnd}
+                  onError={(err) => {
+                    console.warn('[Display] Video VIP error de carga:', err);
+                  }}
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
+                >
+                  <source src={streamSrc} type="video/mp4" />
+                  {currentTrack.filename && (
+                    <source src={`/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
+                  )}
+                </video>
+              </div>
+            );
+          })() : (
             /* Contenedor IFrame YouTube calibrado a 100vw / 100vh sin pointer-events */
             <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden flex items-center justify-center bg-black">
               <div className="w-screen h-screen scale-[1.05] pointer-events-none">
