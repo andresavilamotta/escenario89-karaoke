@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import ytSearch from 'yt-search';
-import os from 'os';
 import path from 'path';
 import fs from 'fs';
 import https from 'https';
@@ -12,25 +11,29 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Directorios prioritarios para videos locales descargados:
-// 1. Carpeta de Videos predeterminada del Usuario en Windows (C:\Users\<Usuario>\Videos\Canciones_Descargadas)
-// 2. Carpeta local en el proyecto (Canciones_Descargadas)
-const USER_VIDEOS_DIR = path.join(os.homedir(), 'Videos', 'Canciones_Descargadas');
+// Directorios para videos de Servidor VIP (Canciones_Descargadas):
 const PROJECT_VIDEOS_DIR = path.resolve('..', 'Canciones_Descargadas');
 const ROOT_VIDEOS_DIR = path.resolve('Canciones_Descargadas');
+
+// Caché en memoria para resolución instantánea O(1) de rutas de video
+const videoPathCache = new Map();
 
 function resolveLocalVideoPath(filename) {
   if (!filename) return null;
   const decoded = decodeURIComponent(filename);
 
+  if (videoPathCache.has(decoded)) {
+    return videoPathCache.get(decoded);
+  }
+
   const candidates = [
-    path.join(USER_VIDEOS_DIR, decoded),
     path.join(PROJECT_VIDEOS_DIR, decoded),
     path.join(ROOT_VIDEOS_DIR, decoded),
   ];
 
   for (const candidate of candidates) {
     if (fs.existsSync(candidate)) {
+      videoPathCache.set(decoded, candidate);
       return candidate;
     }
   }
@@ -82,19 +85,23 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', service: 'karaoke-search-proxy', timestamp: new Date().toISOString() });
 });
 
-// Endpoint de streaming de videos locales descargados con soporte de HTTP Range Requests (códigos 206)
+// Endpoint de streaming de videos de Servidor VIP con soporte de HTTP Range Requests (códigos 206)
 app.get('/api/videos/:filename', (req, res) => {
   const filePath = resolveLocalVideoPath(req.params.filename);
   if (!filePath) {
-    console.warn(`[Karaoke Backend] Video local no encontrado: ${req.params.filename}`);
-    return res.status(404).json({ error: 'Video no encontrado en el almacenamiento local.' });
+    console.warn(`[Karaoke Backend] Video VIP no encontrado: ${req.params.filename}`);
+    return res.status(404).json({ error: 'Video no encontrado en el Servidor VIP.' });
   }
+
+  // Headers para fluidez máxima, buffering instantáneo y cero latencia
+  res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
+  res.setHeader('Accept-Ranges', 'bytes');
 
   // res.sendFile soporta automáticamente HTTP Range Requests (Partial Content 206)
   // para permitir saltos en la barra de reproducción sin cargar todo el archivo a la memoria RAM.
-  res.sendFile(filePath, { acceptRanges: true }, (err) => {
+  res.sendFile(filePath, { acceptRanges: true, maxAge: '7d', immutable: true }, (err) => {
     if (err && !res.headersSent) {
-      console.error(`[Karaoke Backend] Error al transmitir video local: ${err.message}`);
+      console.error(`[Karaoke Backend] Error al transmitir video VIP: ${err.message}`);
       res.status(500).end();
     }
   });

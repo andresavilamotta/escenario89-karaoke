@@ -34,6 +34,7 @@ export default function OperatorView() {
   const [queue, setQueue] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(80);
+  const [restartCounter, setRestartCounter] = useState(0);
 
   // Estado de validación silenciosa Pre-Flight de la cola
   const [validationMap, setValidationMap] = useState({});
@@ -416,8 +417,11 @@ export default function OperatorView() {
     setSearchMode(mode);
     setIsSearching(true);
     try {
-      // 1. Buscar coincidencias instantáneas en el catálogo de Google Drive (y servidor local como apoyo)
+      // 1. Buscar coincidencias instantáneas en el catálogo de Servidor VIP
       const driveMatches = searchDriveCatalog(query);
+      if (driveMatches.length > 0) {
+        setSearchResults(driveMatches);
+      }
 
       const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&mode=${mode}`);
       if (!res.ok) {
@@ -426,7 +430,7 @@ export default function OperatorView() {
       const data = await res.json();
       const ytResults = data.results || [];
 
-      // 2. Enriquecer los resultados de YouTube que ya estén alojados en Google Drive
+      // 2. Enriquecer los resultados de YouTube que ya estén en Servidor VIP
       const enrichedYtResults = ytResults.map((ytVid) => {
         const matchingDrive = findDriveTrackByVideoId(ytVid.videoId);
         if (matchingDrive) {
@@ -435,7 +439,7 @@ export default function OperatorView() {
             ...matchingDrive,
             isNative: true,
             isDriveHosted: true,
-            badge: '☁️ Google Drive',
+            badge: '👑 Servidor VIP',
           };
         }
         const matchingServer = findServerTrackByVideoId(ytVid.videoId);
@@ -444,21 +448,21 @@ export default function OperatorView() {
             ...ytVid,
             ...matchingServer,
             isNative: true,
-            isServerHosted: true,
-            badge: '✅ Descargada en Servidor',
+            isDriveHosted: true,
+            badge: '👑 Servidor VIP',
           };
         }
         return ytVid;
       });
 
-      // 3. Fusionar evitando duplicados: pistas en Google Drive primero
+      // 3. Fusionar evitando duplicados: pistas en Servidor VIP primero
       const driveVideoIds = new Set(driveMatches.map((s) => s.videoId));
       const filteredYt = enrichedYtResults.filter((y) => !driveVideoIds.has(y.videoId));
 
       setSearchResults([...driveMatches, ...filteredYt]);
     } catch (err) {
       console.error('Error al consultar API de búsqueda:', err);
-      // Fallback: si falla YouTube o no hay internet, mostrar las coincidencias de Google Drive
+      // Fallback: si falla YouTube o no hay internet, mostrar las coincidencias de Servidor VIP
       const driveMatches = searchDriveCatalog(query);
       if (driveMatches.length > 0) {
         setSearchResults(driveMatches);
@@ -470,15 +474,15 @@ export default function OperatorView() {
     }
   }, [addNotification]);
 
-  // Añadir tema a la cola con auto-intercepción de Google Drive
+  // Añadir tema a la cola con auto-intercepción de Servidor VIP
   const handleAddToQueue = (video) => {
-    // Si la pista coincide con una alojada en Google Drive, usar la versión nativa de Drive
+    // Si la pista coincide con una del Servidor VIP, usar la versión nativa de alta fidelidad
     const driveMatch = findDriveTrackByVideoId(video.videoId);
     const serverMatch = findServerTrackByVideoId(video.videoId);
     const trackToEnqueue = driveMatch
-      ? { ...video, ...driveMatch, isNative: true, isDriveHosted: true }
+      ? { ...video, ...driveMatch, isNative: true, isDriveHosted: true, badge: '👑 Servidor VIP' }
       : serverMatch
-      ? { ...video, ...serverMatch, isNative: true, isServerHosted: true }
+      ? { ...video, ...serverMatch, isNative: true, isDriveHosted: true, badge: '👑 Servidor VIP' }
       : video;
 
     const newTrack = {
@@ -503,20 +507,16 @@ export default function OperatorView() {
         nextTrackTitle: '',
       });
       addNotification(
-        newTrack.isDriveHosted
-          ? `Iniciando pista en Google Drive: "${newTrack.title}"`
-          : newTrack.isServerHosted
-          ? `Iniciando pista en Servidor (Sin YouTube): "${newTrack.title}"`
+        newTrack.isDriveHosted || (newTrack.badge && newTrack.badge.includes('VIP'))
+          ? `Iniciando pista [Servidor VIP 👑]: "${newTrack.title}"`
           : `Iniciando reproducción: "${newTrack.title}"`,
         'success'
       );
     } else {
       setQueue((prev) => [...prev, newTrack]);
       addNotification(
-        newTrack.isDriveHosted
-          ? `Añadido a la cola [Google Drive ☁️]: "${newTrack.title}"`
-          : newTrack.isServerHosted
-          ? `Añadido a la cola [Servidor VIP]: "${newTrack.title}"`
+        newTrack.isDriveHosted || (newTrack.badge && newTrack.badge.includes('VIP'))
+          ? `Añadido a la cola [Servidor VIP 👑]: "${newTrack.title}"`
           : `Añadido a la cola: "${newTrack.title}"`,
         'info'
       );
@@ -556,6 +556,7 @@ export default function OperatorView() {
 
   const handleRestart = () => {
     if (currentTrack) {
+      setRestartCounter((prev) => prev + 1);
       broadcast(MESSAGE_TYPES.RESTART_TRACK);
       setIsPlaying(true);
       addNotification('Reiniciando canción actual (0:00)...', 'info');
@@ -895,7 +896,10 @@ export default function OperatorView() {
             currentTrack={currentTrack}
             queue={queue}
             isPlaying={isPlaying}
+            volume={volume}
+            isDisplayConnected={isDisplayConnected}
             validationMap={validationMap}
+            restartCounter={restartCounter}
             onRemoveTrack={handleRemoveTrack}
             onRemoveCurrentTrack={handleRemoveCurrentTrack}
             onMoveUp={handleMoveUp}
@@ -904,6 +908,7 @@ export default function OperatorView() {
             onClearQueue={handleClearQueue}
             onOpenDirectYouTube={handleOpenDirectYouTube}
             onOpenAlertModal={handleOpenAlertModal}
+            onTrackEnded={handleTrackEnded}
           />
         </section>
       </main>

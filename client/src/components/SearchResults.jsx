@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Check, Clock, Eye, Music, Disc3, Sparkles, ShieldCheck, ExternalLink, Server, Zap, Cloud } from 'lucide-react';
+import { Plus, Check, Clock, Eye, Music, Disc3, Sparkles, ShieldCheck, ExternalLink, Server, Zap, Cloud, Crown } from 'lucide-react';
 
 export default function SearchResults({ results = [], onAddToQueue, onSelectSuggestion, searchMode = 'karaoke' }) {
   const [addedIds, setAddedIds] = useState({});
@@ -17,25 +17,25 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
   };
 
   const suggestions = [
-    'Luis Miguel - La Incondicional',
-    'Juan Gabriel - Querida',
+    'Yeison Jiménez - Aventurero',
+    'Darío Gómez - Nadie Es Eterno',
+    'Segundo Rosero - Cómo Voy a Olvidarte',
+    'Binomio de Oro - Olvídala',
+    'Alci Acosta - La Copa Rota',
     'Vicente Fernández - Volver, Volver',
-    'Queen - Bohemian Rhapsody',
-    'Dua Lipa - Levitating',
-    'Shakira - Antología',
-    'Carin Leon - Primera Cita',
-    'ABBA - Dancing Queen',
-    'Mana - Oye Mi Amor',
-    'Coldplay - Viva La Vida',
+    'Ana Gabriel - Simplemente Amigos',
+    'Pastor López - Traicionera',
+    'Diomedes Díaz - Tú Eres la Reina',
+    'Carin León - Primera Cita',
   ];
 
   if (!results || results.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center bg-[#14120F]/60 border border-[#332C22] rounded-2xl">
-        <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-600/20 via-yellow-500/20 to-amber-500/20 border border-amber-500/30 flex items-center justify-center mb-4 shadow-[0_0_25px_rgba(212,175,55,0.2)]">
-          <Disc3 className="w-8 h-8 text-amber-400 animate-spin" style={{ animationDuration: '6s' }} />
+      <div className="flex flex-col items-center justify-center p-8 text-center bg-[#14120F]/60 rounded-2xl border border-[#332C22] mt-2">
+        <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-3">
+          <Disc3 className="w-6 h-6 text-amber-400 animate-spin" style={{ animationDuration: '6s' }} />
         </div>
-        <h3 className="text-xl font-bold text-slate-100 mb-1 font-['Space_Grotesk',sans-serif]">
+        <h3 className="text-base font-bold text-slate-200 mb-1 font-['Space_Grotesk',sans-serif]">
           {searchMode === 'karaoke' 
             ? 'Catálogo de Karaoke • Escenario 89' 
             : searchMode === 'lyrics' 
@@ -43,7 +43,7 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
             : 'Videos Originales Oficiales • Escenario 89'}
         </h3>
         <p className="text-sm text-slate-400 max-w-md mb-6">
-          Escribe el nombre de un artista o canción. Las canciones descargadas en servidor se priorizan con máxima calidad.
+          Escribe el nombre de un artista o canción. Las pistas de <span className="text-amber-400 font-semibold">Servidor VIP</span> se priorizan con máxima calidad y reproducción instantánea.
         </p>
 
         <div className="w-full max-w-xl">
@@ -71,9 +71,9 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between text-xs text-slate-400 px-1">
         <span>Mostrando {results.length} temas disponibles</span>
-        <span className="flex items-center gap-1 text-emerald-400 text-[11px] font-medium">
-          <ShieldCheck className="w-3.5 h-3.5" />
-          Filtro Anti-Restricción Activo
+        <span className="flex items-center gap-1 text-amber-400 text-[11px] font-medium">
+          <Crown className="w-3.5 h-3.5 text-amber-400" />
+          Prioridad Servidor VIP
         </span>
       </div>
 
@@ -82,15 +82,14 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
           const isAdded = !!addedIds[video.videoId];
           const isDrive = !!video.isDriveHosted;
           const isServer = !!video.isServerHosted;
+          const isVip = isDrive || isServer || (video.badge && video.badge.includes('VIP'));
 
           return (
             <div
               key={video.videoId}
               className={`group relative flex gap-3 p-2.5 rounded-xl border transition-all duration-200 shadow-lg hover:shadow-xl ${
-                isDrive
-                  ? 'bg-[#0c1a24]/95 hover:bg-[#102433]/95 border-sky-500/50 hover:border-sky-400 shadow-[0_0_15px_rgba(14,165,233,0.15)] hover:shadow-[0_0_25px_rgba(14,165,233,0.3)]'
-                  : isServer
-                  ? 'bg-[#0d1813]/95 hover:bg-[#12231c]/95 border-emerald-500/50 hover:border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)]'
+                isVip
+                  ? 'bg-[#141009]/95 hover:bg-[#1d170d]/95 border-amber-500/60 hover:border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.18)] hover:shadow-[0_0_25px_rgba(245,158,11,0.35)]'
                   : 'bg-[#14120F]/90 hover:bg-[#201C16]/90 border-[#332C22] hover:border-amber-500/50'
               }`}
             >
@@ -110,15 +109,10 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
                   {video.duration}
                 </span>
 
-                {isDrive ? (
-                  <span className="absolute top-1 left-1 px-2 py-0.5 rounded bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-500 text-black text-[10px] font-extrabold tracking-wider flex items-center gap-1 shadow-md">
-                    <Cloud className="w-2.5 h-2.5" />
-                    ☁️ Google Drive
-                  </span>
-                ) : isServer ? (
-                  <span className="absolute top-1 left-1 px-2 py-0.5 rounded bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 text-black text-[10px] font-extrabold tracking-wider flex items-center gap-1 shadow-md">
-                    <Check className="w-2.5 h-2.5 stroke-[3]" />
-                    ✅ Descargada en Servidor
+                {isVip ? (
+                  <span className="absolute top-1 left-1 px-2 py-0.5 rounded bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 text-black text-[10px] font-extrabold tracking-wider flex items-center gap-1 shadow-md">
+                    <Crown className="w-2.5 h-2.5 text-black fill-black" />
+                    Servidor VIP
                   </span>
                 ) : video.embeddable ? (
                   <span className="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-emerald-500/90 text-black text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-0.5 shadow">
@@ -133,10 +127,8 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
                 <div>
                   <h4
                     className={`text-sm font-semibold line-clamp-2 leading-snug transition-colors font-['Space_Grotesk',sans-serif] ${
-                      isDrive
-                        ? 'text-sky-200 group-hover:text-sky-300'
-                        : isServer
-                        ? 'text-emerald-200 group-hover:text-emerald-300'
+                      isVip
+                        ? 'text-amber-200 group-hover:text-amber-300'
                         : 'text-slate-100 group-hover:text-amber-300'
                     }`}
                     title={video.title}
@@ -144,20 +136,15 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
                     {video.title}
                   </h4>
                   <p className={`text-xs mt-1 truncate flex items-center gap-1 ${
-                    isDrive ? 'text-sky-300/80' : isServer ? 'text-emerald-300/80' : 'text-amber-200/70'
+                    isVip ? 'text-amber-300/90 font-medium' : 'text-amber-200/70'
                   }`}>
-                    {isDrive ? <Cloud className="w-3 h-3 text-sky-400" /> : isServer ? <Server className="w-3 h-3 text-emerald-400" /> : <Music className="w-3 h-3 text-amber-400" />}
+                    {isVip ? <Crown className="w-3 h-3 text-amber-400" /> : <Music className="w-3 h-3 text-amber-400" />}
                     {video.author}
                   </p>
-                  {isDrive ? (
-                    <p className="text-[10px] text-sky-400/90 mt-0.5 flex items-center gap-1 font-medium">
-                      <Zap className="w-2.5 h-2.5" />
-                      Streaming desde Google Drive • Cero espacio en disco
-                    </p>
-                  ) : isServer ? (
-                    <p className="text-[10px] text-emerald-400/90 mt-0.5 flex items-center gap-1 font-medium">
-                      <Zap className="w-2.5 h-2.5" />
-                      Arranque instantáneo • Sin IFrame YouTube
+                  {isVip ? (
+                    <p className="text-[10px] text-amber-400/90 mt-0.5 flex items-center gap-1 font-medium">
+                      <Zap className="w-2.5 h-2.5 text-amber-400" />
+                      👑 Servidor VIP • Reproducción Directa sin anuncios
                     </p>
                   ) : video.views ? (
                     <p className="text-[11px] text-slate-500 mt-0.5 flex items-center gap-1">
@@ -168,14 +155,16 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
                 </div>
 
                 <div className="mt-2 flex items-center justify-end gap-1.5">
-                  {!isDrive && !isServer && (
+                  {/* Enlace a YouTube directo disponible para todas las pistas */}
+                  {video.videoId && (
                     <button
                       type="button"
                       onClick={() => window.open(`https://www.youtube.com/watch?v=${video.videoId}&autoplay=1`, '_blank')}
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-amber-400 hover:bg-[#332C22] transition"
-                      title="Abrir directamente en YouTube Web (Sin restricciones)"
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 border border-[#332C22] hover:border-red-500/30 transition flex items-center gap-1"
+                      title="Abrir versión original en YouTube Web"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
+                      <span className="text-[10px] hidden sm:inline">YouTube</span>
                     </button>
                   )}
 
@@ -185,10 +174,8 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all duration-200 cursor-pointer ${
                       isAdded
                         ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
-                        : isDrive
-                        ? 'bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-500 hover:brightness-110 text-black shadow-md shadow-sky-500/30'
-                        : isServer
-                        ? 'bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 hover:brightness-110 text-black shadow-md shadow-emerald-500/30'
+                        : isVip
+                        ? 'bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 hover:brightness-110 text-black shadow-md shadow-amber-500/30'
                         : 'bg-gradient-to-r from-[#FDE047] via-[#D4AF37] to-[#B8860B] hover:brightness-110 text-black shadow-sm hover:shadow-amber-500/30'
                     }`}
                   >

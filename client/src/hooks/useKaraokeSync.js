@@ -67,12 +67,12 @@ export function useKaraokeSync(role = 'operator', callbacks = {}) {
           lastPongRef.current = Date.now();
           setIsDisplayConnected(true);
         }
-      } else {
-        // Despachar a callback específico si existe
-        const cb = callbacksRef.current[type];
-        if (typeof cb === 'function') {
-          cb(payload, sender);
-        }
+      }
+
+      // Despachar a callback específico si existe (incluyendo PONG_OPERATOR para SYNC_STATE)
+      const cb = callbacksRef.current[type];
+      if (typeof cb === 'function') {
+        cb(payload, sender);
       }
     };
 

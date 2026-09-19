@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import YouTube from 'react-youtube';
 import { useKaraokeSync, MESSAGE_TYPES } from '../hooks/useKaraokeSync';
 import StandbyScreen from '../components/StandbyScreen';
-import { Music, Radio, ExternalLink, AlertTriangle, Film, Server, Cloud } from 'lucide-react';
+import { Music, Radio, ExternalLink, AlertTriangle, Film, Server, Cloud, Crown, Volume2 } from 'lucide-react';
 import { logger } from '../utils/logger';
 import * as Sentry from '@sentry/react';
 
@@ -64,7 +64,15 @@ export default function DisplayView() {
           try {
             nativeVideoRef.current.currentTime = 0;
             nativeVideoRef.current.volume = volume / 100;
-            nativeVideoRef.current.play().catch(() => {});
+            const p = nativeVideoRef.current.play();
+            if (p !== undefined) {
+              p.catch((err) => {
+                console.warn('[Display] Autoplay with audio was blocked. Starting muted:', err);
+                nativeVideoRef.current.muted = true;
+                nativeVideoRef.current.play().catch(() => {});
+                setIsAudioUnlocked(false);
+              });
+            }
           } catch (e) {}
         }
       }, 50);
@@ -201,10 +209,31 @@ export default function DisplayView() {
       if (typeof payload.volume === 'number') {
         setVolume(payload.volume);
       }
+      triggerOverlay();
+      if (payload.currentTrack.isNative) {
+        setTimeout(() => {
+          if (nativeVideoRef.current) {
+            nativeVideoRef.current.volume = (typeof payload.volume === 'number' ? payload.volume : volume) / 100;
+            if (payload.isPlaying) {
+              const p = nativeVideoRef.current.play();
+              if (p !== undefined) {
+                p.catch((err) => {
+                  console.warn('[Display] Autoplay with audio was blocked on sync. Starting muted:', err);
+                  nativeVideoRef.current.muted = true;
+                  nativeVideoRef.current.play().catch(() => {});
+                  setIsAudioUnlocked(false);
+                });
+              }
+            } else {
+              nativeVideoRef.current.pause();
+            }
+          }
+        }, 100);
+      }
     } else {
       handleStandby();
     }
-  }, [handleStandby]);
+  }, [handleStandby, triggerOverlay, volume]);
 
   // Inicializar hook con los callbacks
   const { broadcast } = useKaraokeSync('display', {
@@ -459,14 +488,29 @@ export default function DisplayView() {
             <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black overflow-hidden">
               <video
                 ref={nativeVideoRef}
+                key={currentTrack.videoUrl || currentTrack.videoId}
                 src={currentTrack.videoUrl}
                 autoPlay
                 playsInline
+                preload="auto"
                 className="w-full h-full object-cover"
+                onLoadedMetadata={(e) => {
+                  e.target.volume = volume / 100;
+                  if (isPlaying) {
+                    const p = e.target.play();
+                    if (p !== undefined) {
+                      p.catch((err) => {
+                        console.warn('[Display] Autoplay with audio prevented in onLoadedMetadata:', err);
+                        e.target.muted = true;
+                        e.target.play().catch(() => {});
+                        setIsAudioUnlocked(false);
+                      });
+                    }
+                  }
+                }}
                 onEnded={onPlayerEnd}
                 onError={(err) => {
                   console.error('[Display] Error en video nativo:', err);
-                  onPlayerEnd();
                 }}
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
@@ -487,6 +531,20 @@ export default function DisplayView() {
                   iframeClassName="w-full h-full border-0 pointer-events-none"
                 />
               </div>
+            </div>
+          )}
+
+          {/* Banner para activar audio si el navegador aplicó política de autoplay silenciado */}
+          {!isAudioUnlocked && (
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                handleUnlockAudio();
+              }}
+              className="absolute top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-black font-extrabold text-sm shadow-[0_0_35px_rgba(245,158,11,0.7)] flex items-center gap-3 cursor-pointer animate-pulse hover:scale-105 transition active:scale-95 border-2 border-yellow-200 pointer-events-auto"
+            >
+              <Volume2 className="w-5 h-5 animate-bounce text-black flex-shrink-0" />
+              <span>Haz clic aquí o en la pantalla para activar el audio del escenario</span>
             </div>
           )}
 
@@ -523,10 +581,8 @@ export default function DisplayView() {
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-600 to-yellow-400 p-[2px] flex-shrink-0 shadow">
                   <div className="w-full h-full bg-[#090807] rounded-[10px] flex items-center justify-center">
                     {currentTrack.isNative ? (
-                      currentTrack.isDriveHosted ? (
-                        <Cloud className="w-6 h-6 text-sky-400" />
-                      ) : currentTrack.isServerHosted ? (
-                        <Server className="w-6 h-6 text-emerald-400" />
+                      currentTrack.isDriveHosted || currentTrack.isServerHosted || (currentTrack.badge && currentTrack.badge.includes('VIP')) ? (
+                        <Crown className="w-6 h-6 text-amber-400" />
                       ) : (
                         <Film className="w-6 h-6 text-purple-400" />
                       )
@@ -540,15 +596,10 @@ export default function DisplayView() {
                   <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                     {currentTrack.isNative ? (
-                      currentTrack.isDriveHosted ? (
+                      currentTrack.isDriveHosted || currentTrack.isServerHosted || (currentTrack.badge && currentTrack.badge.includes('VIP')) ? (
                         <>
-                          <Cloud className="w-3.5 h-3.5 text-sky-400" />
-                          <span className="text-sky-300">Pista en Google Drive • Escenario 89</span>
-                        </>
-                      ) : currentTrack.isServerHosted ? (
-                        <>
-                          <Server className="w-3.5 h-3.5 text-emerald-400" />
-                          <span className="text-emerald-300">Pista en Servidor Local • Escenario 89</span>
+                          <Crown className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                          <span className="text-amber-300">👑 Servidor VIP • Escenario 89</span>
                         </>
                       ) : (
                         <>
