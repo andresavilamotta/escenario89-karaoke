@@ -6,7 +6,7 @@ const TARGET_DIR = path.resolve(__dirname, '..', 'Canciones_Descargadas');
 
 const CATALOG_PATH = path.resolve(__dirname, '..', 'top_500_karaoke_colombia_putumayo.json');
 const CHANNEL_CLEAN_PATH = path.resolve(__dirname, '..', 'channel_clean.json');
-const LOTE_ALTO_PATH = path.resolve(__dirname, '..', 'lote_alto.json');
+const DRIVE_FILE_IDS_PATH = path.resolve(__dirname, 'drive_file_ids.json');
 
 const SERVER_CATALOG_JS = path.resolve(__dirname, '..', 'client', 'src', 'data', 'serverCatalog.js');
 const SERVER_CATALOG_JSON = path.resolve(__dirname, '..', 'client', 'src', 'data', 'serverCatalog.json');
@@ -46,6 +46,10 @@ if (fs.existsSync(CHANNEL_CLEAN_PATH)) {
   } catch (e) {}
 }
 
+// Cargar mapa de Google Drive File IDs exportados directamente de DriveFS
+const driveFileIds = fs.existsSync(DRIVE_FILE_IDS_PATH) ? JSON.parse(fs.readFileSync(DRIVE_FILE_IDS_PATH, 'utf8')) : {};
+console.log(`IDs de Google Drive cargados: ${Object.keys(driveFileIds).length}`);
+
 function parseDurationToSeconds(durationStr) {
   if (!durationStr || typeof durationStr !== 'string') return 210;
   const parts = durationStr.split(':').map(Number);
@@ -73,6 +77,7 @@ function sync() {
   }
 
   const rawEntries = [];
+  let driveMatchCount = 0;
 
   for (const [videoId, file] of fileMap.entries()) {
     const catalogInfo = songsByVideoId.get(videoId);
@@ -95,9 +100,18 @@ function sync() {
       seconds = parseDurationToSeconds(duration);
     }
 
+    const driveInfo = driveFileIds[videoId] || driveFileIds[file];
+    const driveFileId = driveInfo ? driveInfo.driveFileId : null;
+    if (driveFileId) driveMatchCount++;
+
+    const driveStreamUrl = driveFileId 
+      ? `https://drive.usercontent.google.com/download?id=${driveFileId}&export=download` 
+      : null;
+
     rawEntries.push({
       id: `drive_${videoId}`,
       videoId: videoId,
+      driveFileId: driveFileId,
       filename: file,
       storageKey: encodeURIComponent(file),
       title: title,
@@ -109,11 +123,14 @@ function sync() {
       isServerHosted: false,
       badge: "👑 Servidor VIP",
       description: "Pista de alta fidelidad en Servidor VIP. Reproducción instantánea sin anuncios.",
-      seconds: seconds
+      seconds: seconds,
+      driveStreamUrl: driveStreamUrl,
+      videoUrl: driveStreamUrl || `/api/videos/${encodeURIComponent(file)}`
     });
   }
 
   console.log(`Canciones sincronizadas en Catálogo (Total único detectado): ${rawEntries.length}`);
+  console.log(`Canciones con streaming directo en la nube desde Google Drive: ${driveMatchCount}`);
 
   // Guardar JSONs
   fs.writeFileSync(SERVER_CATALOG_JSON, JSON.stringify(rawEntries, null, 2), 'utf8');
@@ -122,7 +139,7 @@ function sync() {
   // Guardar serverCatalog.js
   let serverJsContent = `// Catálogo maestro de canciones en Servidor VIP - Auto-generado\n`;
   serverJsContent += `export const SERVER_CATALOG_RAW = ${JSON.stringify(rawEntries, null, 2)};\n\n`;
-  serverJsContent += `// Servidor backend - usa proxy relativo /api/videos o variable de entorno
+  serverJsContent += `// Servidor backend - usa streaming directo de Google Drive o relativo
 const BASE_STORAGE_URL = (
   import.meta.env?.VITE_LOCAL_VIDEOS_URL ||
   (import.meta.env?.VITE_BACKEND_URL ? \`\${import.meta.env.VITE_BACKEND_URL}/api/videos\` : '/api/videos')
@@ -135,18 +152,28 @@ function removeAccents(str) {
 /**
  * Catálogo enriquecido de pistas de Servidor VIP con índice de búsqueda pre-calculado
  */
-export const SERVER_TRACKS = SERVER_CATALOG_RAW.map((track) => ({
-  ...track,
-  videoUrl: \`\${BASE_STORAGE_URL}/\${encodeURIComponent(track.filename)}\`,
-  badge: '👑 Servidor VIP',
-  isDriveHosted: true,
-  isServerHosted: false,
-  _searchIndex: removeAccents(\`\${track.title} \${track.author} \${track.videoId}\`).toLowerCase(),
-}));
+export const SERVER_TRACKS = SERVER_CATALOG_RAW.map((track) => {
+  const directDriveUrl = track.driveFileId 
+    ? \`https://drive.usercontent.google.com/download?id=\${track.driveFileId}&export=download\` 
+    : track.driveStreamUrl;
+  return {
+    ...track,
+    driveStreamUrl: directDriveUrl,
+    videoUrl: directDriveUrl || \`\${BASE_STORAGE_URL}/\${encodeURIComponent(track.filename)}\`,
+    badge: '👑 Servidor VIP',
+    isDriveHosted: true,
+    isServerHosted: false,
+    _searchIndex: removeAccents(\`\${track.title} \${track.author} \${track.videoId}\`).toLowerCase(),
+  };
+});
 
 // Mapa rápido por videoId para auto-intercepción instantánea
 const SERVER_TRACKS_BY_VIDEO_ID = new Map(
   SERVER_TRACKS.map((t) => [t.videoId, t])
+);
+
+const SERVER_TRACKS_BY_FILE_ID = new Map(
+  SERVER_TRACKS.filter((t) => t.driveFileId).map((t) => [t.driveFileId, t])
 );
 
 /**
@@ -183,13 +210,18 @@ export function findServerTrackByVideoId(videoId) {
   if (!videoId) return null;
   return SERVER_TRACKS_BY_VIDEO_ID.get(videoId) || null;
 }
+
+export function findServerTrackByFileId(driveFileId) {
+  if (!driveFileId) return null;
+  return SERVER_TRACKS_BY_FILE_ID.get(driveFileId) || null;
+}
 `;
   fs.writeFileSync(SERVER_CATALOG_JS, serverJsContent, 'utf8');
 
   // Guardar driveCatalog.js
   let driveJsContent = `// Catálogo maestro de canciones en Servidor VIP - Auto-generado\n`;
   driveJsContent += `export const DRIVE_CATALOG_RAW = ${JSON.stringify(rawEntries, null, 2)};\n\n`;
-  driveJsContent += `// Servidor backend - usa proxy relativo /api/videos o variable de entorno
+  driveJsContent += `// Servidor backend - usa streaming directo de Google Drive o relativo
 const BASE_STORAGE_URL = (
   import.meta.env?.VITE_LOCAL_VIDEOS_URL ||
   (import.meta.env?.VITE_BACKEND_URL ? \`\${import.meta.env.VITE_BACKEND_URL}/api/videos\` : '/api/videos')
@@ -202,18 +234,28 @@ function removeAccents(str) {
 /**
  * Catálogo enriquecido de pistas de Servidor VIP con índice de búsqueda pre-calculado
  */
-export const DRIVE_TRACKS = DRIVE_CATALOG_RAW.map((track) => ({
-  ...track,
-  videoUrl: \`\${BASE_STORAGE_URL}/\${encodeURIComponent(track.filename)}\`,
-  badge: '👑 Servidor VIP',
-  isDriveHosted: true,
-  isServerHosted: false,
-  _searchIndex: removeAccents(\`\${track.title} \${track.author} \${track.videoId}\`).toLowerCase(),
-}));
+export const DRIVE_TRACKS = DRIVE_CATALOG_RAW.map((track) => {
+  const directDriveUrl = track.driveFileId 
+    ? \`https://drive.usercontent.google.com/download?id=\${track.driveFileId}&export=download\` 
+    : track.driveStreamUrl;
+  return {
+    ...track,
+    driveStreamUrl: directDriveUrl,
+    videoUrl: directDriveUrl || \`\${BASE_STORAGE_URL}/\${encodeURIComponent(track.filename)}\`,
+    badge: '👑 Servidor VIP',
+    isDriveHosted: true,
+    isServerHosted: false,
+    _searchIndex: removeAccents(\`\${track.title} \${track.author} \${track.videoId}\`).toLowerCase(),
+  };
+});
 
 // Mapa rápido por videoId para auto-intercepción instantánea
 const DRIVE_TRACKS_BY_VIDEO_ID = new Map(
   DRIVE_TRACKS.map((t) => [t.videoId, t])
+);
+
+const DRIVE_TRACKS_BY_FILE_ID = new Map(
+  DRIVE_TRACKS.filter((t) => t.driveFileId).map((t) => [t.driveFileId, t])
 );
 
 /**
@@ -253,12 +295,12 @@ export function findDriveTrackByVideoId(videoId) {
 
 export function findDriveTrackByFileId(driveFileId) {
   if (!driveFileId) return null;
-  return null;
+  return DRIVE_TRACKS_BY_FILE_ID.get(driveFileId) || null;
 }
 `;
   fs.writeFileSync(DRIVE_CATALOG_JS, driveJsContent, 'utf8');
 
-  console.log(`Catálogos sincronizados como "Servidor VIP" en client/src/data/`);
+  console.log(`Catálogos sincronizados como "Servidor VIP" con streaming directo de Google Drive.`);
 }
 
 sync();

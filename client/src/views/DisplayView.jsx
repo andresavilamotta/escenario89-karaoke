@@ -5,7 +5,7 @@ import StandbyScreen from '../components/StandbyScreen';
 import { Music, Radio, ExternalLink, AlertTriangle, Film, Server, Cloud, Crown, Volume2 } from 'lucide-react';
 import { logger } from '../utils/logger';
 import * as Sentry from '@sentry/react';
-import { findDriveTrackByVideoId, searchDriveCatalog } from '../data/driveCatalog';
+import { findDriveTrackByVideoId, findDriveTrackByFileId, searchDriveCatalog } from '../data/driveCatalog';
 
 
 export default function DisplayView() {
@@ -48,9 +48,11 @@ export default function DisplayView() {
     hasStartedPlayingRef.current = false;
     trackStartTimeRef.current = Date.now();
 
-    // Verificación de máxima seguridad: Si la pista existe en el catálogo descargado en Google Drive, forzar Servidor VIP nativo
+    // Verificación de máxima seguridad: Si la pista existe en el catálogo de Google Drive, forzar Servidor VIP nativo
     let track = { ...payload };
-    const driveMatch = findDriveTrackByVideoId(track.videoId) || (track.title ? searchDriveCatalog(track.title)[0] : null);
+    const driveMatch = findDriveTrackByVideoId(track.videoId) || 
+                       (track.driveFileId ? findDriveTrackByFileId(track.driveFileId) : null) || 
+                       (track.title ? searchDriveCatalog(track.title)[0] : null);
     if (driveMatch) {
       track = {
         ...track,
@@ -67,7 +69,7 @@ export default function DisplayView() {
     setIsPlaying(true);
     triggerOverlay();
 
-    if (track.isNative) {
+    if (track.isNative || track.isDriveHosted || track.driveFileId) {
       // Si es video de Servidor VIP o cortinilla nativa, garantizar reproducción directa
       if (unstartedWatchdogRef.current) {
         clearTimeout(unstartedWatchdogRef.current);
@@ -116,7 +118,7 @@ export default function DisplayView() {
   const handlePlayerState = useCallback((payload) => {
     console.log('[Display] PLAYER_STATE recibido:', payload);
     setIsPlaying(payload.isPlaying);
-    if (currentTrackRef.current?.isNative && nativeVideoRef.current) {
+    if ((currentTrackRef.current?.isNative || currentTrackRef.current?.isDriveHosted || currentTrackRef.current?.driveFileId) && nativeVideoRef.current) {
       if (payload.isPlaying) {
         nativeVideoRef.current.play().catch(() => {});
       } else {
@@ -185,7 +187,7 @@ export default function DisplayView() {
     console.log('[Display] RESTART_TRACK recibido');
     trackStartTimeRef.current = Date.now();
     hasEndedDispatchedRef.current = false;
-    if (currentTrackRef.current?.isNative && nativeVideoRef.current) {
+    if ((currentTrackRef.current?.isNative || currentTrackRef.current?.isDriveHosted || currentTrackRef.current?.driveFileId) && nativeVideoRef.current) {
       try {
         nativeVideoRef.current.currentTime = 0;
         nativeVideoRef.current.play().catch(() => {});
@@ -216,7 +218,9 @@ export default function DisplayView() {
   const handleSyncState = useCallback((payload) => {
     if (payload && payload.currentTrack) {
       let track = { ...payload.currentTrack };
-      const driveMatch = findDriveTrackByVideoId(track.videoId) || (track.title ? searchDriveCatalog(track.title)[0] : null);
+      const driveMatch = findDriveTrackByVideoId(track.videoId) || 
+                         (track.driveFileId ? findDriveTrackByFileId(track.driveFileId) : null) || 
+                         (track.title ? searchDriveCatalog(track.title)[0] : null);
       if (driveMatch) {
         track = {
           ...track,
@@ -238,7 +242,7 @@ export default function DisplayView() {
       if (isNewTrack) {
         triggerOverlay(12000);
       }
-      if (track.isNative) {
+      if (track.isNative || track.isDriveHosted || track.driveFileId) {
         setTimeout(() => {
           if (nativeVideoRef.current) {
             nativeVideoRef.current.volume = (typeof payload.volume === 'number' ? payload.volume : volume) / 100;
@@ -511,12 +515,12 @@ export default function DisplayView() {
       ) : (
         /* Estado 2: Reproduciendo video en pantalla completa */
         <div className="relative w-full h-full">
-          {currentTrack.isNative ? (
+          {currentTrack.isNative || currentTrack.isDriveHosted || currentTrack.driveFileId ? (
             /* Contenedor Video Nativo HTML5 para Servidor VIP y Cortinillas */
             <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black overflow-hidden">
               <video
                 ref={nativeVideoRef}
-                key={currentTrack.videoUrl || currentTrack.videoId}
+                key={currentTrack.driveFileId || currentTrack.videoUrl || currentTrack.videoId}
                 autoPlay
                 playsInline
                 muted={!isAudioUnlocked}
@@ -549,18 +553,25 @@ export default function DisplayView() {
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
               >
-                <source src={`http://localhost:3001/api/videos/${currentTrack.videoId}.mp4`} type="video/mp4" />
-                <source src={`http://127.0.0.1:3001/api/videos/${currentTrack.videoId}.mp4`} type="video/mp4" />
-                <source src={`/api/videos/${currentTrack.videoId}.mp4`} type="video/mp4" />
+                {/* 1. Streaming directo desde Google Drive Cloud CDN (Servidor VIP) */}
+                {currentTrack.driveStreamUrl && (
+                  <source src={currentTrack.driveStreamUrl} type="video/mp4" />
+                )}
+                {currentTrack.driveFileId && (
+                  <>
+                    <source src={`https://drive.usercontent.google.com/download?id=${currentTrack.driveFileId}&export=download`} type="video/mp4" />
+                    <source src={`https://drive.google.com/uc?export=download&id=${currentTrack.driveFileId}`} type="video/mp4" />
+                  </>
+                )}
                 {currentTrack.videoUrl && (
                   <source src={currentTrack.videoUrl} type="video/mp4" />
                 )}
+                {/* 2. Fallbacks relativos seguros (sin localhost) */}
                 {currentTrack.filename && (
-                  <>
-                    <source src={`http://localhost:3001/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
-                    <source src={`http://127.0.0.1:3001/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
-                    <source src={`/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
-                  </>
+                  <source src={`/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
+                )}
+                {currentTrack.videoId && (
+                  <source src={`/api/videos/${currentTrack.videoId}.mp4`} type="video/mp4" />
                 )}
               </video>
             </div>
