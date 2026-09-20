@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash2, ChevronUp, ChevronDown, ListMusic, Clock, Disc, PlayCircle, ExternalLink, Square, CheckCircle, AlertTriangle, Loader2, ShieldAlert, Sparkles, Film, Check, Server, Cloud, Crown } from 'lucide-react';
+import { Trash2, ChevronUp, ChevronDown, ListMusic, Clock, Disc, PlayCircle, ExternalLink, Square, CheckCircle, AlertTriangle, Loader2, ShieldAlert, Sparkles, Film, Check, Server, Cloud, Crown, Video } from 'lucide-react';
 
 export default function QueueManager({
   currentTrack,
@@ -95,14 +95,23 @@ export default function QueueManager({
                   {currentTrack.isDriveHosted || currentTrack.isServerHosted || (currentTrack.badge && currentTrack.badge.includes('VIP')) ? (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold tracking-wider bg-amber-500/25 text-amber-300 border border-amber-500/40 shadow-sm">
                       <Crown className="w-3 h-3 text-amber-400 fill-amber-400" />
-                      👑 Servidor VIP
+                      👑 Servidor VIP (Karaoke)
                     </span>
                   ) : currentTrack.isNative ? (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-500/25 text-purple-300 border border-purple-500/40 shadow-sm">
                       <Film className="w-3 h-3 text-purple-400" />
                       Cortinilla Nativa
                     </span>
-                  ) : null}
+                  ) : (currentTrack.badge && currentTrack.badge.includes('Original')) ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold tracking-wider bg-sky-500/25 text-sky-300 border border-sky-500/40 shadow-sm">
+                      <Video className="w-3 h-3 text-sky-400" />
+                      🎬 Video Original (Baile)
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold tracking-wider bg-slate-800/80 text-slate-300 border border-slate-700 shadow-sm">
+                      {currentTrack.badge || '📺 YouTube'}
+                    </span>
+                  )}
 
                   <span className="text-[11px] font-mono text-slate-400 flex items-center gap-1">
                     <Clock className="w-3 h-3 text-amber-400/80" />
@@ -236,7 +245,16 @@ export default function QueueManager({
                         <Film className="w-2.5 h-2.5 text-purple-400" />
                         Cortinilla
                       </span>
-                    ) : null}
+                    ) : (track.badge && track.badge.includes('Original')) ? (
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-sky-500/25 text-sky-300 border border-sky-500/40">
+                        <Video className="w-2.5 h-2.5 text-sky-400" />
+                        🎬 Video Original
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-medium bg-[#14120F] text-slate-400 border border-[#332C22]">
+                        {track.badge || '📺 YouTube'}
+                      </span>
+                    )}
                     {isValid && (
                       <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                         <CheckCircle className="w-2.5 h-2.5 text-emerald-400" />

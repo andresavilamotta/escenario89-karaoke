@@ -4,8 +4,7 @@ import { useKaraokeSync, MESSAGE_TYPES } from '../hooks/useKaraokeSync';
 import StandbyScreen from '../components/StandbyScreen';
 import { Music, Radio, ExternalLink, AlertTriangle, Film, Server, Cloud, Crown, Volume2 } from 'lucide-react';
 import { logger } from '../utils/logger';
-import * as Sentry from '@sentry/react';
-import { findDriveTrackByVideoId, findDriveTrackByFileId, searchDriveCatalog } from '../data/driveCatalog';
+import { findDriveTrackByVideoId, findDriveTrackByFileId } from '../data/driveCatalog';
 
 
 export default function DisplayView() {
@@ -48,19 +47,20 @@ export default function DisplayView() {
     hasStartedPlayingRef.current = false;
     trackStartTimeRef.current = Date.now();
 
-    // Verificación de máxima seguridad: Si la pista existe en el catálogo de Google Drive, forzar Servidor VIP nativo
+    // Respetar tipo de pista: si viene configurada como Servidor VIP, enriquecer con datos de Drive
     let track = { ...payload };
-    const driveMatch = findDriveTrackByVideoId(track.videoId) || 
-                       (track.driveFileId ? findDriveTrackByFileId(track.driveFileId) : null) || 
-                       (track.title ? searchDriveCatalog(track.title)[0] : null);
-    if (driveMatch) {
-      track = {
-        ...track,
-        ...driveMatch,
-        isNative: true,
-        isDriveHosted: true,
-        badge: '👑 Servidor VIP',
-      };
+    if (track.isNative || track.isDriveHosted || track.driveFileId) {
+      const driveMatch = (track.driveFileId ? findDriveTrackByFileId(track.driveFileId) : null) || 
+                         (track.videoId ? findDriveTrackByVideoId(track.videoId) : null);
+      if (driveMatch) {
+        track = {
+          ...track,
+          ...driveMatch,
+          isNative: true,
+          isDriveHosted: true,
+          badge: '👑 Servidor VIP',
+        };
+      }
     }
 
     currentTrackRef.current = track;
@@ -220,17 +220,18 @@ export default function DisplayView() {
   const handleSyncState = useCallback((payload) => {
     if (payload && payload.currentTrack) {
       let track = { ...payload.currentTrack };
-      const driveMatch = findDriveTrackByVideoId(track.videoId) || 
-                         (track.driveFileId ? findDriveTrackByFileId(track.driveFileId) : null) || 
-                         (track.title ? searchDriveCatalog(track.title)[0] : null);
-      if (driveMatch) {
-        track = {
-          ...track,
-          ...driveMatch,
-          isNative: true,
-          isDriveHosted: true,
-          badge: '👑 Servidor VIP',
-        };
+      if (track.isNative || track.isDriveHosted || track.driveFileId) {
+        const driveMatch = (track.driveFileId ? findDriveTrackByFileId(track.driveFileId) : null) || 
+                           (track.videoId ? findDriveTrackByVideoId(track.videoId) : null);
+        if (driveMatch) {
+          track = {
+            ...track,
+            ...driveMatch,
+            isNative: true,
+            isDriveHosted: true,
+            badge: '👑 Servidor VIP',
+          };
+        }
       }
 
       const isNewTrack = !currentTrackRef.current || currentTrackRef.current.queueId !== track.queueId;

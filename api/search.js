@@ -96,7 +96,8 @@ export default async function handler(req, res) {
   const lowerQ = cleanQuery.toLowerCase();
 
   if (mode === 'karaoke') {
-    if (!lowerQ.includes('karaoke') && !lowerQ.includes('instrumental')) {
+    const isExplicitlyOriginal = lowerQ.includes('original') || lowerQ.includes('oficial') || lowerQ.includes('official') || lowerQ.includes('videoclip') || lowerQ.includes('baile');
+    if (!isExplicitlyOriginal && !lowerQ.includes('karaoke') && !lowerQ.includes('instrumental')) {
       searchQuery = `${cleanQuery} karaoke instrumental`;
     }
   } else if (mode === 'lyrics') {
@@ -104,7 +105,7 @@ export default async function handler(req, res) {
       searchQuery = `${cleanQuery} lyrics letra`;
     }
   } else if (mode === 'original') {
-    if (!lowerQ.includes('official') && !lowerQ.includes('video')) {
+    if (!lowerQ.includes('official') && !lowerQ.includes('video') && !lowerQ.includes('original')) {
       searchQuery = `${cleanQuery} official music video`;
     }
   }

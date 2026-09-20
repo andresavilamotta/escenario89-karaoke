@@ -226,11 +226,18 @@ export default function OperatorView() {
           driveFileId: nextSong.driveFileId || null,
           driveStreamUrl: nextSong.driveStreamUrl || null,
           filename: nextSong.filename || null,
-          storageKey: nextSong.storageKey || null,
           nextTrackTitle: nextTitle,
+          badge: nextSong.badge || null,
         });
 
-        addNotification(`Reproduciendo: "${nextSong.title}"`, 'success');
+        addNotification(
+          nextSong.isDriveHosted || (nextSong.badge && nextSong.badge.includes('VIP'))
+            ? `Reproduciendo pista [Servidor VIP 👑]: "${nextSong.title}"`
+            : nextSong.badge && nextSong.badge.includes('Original')
+            ? `Reproduciendo video original [Para Bailar 🎬]: "${nextSong.title}"`
+            : `Reproduciendo: "${nextSong.title}"`,
+          'success'
+        );
         return remaining;
       } else {
         // Cola vacía
@@ -427,7 +434,7 @@ export default function OperatorView() {
     }
   }, [isDisplayConnected]);
 
-  // Búsqueda en el backend Express con filtro anti-restricción y modos, priorizando canciones en Servidor
+  // Búsqueda en el backend Express con filtro anti-restricción y modos
   const handleSearch = useCallback(async (query, mode = searchModeRef.current) => {
     if (!query || query.trim().length < 2) {
       setSearchResults([]);
@@ -437,8 +444,8 @@ export default function OperatorView() {
     setSearchMode(mode);
     setIsSearching(true);
     try {
-      // 1. Buscar coincidencias instantáneas en el catálogo de Servidor VIP
-      const driveMatches = searchDriveCatalog(query);
+      // 1. En modo karaoke, buscar coincidencias instantáneas en el catálogo de Servidor VIP
+      const driveMatches = mode === 'karaoke' ? searchDriveCatalog(query) : [];
       if (driveMatches.length > 0) {
         setSearchResults(driveMatches);
       }
@@ -450,8 +457,26 @@ export default function OperatorView() {
       const data = await res.json();
       const ytResults = data.results || [];
 
-      // 2. Enriquecer los resultados de YouTube que ya estén en Servidor VIP
+      // 2. Enriquecer los resultados de YouTube según el modo seleccionado
       const enrichedYtResults = ytResults.map((ytVid) => {
+        if (mode === 'original') {
+          return {
+            ...ytVid,
+            isNative: false,
+            isDriveHosted: false,
+            badge: '🎬 Video Original',
+          };
+        }
+        if (mode === 'lyrics') {
+          return {
+            ...ytVid,
+            isNative: false,
+            isDriveHosted: false,
+            badge: '📝 Con Letra',
+          };
+        }
+
+        // Modo karaoke: solo si coincide exactamente el videoId con una pista descargada en Drive
         const matchingDrive = findDriveTrackByVideoId(ytVid.videoId);
         if (matchingDrive) {
           return {
@@ -462,24 +487,23 @@ export default function OperatorView() {
             badge: '👑 Servidor VIP',
           };
         }
-        const matchingServer = findServerTrackByVideoId(ytVid.videoId);
-        if (matchingServer) {
-          return {
-            ...ytVid,
-            ...matchingServer,
-            isNative: true,
-            isDriveHosted: true,
-            badge: '👑 Servidor VIP',
-          };
-        }
-        return ytVid;
+        return {
+          ...ytVid,
+          isNative: false,
+          isDriveHosted: false,
+          badge: '🎤 YouTube',
+        };
       });
 
-      // 3. Fusionar evitando duplicados: pistas en Servidor VIP primero
-      const driveVideoIds = new Set(driveMatches.map((s) => s.videoId));
-      const filteredYt = enrichedYtResults.filter((y) => !driveVideoIds.has(y.videoId));
-
-      setSearchResults([...driveMatches, ...filteredYt]);
+      // 3. Si el modo es "original", los videos musicales de YouTube van de primeros para bailar
+      if (mode === 'original') {
+        setSearchResults(enrichedYtResults);
+      } else {
+        // En modo karaoke o lyrics, pistas de Servidor VIP primero, seguidas de resultados de YouTube
+        const driveVideoIds = new Set(driveMatches.map((s) => s.videoId));
+        const filteredYt = enrichedYtResults.filter((y) => !driveVideoIds.has(y.videoId));
+        setSearchResults([...driveMatches, ...filteredYt]);
+      }
     } catch (err) {
       console.error('Error al consultar API de búsqueda:', err);
       // Fallback: si falla YouTube o no hay internet, mostrar las coincidencias de Servidor VIP
@@ -494,16 +518,57 @@ export default function OperatorView() {
     }
   }, [addNotification]);
 
-  // Añadir tema a la cola con auto-intercepción de Servidor VIP
-  const handleAddToQueue = (video) => {
-    // Si la pista coincide con una del Servidor VIP, usar la versión nativa de alta fidelidad
-    const driveMatch = findDriveTrackByVideoId(video.videoId) || (video.title ? searchDriveCatalog(video.title)[0] : null);
-    const serverMatch = findServerTrackByVideoId(video.videoId);
-    const trackToEnqueue = driveMatch
-      ? { ...video, ...driveMatch, isNative: true, isDriveHosted: true, badge: '👑 Servidor VIP' }
-      : serverMatch
-      ? { ...video, ...serverMatch, isNative: true, isDriveHosted: true, badge: '👑 Servidor VIP' }
-      : video;
+  // Añadir tema a la cola respetando la elección del usuario (Karaoke VIP vs Video Original YouTube)
+  const handleAddToQueue = (video, options = {}) => {
+    let trackToEnqueue;
+
+    if (options.asOriginal) {
+      // Forzado explícitamente como Video Original (YouTube para bailar)
+      trackToEnqueue = {
+        ...video,
+        isNative: false,
+        isDriveHosted: false,
+        isServerHosted: false,
+        driveFileId: null,
+        badge: '🎬 Video Original',
+      };
+    } else if (options.asVip || video.isDriveHosted || video.isServerHosted) {
+      // Pista explícita de Servidor VIP (Google Drive)
+      trackToEnqueue = {
+        ...video,
+        isNative: true,
+        isDriveHosted: true,
+        badge: '👑 Servidor VIP',
+      };
+    } else if (searchModeRef.current === 'original' || (video.badge && video.badge.includes('Original'))) {
+      // Modo original o tarjeta explícita de Video Original
+      trackToEnqueue = {
+        ...video,
+        isNative: false,
+        isDriveHosted: false,
+        badge: '🎬 Video Original',
+      };
+    } else {
+      // Por defecto para videos de YouTube en otros modos:
+      // Solo asociar a Drive si coincide exactamente el videoId
+      const exactDriveMatch = findDriveTrackByVideoId(video.videoId);
+      if (exactDriveMatch) {
+        trackToEnqueue = {
+          ...video,
+          ...exactDriveMatch,
+          isNative: true,
+          isDriveHosted: true,
+          badge: '👑 Servidor VIP',
+        };
+      } else {
+        trackToEnqueue = {
+          ...video,
+          isNative: false,
+          isDriveHosted: false,
+          badge: video.badge || (searchModeRef.current === 'lyrics' ? '📝 Con Letra' : '🎤 YouTube'),
+        };
+      }
+    }
 
     const newTrack = {
       ...trackToEnqueue,
@@ -529,10 +594,13 @@ export default function OperatorView() {
         filename: newTrack.filename || null,
         storageKey: newTrack.storageKey || null,
         nextTrackTitle: '',
+        badge: newTrack.badge || null,
       });
       addNotification(
         newTrack.isDriveHosted || (newTrack.badge && newTrack.badge.includes('VIP'))
           ? `Iniciando pista [Servidor VIP 👑]: "${newTrack.title}"`
+          : newTrack.badge && newTrack.badge.includes('Original')
+          ? `Iniciando video original [Para Bailar 🎬]: "${newTrack.title}"`
           : `Iniciando reproducción: "${newTrack.title}"`,
         'success'
       );
@@ -541,8 +609,10 @@ export default function OperatorView() {
       addNotification(
         newTrack.isDriveHosted || (newTrack.badge && newTrack.badge.includes('VIP'))
           ? `Añadido a la cola [Servidor VIP 👑]: "${newTrack.title}"`
+          : newTrack.badge && newTrack.badge.includes('Original')
+          ? `Video original [Para Bailar 🎬] añadido a la cola: "${newTrack.title}"`
           : `Añadido a la cola: "${newTrack.title}"`,
-        'info'
+        'success'
       );
     }
   };
@@ -900,7 +970,7 @@ export default function OperatorView() {
                 <SearchResults
                   results={searchResults}
                   onAddToQueue={handleAddToQueue}
-                  onSelectSuggestion={(sug) => handleSearch(sug, searchMode)}
+                  onSelectSuggestion={(sug, mode) => handleSearch(sug, mode || searchMode)}
                   searchMode={searchMode}
                 />
               </div>
