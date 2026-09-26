@@ -23,5 +23,7 @@ top_500_karaoke_songs.json
 resumen_descarga.json
 REPORTE_ACCIONES.md
 TOP_500_KARAOKE_COLOMBIA_PUTUMAYO.md
+canciones_*.json
+sentry_logs_export.json
 scripts/
 .git

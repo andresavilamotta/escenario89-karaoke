@@ -12,6 +12,8 @@ import AnimationSelector from '../components/AnimationSelector';
 import { NATIVE_VIDEOS } from '../data/nativeVideos';
 import { searchDriveCatalog, findDriveTrackByVideoId } from '../data/driveCatalog';
 import { searchServerCatalog, findServerTrackByVideoId } from '../data/serverCatalog';
+import DailyAnnouncementModal from '../components/DailyAnnouncementModal';
+import { RECOVERED_ANNOUNCEMENT_DATE, RECOVERED_SONGS } from '../data/recoveredSongs';
 import { Mic, Sparkles, LogOut, Film } from 'lucide-react';
 
 import { useAuth } from '../context/AuthContext';
@@ -53,6 +55,22 @@ export default function OperatorView() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [hasUnread, setHasUnread] = useState(false);
   const [isLogsOpen, setIsLogsOpen] = useState(false);
+
+  // Estado del Anuncio Especial: Canciones de Sentry recuperadas (Solo por hoy)
+  const [showDailyAnnouncement, setShowDailyAnnouncement] = useState(false);
+
+  // Auto-mostrar anuncio especial "Solo por hoy" al entrar a la app
+  useEffect(() => {
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      const dismissed = localStorage.getItem(`escenario89_daily_announcement_${today}`);
+      if (today === RECOVERED_ANNOUNCEMENT_DATE && !dismissed) {
+        setShowDailyAnnouncement(true);
+      }
+    } catch (e) {
+      console.warn('Error al verificar anuncio del día:', e);
+    }
+  }, []);
 
   // Referencias para evitar stale closures en callbacks del BroadcastChannel
   const currentTrackRef = useRef(currentTrack);
@@ -617,6 +635,41 @@ export default function OperatorView() {
     }
   };
 
+  // Reproducir directamente una pista VIP desde el anuncio especial
+  const handlePlayDirectVip = (song) => {
+    const newTrack = {
+      ...song,
+      isNative: true,
+      isDriveHosted: true,
+      badge: '👑 Servidor VIP',
+      queueId: `${song.videoId}-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+    };
+
+    setCurrentTrack(newTrack);
+    setIsPlaying(true);
+
+    broadcast(MESSAGE_TYPES.PLAY_NEXT, {
+      videoId: newTrack.videoId,
+      title: newTrack.title,
+      author: newTrack.author,
+      queueId: newTrack.queueId,
+      duration: newTrack.duration,
+      thumbnail: newTrack.thumbnail,
+      isNative: true,
+      isServerHosted: false,
+      isDriveHosted: true,
+      videoUrl: newTrack.videoUrl || null,
+      driveFileId: newTrack.driveFileId || null,
+      driveStreamUrl: newTrack.driveStreamUrl || null,
+      filename: newTrack.filename || null,
+      storageKey: newTrack.storageKey || null,
+      nextTrackTitle: queueRef.current[0]?.title || '',
+      badge: '👑 Servidor VIP',
+    });
+
+    addNotification(`Pista VIP al aire de inmediato: "${newTrack.title}".`, 'success');
+  };
+
   // Acciones de transporte
   const handleTogglePlay = () => {
     if (!currentTrack) {
@@ -856,8 +909,19 @@ export default function OperatorView() {
           </div>
 
           {/* Área Derecha: Badge de Filtro y Botón de Centro de Notificaciones */}
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 text-xs text-amber-200/80 bg-[#201C16] px-3 py-1.5 rounded-lg border border-[#332C22]">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Botón de Novedades Especiales (Solo por hoy: Canciones nuevas en catálogo) */}
+            <button
+              onClick={() => setShowDailyAnnouncement(true)}
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg border border-amber-500/50 bg-gradient-to-r from-amber-500/15 via-yellow-500/20 to-amber-500/15 hover:border-amber-400 text-xs font-semibold text-amber-300 transition shadow-sm cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              title={`Ver novedades: ${RECOVERED_SONGS.length} canciones nuevas añadidas al catálogo`}
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+              <span className="hidden md:inline">Solo por hoy:</span>
+              <span className="font-bold text-amber-200">{RECOVERED_SONGS.length} Canciones Nuevas</span>
+            </button>
+
+            <div className="hidden lg:flex items-center gap-2 text-xs text-amber-200/80 bg-[#201C16] px-3 py-1.5 rounded-lg border border-[#332C22]">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               <span>Filtro Anti-Restricción Activo</span>
             </div>
@@ -1043,6 +1107,14 @@ export default function OperatorView() {
       <LogViewerModal
         isOpen={isLogsOpen}
         onClose={() => setIsLogsOpen(false)}
+      />
+
+      {/* Modal de Anuncio Diario Especial: Canciones Rescatadas de Sentry (Solo por hoy) */}
+      <DailyAnnouncementModal
+        isOpen={showDailyAnnouncement}
+        onClose={() => setShowDailyAnnouncement(false)}
+        onAddToQueue={(song) => handleAddToQueue(song, { asVip: true })}
+        onPlayNow={(song) => handlePlayDirectVip(song)}
       />
     </div>
   );

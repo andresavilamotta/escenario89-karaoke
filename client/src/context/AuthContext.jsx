@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const AUTH_STORAGE_KEY = 'escenario89_auth_v1';
+const AUTH_STORAGE_KEY = 'escenario89_auth_v2';
+const LEGACY_STORAGE_KEYS = ['escenario89_auth_v1'];
 
 // Credenciales oficiales
 const VALID_USERNAME = 'admin';
@@ -13,9 +14,14 @@ export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Cargar sesión guardada al montar
+  // Cargar sesión guardada al montar y forzar cierre de sesiones anteriores
   useEffect(() => {
     try {
+      // Invalidar todas las sesiones v1 anteriores para que todos deban iniciar sesión de nuevo y ver los cambios
+      LEGACY_STORAGE_KEYS.forEach((key) => {
+        try { localStorage.removeItem(key); } catch (e) {}
+      });
+
       const savedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
       if (savedAuth) {
         const parsed = JSON.parse(savedAuth);
