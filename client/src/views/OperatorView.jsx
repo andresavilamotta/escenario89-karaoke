@@ -550,6 +550,14 @@ export default function OperatorView() {
         driveFileId: null,
         badge: '🎬 Video Original',
       };
+    } else if (video.type === 'native' || video.isNative) {
+      // Cortinilla o animación nativa de escenario
+      trackToEnqueue = {
+        ...video,
+        isNative: true,
+        isDriveHosted: !!video.isDriveHosted,
+        badge: video.badge || '✨ Cortinilla',
+      };
     } else if (options.asVip || video.isDriveHosted || video.isServerHosted) {
       // Pista explícita de Servidor VIP (Google Drive)
       trackToEnqueue = {
@@ -821,8 +829,15 @@ export default function OperatorView() {
       queueId: newTrack.queueId,
       duration: newTrack.duration,
       thumbnail: newTrack.thumbnail,
+      type: newTrack.type || 'native',
+      category: newTrack.category || 'Cortinilla Principal',
       isNative: true,
-      videoUrl: newTrack.videoUrl,
+      isDriveHosted: !!newTrack.isDriveHosted,
+      driveFileId: newTrack.driveFileId || null,
+      driveStreamUrl: newTrack.driveStreamUrl || null,
+      videoUrl: newTrack.videoUrl || null,
+      filename: newTrack.filename || null,
+      badge: newTrack.badge || '✨ Cortinilla',
       nextTrackTitle: queueRef.current[0]?.title || '',
     });
 

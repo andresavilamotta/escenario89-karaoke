@@ -49,7 +49,7 @@ export default function DisplayView() {
 
     // Respetar tipo de pista: si viene configurada como Servidor VIP, enriquecer con datos de Drive
     let track = { ...payload };
-    if (track.isNative || track.isDriveHosted || track.driveFileId) {
+    if ((track.isNative || track.isDriveHosted || track.driveFileId) && track.type !== 'native') {
       const driveMatch = (track.driveFileId ? findDriveTrackByFileId(track.driveFileId) : null) || 
                          (track.videoId ? findDriveTrackByVideoId(track.videoId) : null);
       if (driveMatch) {
@@ -521,7 +521,9 @@ export default function DisplayView() {
           {currentTrack.isNative || currentTrack.isDriveHosted || currentTrack.driveFileId ? (() => {
             const streamSrc = currentTrack.driveFileId
               ? `/api/stream?id=${currentTrack.driveFileId}`
-              : (currentTrack.videoId ? `/api/stream?v=${currentTrack.videoId}` : currentTrack.videoUrl);
+              : (currentTrack.videoUrl 
+                  ? currentTrack.videoUrl 
+                  : (currentTrack.videoId ? `/api/stream?v=${currentTrack.videoId}` : ''));
 
             return (
               /* Contenedor Video Nativo HTML5 para Servidor VIP y Cortinillas */
@@ -556,12 +558,18 @@ export default function DisplayView() {
                   }}
                   onEnded={onPlayerEnd}
                   onError={(err) => {
-                    console.warn('[Display] Video VIP error de carga:', err);
+                    console.warn('[Display] Video VIP / Cortinilla error de carga:', err);
                   }}
                   onPlay={() => setIsPlaying(true)}
                   onPause={() => setIsPlaying(false)}
                 >
                   <source src={streamSrc} type="video/mp4" />
+                  {currentTrack.videoUrl && currentTrack.videoUrl !== streamSrc && (
+                    <source src={currentTrack.videoUrl} type="video/mp4" />
+                  )}
+                  {currentTrack.driveStreamUrl && currentTrack.driveStreamUrl !== streamSrc && (
+                    <source src={currentTrack.driveStreamUrl} type="video/mp4" />
+                  )}
                   {currentTrack.filename && (
                     <source src={`/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
                   )}
@@ -632,7 +640,9 @@ export default function DisplayView() {
               <div className="flex items-center gap-4 min-w-0">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-600 to-yellow-400 p-[2px] flex-shrink-0 shadow">
                   <div className="w-full h-full bg-[#090807] rounded-[10px] flex items-center justify-center">
-                    {currentTrack.isNative ? (
+                    {currentTrack.type === 'native' || currentTrack.category?.includes('Cortinilla') || currentTrack.badge?.includes('Cortinilla') ? (
+                      <Film className="w-6 h-6 text-purple-400" />
+                    ) : currentTrack.isNative ? (
                       currentTrack.isDriveHosted || currentTrack.isServerHosted || (currentTrack.badge && currentTrack.badge.includes('VIP')) ? (
                         <Crown className="w-6 h-6 text-amber-400" />
                       ) : (
@@ -647,7 +657,12 @@ export default function DisplayView() {
                 <div className="min-w-0">
                   <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                    {currentTrack.isNative ? (
+                    {currentTrack.type === 'native' || currentTrack.category?.includes('Cortinilla') || currentTrack.badge?.includes('Cortinilla') ? (
+                      <>
+                        <Film className="w-3.5 h-3.5 text-purple-400" />
+                        <span className="text-purple-300">Cortinilla en Vivo • Escenario 89</span>
+                      </>
+                    ) : currentTrack.isNative ? (
                       currentTrack.isDriveHosted || currentTrack.isServerHosted || (currentTrack.badge && currentTrack.badge.includes('VIP')) ? (
                         <>
                           <Crown className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />

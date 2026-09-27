@@ -35,7 +35,7 @@ export default function AnimationSelector({
             <h3 className="text-sm font-bold text-purple-200 uppercase tracking-wider flex items-center gap-2 font-['Space_Grotesk',sans-serif]">
               Cortinillas & Visuales de Escenario
               <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                4 Videos Nativos
+                {NATIVE_VIDEOS.length} Videos Nativos
               </span>
             </h3>
             <p className="text-xs text-slate-400">
@@ -82,18 +82,21 @@ export default function AnimationSelector({
                 {/* Vista previa de video interactiva */}
                 <div className="relative w-full h-36 rounded-xl overflow-hidden bg-black border border-[#332C22] mb-3">
                   <video
-                    src={video.videoUrl}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     muted
                     loop
                     playsInline
+                    preload="metadata"
                     onMouseEnter={(e) => {
                       try { e.target.play(); } catch (err) {}
                     }}
                     onMouseLeave={(e) => {
                       try { e.target.pause(); e.target.currentTime = 0; } catch (err) {}
                     }}
-                  />
+                  >
+                    <source src={video.videoUrl} type="video/mp4" />
+                    {video.driveStreamUrl && <source src={video.driveStreamUrl} type="video/mp4" />}
+                  </video>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none flex items-end p-2.5">
                     <span className="text-[10px] text-slate-300 font-mono flex items-center gap-1 bg-black/60 px-2 py-0.5 rounded backdrop-blur-sm">
                       <Radio className="w-2.5 h-2.5 text-emerald-400 animate-pulse" />

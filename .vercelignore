@@ -1,5 +1,7 @@
 Canciones_Descargadas/
+client/public/videos/
 *.mp4
+!client/public/intro-escenario89.mp4
 *.webm
 *.mkv
 *.part

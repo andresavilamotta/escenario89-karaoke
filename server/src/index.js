@@ -31,7 +31,12 @@ const CANDIDATE_DIRS = [
   path.resolve(__dirname, '..', 'Canciones_Descargadas'),
   path.resolve('Canciones_Descargadas'),
   path.resolve('..', 'Canciones_Descargadas'),
+  path.resolve(__dirname, '..', '..', 'client', 'public', 'videos'),
+  path.resolve(__dirname, '..', '..', 'client', 'public'),
+  path.resolve(__dirname, '..', '..', 'Videos'),
   'H:\\Mi unidad\\02_Desarrollo_y_Apps\\APP\\Empresas\\APP Karaoke\\Canciones_Descargadas',
+  'H:\\Mi unidad\\02_Desarrollo_y_Apps\\APP\\Empresas\\APP Karaoke\\Videos',
+  'H:\\Mi unidad\\02_Desarrollo_y_Apps\\APP\\Empresas\\APP Karaoke\\client\\public\\videos',
 ];
 
 function getValidVideoDirs() {
