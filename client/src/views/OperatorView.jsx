@@ -242,6 +242,10 @@ export default function OperatorView() {
       setCurrentTrack(nextSong);
       setIsPlaying(true);
 
+      const finalVideoUrl = nextSong.videoUrl?.startsWith('/api/videos/')
+        ? `http://localhost:3001${nextSong.videoUrl}`
+        : nextSong.videoUrl;
+
       // Emitir broadcast directo e inmediato
       broadcast(MESSAGE_TYPES.PLAY_NEXT, {
         videoId: nextSong.videoId,
@@ -253,7 +257,7 @@ export default function OperatorView() {
         isNative: !!nextSong.isNative,
         isServerHosted: !!nextSong.isServerHosted,
         isDriveHosted: !!nextSong.isDriveHosted,
-        videoUrl: nextSong.videoUrl || null,
+        videoUrl: finalVideoUrl || null,
         driveFileId: nextSong.driveFileId || null,
         driveStreamUrl: nextSong.driveStreamUrl || null,
         filename: nextSong.filename || null,
@@ -449,15 +453,21 @@ export default function OperatorView() {
 
   // Poller reactivo: comprueba si alguna pista restringida/encolada ya terminó de descargarse
   useEffect(() => {
-    const restrictedTracks = queue.filter((t) => {
+    const candidateTracks = [
+      ...(currentTrack ? [currentTrack] : []),
+      ...queue,
+    ].filter((t, idx, self) => {
+      if (!t?.videoId) return false;
+      const isFirst = self.findIndex((x) => x.videoId === t.videoId) === idx;
       const val = validationMap[t.videoId];
-      return val?.status === 'restricted';
+      const prog = downloadProgressMap[t.videoId];
+      return isFirst && (val?.status === 'restricted' || prog?.status === 'downloading' || prog?.status === 'completed');
     });
 
-    if (restrictedTracks.length === 0) return;
+    if (candidateTracks.length === 0) return;
 
     const interval = setInterval(async () => {
-      for (const t of restrictedTracks) {
+      for (const t of candidateTracks) {
         try {
           let data = null;
           // 1. Consultar endpoint de Vercel
@@ -475,6 +485,11 @@ export default function OperatorView() {
           }
 
           if (data && data.isReady) {
+            let finalVideoUrl = data.streamUrl || data.videoUrl;
+            if (finalVideoUrl && finalVideoUrl.startsWith('/api/videos/')) {
+              finalVideoUrl = `http://localhost:3001${finalVideoUrl}`;
+            }
+
             // 1. Marcar en mapa de progreso visual como completada
             setDownloadProgressMap((prev) => ({
               ...prev,
@@ -485,27 +500,66 @@ export default function OperatorView() {
               },
             }));
 
-            // 2. ¡Descarga completada! Auto-transformar la canción en la cola
+            // 2. Objeto de pista VIP actualizada
             const upgradedTrack = {
               ...t,
               isNative: true,
               isDriveHosted: true,
-              videoUrl: data.streamUrl || data.videoUrl,
-              driveStreamUrl: data.streamUrl || data.videoUrl,
+              videoUrl: finalVideoUrl,
+              driveStreamUrl: finalVideoUrl,
               driveFileId: data.driveFileId || null,
               filename: data.filename || null,
-              badge: data.badge || '👑 Servidor VIP',
+              badge: '👑 Servidor VIP',
             };
 
+            // 3. SI ESTA PISTA ESTÁ AL AIRE EN EL ESCENARIO (currentTrack), RESCATARLA DE INMEDIATO:
+            if (currentTrackRef.current?.videoId === t.videoId) {
+              const upgradedCurrent = {
+                ...currentTrackRef.current,
+                ...upgradedTrack,
+              };
+              currentTrackRef.current = upgradedCurrent;
+              setCurrentTrack(upgradedCurrent);
+              setIsPlaying(true);
+
+              // Transmitir inmediatamente al proyector DisplayView
+              broadcast(MESSAGE_TYPES.PLAY_NEXT, {
+                videoId: upgradedCurrent.videoId,
+                title: upgradedCurrent.title,
+                author: upgradedCurrent.author,
+                queueId: upgradedCurrent.queueId,
+                duration: upgradedCurrent.duration,
+                thumbnail: upgradedCurrent.thumbnail,
+                isNative: true,
+                isDriveHosted: true,
+                videoUrl: finalVideoUrl,
+                driveStreamUrl: finalVideoUrl,
+                filename: upgradedCurrent.filename,
+                badge: '👑 Servidor VIP',
+              });
+
+              addNotification(`👑 ¡Rescate en vivo! "${t.title}" ahora se reproduce desde el Servidor VIP.`, 'success');
+            }
+
+            // 4. SI ESTÁ EN LA COLA, ACTUALIZARLA EN LA COLA
             setQueue((prevQueue) => {
-              return prevQueue.map((item) => (item.videoId === t.videoId ? upgradedTrack : item));
+              return prevQueue.map((item) => (item.videoId === t.videoId || (t.queueId && item.queueId === t.queueId) ? { ...item, ...upgradedTrack } : item));
             });
 
+            // 5. Actualizar validación
             setValidationMap((prev) => {
               const next = { ...prev };
               delete next[t.videoId];
               next[upgradedTrack.videoId] = { status: 'valid', reason: 'Descarga completada exitosamente' };
               return next;
+            });
+
+            // 6. Cerrar modal de alerta si estaba abierto para esta canción
+            setAlertModalState((prev) => {
+              if (prev.isOpen && prev.track?.videoId === t.videoId) {
+                return { isOpen: false, track: null, isCurrentTrack: false, reason: '' };
+              }
+              return prev;
             });
 
             addNotification(
@@ -515,10 +569,10 @@ export default function OperatorView() {
           }
         } catch (e) {}
       }
-    }, 4000);
+    }, 3500);
 
     return () => clearInterval(interval);
-  }, [queue, validationMap, addNotification]);
+  }, [queue, currentTrack, validationMap, downloadProgressMap, addNotification, broadcast]);
 
   // Manejo de inicio interactivo de descarga al Servidor VIP con progreso visual
   const handleStartDownload = useCallback((track) => {
@@ -1044,25 +1098,36 @@ export default function OperatorView() {
       const selected = prev[idx];
       const newQueue = prev.filter((_, i) => i !== idx);
 
-      setCurrentTrack(selected);
+      const finalVideoUrl = selected.videoUrl?.startsWith('/api/videos/')
+        ? `http://localhost:3001${selected.videoUrl}`
+        : selected.videoUrl;
+
+      const upgradedSelected = {
+        ...selected,
+        videoUrl: finalVideoUrl,
+        driveStreamUrl: finalVideoUrl,
+      };
+
+      setCurrentTrack(upgradedSelected);
       setIsPlaying(true);
 
       broadcast(MESSAGE_TYPES.PLAY_NEXT, {
-        videoId: selected.videoId,
-        title: selected.title,
-        author: selected.author,
-        queueId: selected.queueId,
-        duration: selected.duration,
-        thumbnail: selected.thumbnail,
-        isNative: !!selected.isNative,
-        isServerHosted: !!selected.isServerHosted,
-        isDriveHosted: !!selected.isDriveHosted,
-        driveFileId: selected.driveFileId || null,
-        driveStreamUrl: selected.driveStreamUrl || null,
-        videoUrl: selected.videoUrl || null,
-        filename: selected.filename || null,
-        storageKey: selected.storageKey || null,
+        videoId: upgradedSelected.videoId,
+        title: upgradedSelected.title,
+        author: upgradedSelected.author,
+        queueId: upgradedSelected.queueId,
+        duration: upgradedSelected.duration,
+        thumbnail: upgradedSelected.thumbnail,
+        isNative: !!upgradedSelected.isNative,
+        isServerHosted: !!upgradedSelected.isServerHosted,
+        isDriveHosted: !!upgradedSelected.isDriveHosted,
+        driveFileId: upgradedSelected.driveFileId || null,
+        driveStreamUrl: upgradedSelected.driveStreamUrl || null,
+        videoUrl: finalVideoUrl || null,
+        filename: upgradedSelected.filename || null,
+        storageKey: upgradedSelected.storageKey || null,
         nextTrackTitle: newQueue[0]?.title || '',
+        badge: upgradedSelected.badge || null,
       });
 
       addNotification(`Reproduciendo ahora: "${selected.title}"`, 'success');

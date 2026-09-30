@@ -427,7 +427,7 @@ export default function DisplayView() {
     }
   }, [onPlayerEnd]);
 
-  const onPlayerError = (event) => {
+  const onPlayerError = async (event) => {
     const errorCode = event.data;
     const currentVid = currentTrackRef.current?.videoId || currentTrack?.videoId || 'desconocido';
     const currentTit = currentTrackRef.current?.title || currentTrack?.title || 'Pista de Video';
@@ -505,7 +505,45 @@ export default function DisplayView() {
       return;
     }
 
-    // 2. Si no está en Google Drive, registrar en Vercel para descarga en segundo plano
+    // 2. Si no está en catálogo Drive estático, comprobar si ya fue descargado localmente en el PC (Servidor VIP)
+    if (currentVid) {
+      try {
+        const localCheck = await fetch(`http://localhost:3001/api/download-status?v=${currentVid}`);
+        if (localCheck.ok) {
+          const localData = await localCheck.json();
+          if (localData && localData.isReady) {
+            const localVideoUrl = localData.videoUrl?.startsWith('http')
+              ? localData.videoUrl
+              : `http://localhost:3001${localData.videoUrl}`;
+
+            const rescuedTrack = {
+              ...currentTrackRef.current,
+              isNative: true,
+              isDriveHosted: true,
+              videoUrl: localVideoUrl,
+              driveStreamUrl: localVideoUrl,
+              filename: localData.filename || null,
+              badge: '👑 Servidor VIP',
+            };
+
+            currentTrackRef.current = rescuedTrack;
+            setCurrentTrack(rescuedTrack);
+            setIsPlaying(true);
+            setHasError(null);
+            triggerOverlay(10000);
+
+            const rescueLog = logger.info('YouTube', `[Auto-Rescate Local VIP] "${currentTit}" tenía restricción (${errorCode}). Reemplazado instantáneamente por video VIP local: "${localData.filename}".`, {
+              originalVideoId: currentVid,
+              filename: localData.filename,
+            });
+            broadcast(MESSAGE_TYPES.LOG_REMOTE, rescueLog);
+            return;
+          }
+        }
+      } catch (e) {}
+    }
+
+    // 3. Si no está en Google Drive ni en disco local, registrar en Vercel para descarga en segundo plano
     try {
       fetch('/api/report-restricted', {
         method: 'POST',
@@ -615,11 +653,21 @@ export default function DisplayView() {
         /* Estado 2: Reproduciendo video en pantalla completa */
         <div className="relative w-full h-full">
           {currentTrack.isNative || currentTrack.isDriveHosted || currentTrack.driveFileId ? (() => {
-            const streamSrc = currentTrack.driveFileId
+            let rawSrc = currentTrack.driveFileId
               ? `/api/stream?id=${currentTrack.driveFileId}`
               : (currentTrack.videoUrl 
                   ? currentTrack.videoUrl 
                   : (currentTrack.videoId ? `/api/stream?v=${currentTrack.videoId}` : ''));
+
+            if (rawSrc && rawSrc.startsWith('/api/videos/')) {
+              rawSrc = `http://localhost:3001${rawSrc}`;
+            }
+            const streamSrc = rawSrc;
+
+            const formatLocal = (url) => {
+              if (!url) return '';
+              return url.startsWith('/api/videos/') ? `http://localhost:3001${url}` : url;
+            };
 
             return (
               /* Contenedor Video Nativo HTML5 para Servidor VIP y Cortinillas */
@@ -661,13 +709,13 @@ export default function DisplayView() {
                 >
                   <source src={streamSrc} type="video/mp4" />
                   {currentTrack.videoUrl && currentTrack.videoUrl !== streamSrc && (
-                    <source src={currentTrack.videoUrl} type="video/mp4" />
+                    <source src={formatLocal(currentTrack.videoUrl)} type="video/mp4" />
                   )}
                   {currentTrack.driveStreamUrl && currentTrack.driveStreamUrl !== streamSrc && (
-                    <source src={currentTrack.driveStreamUrl} type="video/mp4" />
+                    <source src={formatLocal(currentTrack.driveStreamUrl)} type="video/mp4" />
                   )}
                   {currentTrack.filename && (
-                    <source src={`/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
+                    <source src={`http://localhost:3001/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
                   )}
                 </video>
               </div>

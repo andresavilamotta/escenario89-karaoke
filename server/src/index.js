@@ -349,8 +349,8 @@ app.get('/api/download-status', (req, res) => {
       isReady: true,
       videoId,
       filename,
-      videoUrl: `/api/videos/${encodeURIComponent(filename)}`,
-      badge: '👑 Servidor VIP (Descarga Local)',
+      videoUrl: `http://localhost:${PORT}/api/videos/${encodeURIComponent(filename)}`,
+      badge: '👑 Servidor VIP',
       message: 'Video descargado y listo para reproducir.',
     });
   }
@@ -361,7 +361,7 @@ app.get('/api/download-status', (req, res) => {
       status: 'downloading',
       isReady: false,
       videoId,
-      message: 'Descarga en proceso con yt-dlp hacia Google Drive...',
+      message: 'Descarga en proceso con yt-dlp hacia Servidor VIP...',
     });
   }
 
