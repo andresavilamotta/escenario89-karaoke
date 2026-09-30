@@ -47,9 +47,22 @@ export default function DisplayView() {
     hasStartedPlayingRef.current = false;
     trackStartTimeRef.current = Date.now();
 
-    // Respetar tipo de pista: si viene configurada como Servidor VIP, enriquecer con datos de Drive
+    // Detener cualquier reproducción previa inmediatamente para evitar frames congelados
+    if (nativeVideoRef.current) {
+      try {
+        nativeVideoRef.current.pause();
+        nativeVideoRef.current.currentTime = 0;
+      } catch (e) {}
+    }
+    if (playerRef.current) {
+      try {
+        playerRef.current.stopVideo();
+      } catch (e) {}
+    }
+
+    // Respetar tipo de pista: si existe en Drive, garantizar streaming directo nativo
     let track = { ...payload };
-    if ((track.isNative || track.isDriveHosted || track.driveFileId) && track.type !== 'native') {
+    if (track.type !== 'native') {
       const driveMatch = (track.driveFileId ? findDriveTrackByFileId(track.driveFileId) : null) || 
                          (track.videoId ? findDriveTrackByVideoId(track.videoId) : null);
       if (driveMatch) {

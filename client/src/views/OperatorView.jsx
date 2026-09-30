@@ -37,6 +37,7 @@ export default function OperatorView() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(80);
   const [restartCounter, setRestartCounter] = useState(0);
+  const [isSkipping, setIsSkipping] = useState(false);
 
   // Estado de validación silenciosa Pre-Flight de la cola
   const [validationMap, setValidationMap] = useState({});
@@ -209,9 +210,10 @@ export default function OperatorView() {
   // Avanzar a la siguiente canción en la cola con guardia de cooldown y actualización funcional atómica
   const advanceToNextTrack = useCallback((source = 'auto') => {
     const now = Date.now();
-    // Guardia de Cooldown (2.5s) contra saltos en ráfaga
-    if (now - lastAdvanceTimeRef.current < 2500) {
-      console.warn(`[Operador] Avance bloqueado por Cooldown (${now - lastAdvanceTimeRef.current}ms). Previene salto en cascada.`);
+    // Guardia de Cooldown: 600ms para clic manual del operador, 2500ms para automáticos
+    const cooldownMs = source === 'manual' ? 600 : 2500;
+    if (now - lastAdvanceTimeRef.current < cooldownMs) {
+      console.warn(`[Operador] Avance bloqueado por Cooldown (${now - lastAdvanceTimeRef.current}ms).`);
       return;
     }
 
@@ -222,6 +224,9 @@ export default function OperatorView() {
 
     isAdvancingRef.current = true;
     lastAdvanceTimeRef.current = now;
+    if (source === 'manual') {
+      setIsSkipping(true);
+    }
 
     setQueue((prevQueue) => {
       if (prevQueue.length > 0) {
@@ -268,9 +273,11 @@ export default function OperatorView() {
       }
     });
 
+    const unlockTimeMs = source === 'manual' ? 600 : 1200;
     setTimeout(() => {
       isAdvancingRef.current = false;
-    }, 1200);
+      setIsSkipping(false);
+    }, unlockTimeMs);
   }, [addNotification, broadcast]);
 
   // Callback cuando la pantalla reporta que terminó una canción
@@ -723,8 +730,9 @@ export default function OperatorView() {
 
   const handleSkip = () => {
     if (queue.length > 0) {
-      advanceToNextTrack();
+      advanceToNextTrack('manual');
     } else {
+      addNotification('No hay canciones pendientes en la cola. Pantalla en espera.', 'info');
       handleRemoveCurrentTrack();
     }
   };
@@ -1003,6 +1011,7 @@ export default function OperatorView() {
           volume={volume}
           isDisplayConnected={isDisplayConnected}
           hasCurrentTrack={!!currentTrack}
+          isSkipping={isSkipping}
           onTogglePlay={handleTogglePlay}
           onSkip={handleSkip}
           onRestart={handleRestart}

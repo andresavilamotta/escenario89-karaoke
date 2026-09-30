@@ -10,7 +10,8 @@ import {
   ExternalLink, 
   Monitor, 
   Wifi, 
-  WifiOff 
+  WifiOff,
+  Loader2
 } from 'lucide-react';
 
 export default function PlayerControls({
@@ -18,6 +19,7 @@ export default function PlayerControls({
   volume = 80,
   isDisplayConnected = false,
   hasCurrentTrack = false,
+  isSkipping = false,
   onTogglePlay,
   onSkip,
   onRestart,
@@ -142,12 +144,16 @@ export default function PlayerControls({
 
           <button
             type="button"
-            disabled={!hasCurrentTrack}
+            disabled={!hasCurrentTrack || isSkipping}
             onClick={onSkip}
-            className="p-2.5 rounded-xl bg-[#201C16] hover:bg-[#332C22] disabled:opacity-25 text-slate-300 hover:text-amber-300 border border-[#332C22] transition active:scale-95"
-            title="Saltar a la siguiente canción"
+            className="p-2.5 rounded-xl bg-[#201C16] hover:bg-[#332C22] disabled:opacity-30 text-slate-300 hover:text-amber-300 border border-[#332C22] transition active:scale-95 flex items-center justify-center min-w-[38px] min-h-[38px]"
+            title={isSkipping ? "Cambiando a la siguiente canción..." : "Saltar a la siguiente canción"}
           >
-            <SkipForward className="w-4 h-4" />
+            {isSkipping ? (
+              <Loader2 className="w-4 h-4 text-amber-400 animate-spin" />
+            ) : (
+              <SkipForward className="w-4 h-4" />
+            )}
           </button>
 
           {/* Botón Quitar / Detener y volver al Home */}
