@@ -4,6 +4,7 @@ import ytSearch from 'yt-search';
 import path from 'path';
 import fs from 'fs';
 import https from 'https';
+import { execFile } from 'child_process';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -275,6 +276,62 @@ app.get('/api/stream', (req, res) => {
     driveRes.pipe(res);
   }).on('error', (err) => {
     if (!res.headersSent) res.status(502).json({ error: err.message });
+  });
+});
+
+// Registro de descargas activas en memoria para evitar procesos duplicados
+const activeDownloads = new Set();
+
+// Endpoint para descargar en segundo plano canciones restringidas detectadas en YouTube
+app.post('/api/download-restricted', (req, res) => {
+  const { videoId, title } = req.body || {};
+  if (!videoId) return res.status(400).json({ error: 'Parámetro videoId requerido.' });
+
+  if (activeDownloads.has(videoId)) {
+    return res.json({ status: 'already_downloading', videoId, message: 'La descarga ya está en progreso.' });
+  }
+
+  activeDownloads.add(videoId);
+  res.json({
+    status: 'download_started',
+    videoId,
+    title: title || videoId,
+    message: 'Descarga iniciada en segundo plano hacia Canciones_Descargadas.',
+  });
+
+  const safeTitle = (title || videoId).replace(/[\\/:*?"<>|]/g, '_').trim();
+  const outputTemplate = `${safeTitle} [${videoId}].%(ext)s`;
+  const url = `https://www.youtube.com/watch?v=${videoId}`;
+  const validDirs = getValidVideoDirs();
+  const targetDir = validDirs[0] || path.resolve(__dirname, '..', '..', 'Canciones_Descargadas');
+
+  const args = [
+    '--no-js-runtimes',
+    '--js-runtimes', 'node',
+    '--remote-components', 'ejs:github',
+    '--extractor-args', 'youtube:player_client=android',
+    '-f', '18/b',
+    '-o', outputTemplate,
+    '--no-playlist',
+    '--no-overwrites',
+    '--retries', '2',
+    '--socket-timeout', '25',
+    '--no-mtime',
+    url,
+  ];
+
+  console.log(`[Karaoke Backend] 📥 Iniciando descarga en segundo plano para [${videoId}] "${title || videoId}"...`);
+
+  execFile('yt-dlp', args, { cwd: targetDir }, (err) => {
+    activeDownloads.delete(videoId);
+    if (!err) {
+      console.log(`[Karaoke Backend] ✅ Descarga completada exitosamente: [${videoId}] "${title || videoId}"`);
+      // Invalidar mapa de caché para que se sirva inmediatamente
+      videoIdToPathMap = null;
+      buildVideoIdMap();
+    } else {
+      console.warn(`[Karaoke Backend] ⚠️ Error en descarga de [${videoId}]:`, err?.message || err);
+    }
   });
 });
 

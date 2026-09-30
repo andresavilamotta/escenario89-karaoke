@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AlertTriangle, ExternalLink, RefreshCw, SkipForward, X, Disc3, ShieldAlert, Sparkles, CheckCircle, Crown } from 'lucide-react';
+import { AlertTriangle, ExternalLink, RefreshCw, SkipForward, X, Disc3, ShieldAlert, Sparkles, CheckCircle, Crown, Download, Check } from 'lucide-react';
 import { searchDriveCatalog, findDriveTrackByVideoId } from '../data/driveCatalog';
 
 export default function TrackAlertModal({
@@ -15,14 +15,18 @@ export default function TrackAlertModal({
   const [alternatives, setAlternatives] = useState([]);
   const [isLoadingAlternatives, setIsLoadingAlternatives] = useState(false);
   const [searchFailed, setSearchFailed] = useState(false);
+  const [downloadStatus, setDownloadStatus] = useState(null); // null | 'queued' | 'downloading'
 
   useEffect(() => {
     if (!isOpen || !track) {
       setAlternatives([]);
       setIsLoadingAlternatives(false);
       setSearchFailed(false);
+      setDownloadStatus(null);
       return;
     }
+
+    setDownloadStatus(null);
 
     const fetchAlternatives = async () => {
       setIsLoadingAlternatives(true);
@@ -99,6 +103,44 @@ export default function TrackAlertModal({
     fetchAlternatives();
   }, [isOpen, track]);
 
+  const handleTriggerDownload = async () => {
+    if (!track?.videoId) return;
+    setDownloadStatus('queued');
+    try {
+      // 1. Notificar a Vercel backend
+      await fetch('/api/report-restricted', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          videoId: track.videoId,
+          title: track.title,
+          errorCode: 150,
+          rescued: false,
+        }),
+      });
+
+      // 2. Intentar notificar al servidor local para descarga inmediata si está activo
+      try {
+        const localRes = await fetch('http://localhost:3001/api/download-restricted', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            videoId: track.videoId,
+            title: track.title,
+          }),
+        });
+        if (localRes.ok) {
+          setDownloadStatus('downloading');
+          return;
+        }
+      } catch (e) {}
+
+      setDownloadStatus('queued');
+    } catch (e) {
+      console.warn('Error al solicitar descarga:', e);
+    }
+  };
+
   if (!isOpen || !track) return null;
 
   return (
@@ -159,6 +201,35 @@ export default function TrackAlertModal({
           </div>
 
           <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Botón para solicitar/iniciar descarga en segundo plano a Google Drive */}
+            <button
+              type="button"
+              onClick={handleTriggerDownload}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition active:scale-95 shadow-sm cursor-pointer ${
+                downloadStatus
+                  ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-600/70'
+                  : 'bg-amber-950/40 hover:bg-amber-900/60 text-amber-300 border border-amber-800/60'
+              }`}
+              title="Descargar esta pista a Google Drive para reproducirla sin restricciones"
+            >
+              {downloadStatus === 'downloading' ? (
+                <>
+                  <RefreshCw className="w-3.5 h-3.5 text-emerald-400 animate-spin" />
+                  <span>Descargando...</span>
+                </>
+              ) : downloadStatus === 'queued' ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Encolada para Drive</span>
+                </>
+              ) : (
+                <>
+                  <Download className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Descargar a Drive</span>
+                </>
+              )}
+            </button>
+
             {/* Botón directo para abrir en YouTube Oficial */}
             <button
               type="button"

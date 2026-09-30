@@ -268,10 +268,15 @@ export default function QueueManager({
                       </span>
                     )}
                     {isRestricted && (
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-red-500/25 text-red-300 border border-red-500/50">
-                        <AlertTriangle className="w-2.5 h-2.5 text-red-400" />
-                        Restringida
-                      </span>
+                      <>
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-red-500/25 text-red-300 border border-red-500/50">
+                          <AlertTriangle className="w-2.5 h-2.5 text-red-400" />
+                          Restringida
+                        </span>
+                        <span className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                          📥 Encolada para Drive
+                        </span>
+                      </>
                     )}
                   </div>
                 </div>

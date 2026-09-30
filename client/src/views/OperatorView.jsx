@@ -362,7 +362,85 @@ export default function OperatorView() {
     if (info.status === 'restricted') {
       const song = queueRef.current.find((t) => t.videoId === videoId);
       const title = song?.title || 'Una pista en la cola';
-      addNotification(`⚠️ Pre-Flight: "${title}" tiene restricción de derechos. Pulsa "Resolver" en la lista.`, 'warning');
+
+      // 1. AUTO-RESCATE INMEDIATO CON GOOGLE DRIVE (Servidor VIP)
+      // Si la canción (o versión del artista) ya existe en Google Drive, sustituirla automáticamente en la cola
+      const cleanTitle = (song?.title || '')
+        .replace(/\(Karaoke.*?\)/gi, '')
+        .replace(/\[Karaoke.*?\]/gi, '')
+        .replace(/\(Official.*?\)/gi, '')
+        .replace(/\(Lyrics.*?\)/gi, '')
+        .replace(/\(Video.*?\)/gi, '')
+        .replace(/\[Video.*?\]/gi, '')
+        .trim();
+
+      const directDrive = findDriveTrackByVideoId(videoId);
+      const driveMatches = !directDrive ? searchDriveCatalog(cleanTitle, 1) : [];
+      const driveRescueTrack = directDrive || (driveMatches.length > 0 ? driveMatches[0] : null);
+
+      if (driveRescueTrack) {
+        const streamUrl = driveRescueTrack.driveStreamUrl || `/api/stream?id=${driveRescueTrack.driveFileId}`;
+        const replacement = {
+          ...song,
+          ...driveRescueTrack,
+          isNative: true,
+          isDriveHosted: true,
+          badge: '👑 Servidor VIP (Rescate Drive)',
+          driveStreamUrl: streamUrl,
+          videoUrl: streamUrl,
+        };
+
+        setQueue((prevQueue) => {
+          return prevQueue.map((item) => {
+            if ((song?.queueId && item.queueId === song.queueId) || item.videoId === videoId) {
+              return replacement;
+            }
+            return item;
+          });
+        });
+
+        // Limpiar estado de restricción
+        setValidationMap((prev) => {
+          const next = { ...prev };
+          delete next[videoId];
+          next[replacement.videoId] = { status: 'valid', reason: 'Auto-rescatado con Servidor VIP Drive' };
+          return next;
+        });
+
+        addNotification(
+          `👑 Auto-Rescate VIP: "${title}" tenía restricción en YouTube y fue sustituida automáticamente por la versión Servidor VIP de Google Drive.`,
+          'success'
+        );
+
+        logger.info('Auto-Rescue', `[Auto-Rescate Cola] "${title}" reemplazada automáticamente por versión VIP de Google Drive: "${driveRescueTrack.title}".`);
+        return;
+      }
+
+      // 2. Si no está en Google Drive:
+      // Encolar reporte en Vercel
+      try {
+        fetch('/api/report-restricted', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            videoId,
+            title,
+            errorCode: 150,
+            rescued: false,
+          }),
+        }).catch(() => {});
+      } catch (e) {}
+
+      // Intentar también iniciar descarga en servidor local si está activo en la máquina
+      try {
+        fetch('http://localhost:3001/api/download-restricted', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ videoId, title }),
+        }).catch(() => {});
+      } catch (e) {}
+
+      addNotification(`⚠️ Pre-Flight: "${title}" tiene restricción de derechos. Pulsa "Resolver" para elegir otra versión o descargarla.`, 'warning');
     }
   }, [addNotification]);
 
