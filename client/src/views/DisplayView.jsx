@@ -4,7 +4,7 @@ import { useKaraokeSync, MESSAGE_TYPES } from '../hooks/useKaraokeSync';
 import StandbyScreen from '../components/StandbyScreen';
 import { Music, Radio, ExternalLink, AlertTriangle, Film, Server, Cloud, Crown, Volume2 } from 'lucide-react';
 import { logger } from '../utils/logger';
-import { findDriveTrackByVideoId, findDriveTrackByFileId } from '../data/driveCatalog';
+import { findDriveTrackByVideoId, findDriveTrackByFileId, searchDriveCatalog } from '../data/driveCatalog';
 
 
 export default function DisplayView() {
@@ -453,6 +453,72 @@ export default function DisplayView() {
     } else if (errorCode === 2) {
       errorMessage = 'El identificador del video no es válido.';
     }
+
+    // 1. AUTO-RESCATE INMEDIATO CON GOOGLE DRIVE (Servidor VIP)
+    // Si la canción o versión alternativa del artista está en el catálogo VIP de Google Drive,
+    // conmuta al instante sin parar el show ni requerir intervención manual del operador.
+    const directDriveMatch = findDriveTrackByVideoId(currentVid);
+    const catalogMatches = !directDriveMatch ? searchDriveCatalog(currentTit, 1) : [];
+    const driveRescueTrack = directDriveMatch || (catalogMatches.length > 0 ? catalogMatches[0] : null);
+
+    if (driveRescueTrack) {
+      const streamUrl = driveRescueTrack.driveStreamUrl || `/api/stream?id=${driveRescueTrack.driveFileId}`;
+      const rescuedTrack = {
+        ...currentTrackRef.current,
+        ...driveRescueTrack,
+        isNative: true,
+        isDriveHosted: true,
+        driveStreamUrl: streamUrl,
+        videoUrl: streamUrl,
+        badge: '👑 Servidor VIP (Rescate Drive)',
+      };
+
+      currentTrackRef.current = rescuedTrack;
+      setCurrentTrack(rescuedTrack);
+      setIsPlaying(true);
+      setHasError(null);
+      triggerOverlay(10000);
+
+      const rescueLog = logger.info('YouTube', `[Auto-Rescate Drive VIP] "${currentTit}" tenía restricción (${errorCode}). Reemplazado instantáneamente por Servidor VIP Google Drive: "${driveRescueTrack.title}".`, {
+        originalVideoId: currentVid,
+        driveFileId: driveRescueTrack.driveFileId,
+        title: driveRescueTrack.title,
+      });
+
+      // Notificar al backend de Vercel para estadísticas y cola
+      try {
+        fetch('/api/report-restricted', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            videoId: currentVid,
+            title: currentTit,
+            errorCode,
+            rescued: true,
+            rescueType: 'drive_vip',
+            driveFileId: driveRescueTrack.driveFileId,
+          }),
+        }).catch(() => {});
+      } catch (e) {}
+
+      broadcast(MESSAGE_TYPES.LOG_REMOTE, rescueLog);
+      return;
+    }
+
+    // 2. Si no está en Google Drive, registrar en Vercel para descarga en segundo plano
+    try {
+      fetch('/api/report-restricted', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          videoId: currentVid,
+          title: currentTit,
+          errorCode,
+          rescued: false,
+          rescueType: 'none',
+        }),
+      }).catch(() => {});
+    } catch (e) {}
 
     setHasError(errorMessage);
 

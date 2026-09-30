@@ -113,6 +113,13 @@ export default function handler(req, res) {
 
   if (!fileId && videoId) {
     fileId = getDriveIdForVideo(videoId);
+    if (!fileId) {
+      return res.status(404).json({
+        error: 'Video no encontrado en el Servidor VIP de Google Drive.',
+        videoId,
+        needsDownload: true,
+      });
+    }
   }
 
   if (!fileId || typeof fileId !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(fileId)) {

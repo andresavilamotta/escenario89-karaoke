@@ -61,6 +61,21 @@ export default function QueueValidator({ queue = [], onValidationUpdate }) {
           },
         });
       } catch (e) {}
+
+      // Reportar al backend de Vercel para la cola de descargas en segundo plano a Google Drive
+      try {
+        fetch('/api/report-restricted', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            videoId,
+            title: songTitle,
+            errorCode: 150,
+            rescued: false,
+            source: 'queue_pre_flight',
+          }),
+        }).catch(() => {});
+      } catch (e) {}
     } else if (status === 'valid') {
       logger.info('Pre-Flight', `[Pista Verificada 100% Compatible] (${videoId}) lista para el escenario.`);
     }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { AlertTriangle, ExternalLink, RefreshCw, SkipForward, X, Disc3, ShieldAlert, Sparkles, CheckCircle } from 'lucide-react';
+import { AlertTriangle, ExternalLink, RefreshCw, SkipForward, X, Disc3, ShieldAlert, Sparkles, CheckCircle, Crown } from 'lucide-react';
+import { searchDriveCatalog, findDriveTrackByVideoId } from '../data/driveCatalog';
 
 export default function TrackAlertModal({
   isOpen,
@@ -37,28 +38,56 @@ export default function TrackAlertModal({
           .replace(/\[Video.*?\]/gi, '')
           .trim();
 
-        // Buscar primero versiones con letra (Lyrics) o Karaoke alternativo
-        const res = await fetch(`/api/search?q=${encodeURIComponent(cleanTitle)}&mode=lyrics`);
-        if (!res.ok) throw new Error('Error de búsqueda');
-        const data = await res.json();
+        // 1. PRIORIDAD MÁXIMA: Buscar en el catálogo de Servidor VIP (Google Drive)
+        const exactDrive = findDriveTrackByVideoId(track.videoId);
+        const driveMatches = exactDrive ? [exactDrive] : searchDriveCatalog(cleanTitle, 3);
+        const driveAlternatives = driveMatches.map((dm) => ({
+          videoId: dm.videoId,
+          driveFileId: dm.driveFileId,
+          title: dm.title,
+          author: dm.author,
+          duration: dm.duration,
+          seconds: dm.seconds,
+          thumbnail: dm.thumbnail,
+          isNative: true,
+          isDriveHosted: true,
+          badge: '👑 Servidor VIP (Google Drive)',
+          driveStreamUrl: dm.driveStreamUrl || `/api/stream?id=${dm.driveFileId}`,
+          videoUrl: dm.driveStreamUrl || `/api/stream?id=${dm.driveFileId}`,
+          embeddable: true,
+        }));
 
-        const cleanList = (data.results || []).filter(
-          (v) => v.videoId !== track.videoId && v.embeddable !== false
-        );
-
-        if (cleanList.length > 0) {
-          setAlternatives(cleanList.slice(0, 4));
-        } else {
-          // Si no hay en lyrics, intentar en modo karaoke estándar
-          const fallbackRes = await fetch(`/api/search?q=${encodeURIComponent(cleanTitle)}&mode=karaoke`);
-          if (fallbackRes.ok) {
-            const fallbackData = await fallbackRes.json();
-            const fallbackList = (fallbackData.results || []).filter(
+        // 2. Buscar versiones con letra (Lyrics) o Karaoke alternativo en YouTube
+        let ytList = [];
+        try {
+          const res = await fetch(`/api/search?q=${encodeURIComponent(cleanTitle)}&mode=lyrics`);
+          if (res.ok) {
+            const data = await res.json();
+            ytList = (data.results || []).filter(
               (v) => v.videoId !== track.videoId && v.embeddable !== false
             );
-            setAlternatives(fallbackList.slice(0, 4));
           }
+        } catch (e) {}
+
+        if (ytList.length === 0) {
+          try {
+            const fallbackRes = await fetch(`/api/search?q=${encodeURIComponent(cleanTitle)}&mode=karaoke`);
+            if (fallbackRes.ok) {
+              const fallbackData = await fallbackRes.json();
+              ytList = (fallbackData.results || []).filter(
+                (v) => v.videoId !== track.videoId && v.embeddable !== false
+              );
+            }
+          } catch (e) {}
         }
+
+        // Combinar: primero las opciones de Google Drive VIP, luego las de YouTube
+        const combined = [
+          ...driveAlternatives,
+          ...ytList.filter((yt) => !driveAlternatives.some((d) => d.videoId === yt.videoId)),
+        ];
+
+        setAlternatives(combined.slice(0, 5));
       } catch (err) {
         console.warn('Error buscando alternativas:', err);
         setSearchFailed(true);
@@ -168,8 +197,12 @@ export default function TrackAlertModal({
             <div className="space-y-2">
               {alternatives.map((alt) => (
                 <div
-                  key={alt.videoId}
-                  className="flex items-center justify-between gap-3 p-2.5 rounded-xl bg-[#090807]/60 hover:bg-[#201C16] border border-[#332C22] hover:border-amber-500/50 transition group"
+                  key={alt.videoId || alt.driveFileId}
+                  className={`flex items-center justify-between gap-3 p-2.5 rounded-xl transition group ${
+                    alt.isDriveHosted
+                      ? 'bg-[#1a140a] hover:bg-[#251d0e] border border-amber-500/60 shadow-[0_0_15px_rgba(245,158,11,0.15)]'
+                      : 'bg-[#090807]/60 hover:bg-[#201C16] border border-[#332C22] hover:border-amber-500/50'
+                  }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="w-14 h-10 rounded overflow-hidden bg-black border border-[#332C22] flex-shrink-0">
@@ -181,13 +214,26 @@ export default function TrackAlertModal({
                       />
                     </div>
                     <div className="min-w-0">
-                      <h5 className="text-xs font-semibold text-slate-200 truncate group-hover:text-amber-300 transition-colors" title={alt.title}>
-                        {alt.title}
-                      </h5>
+                      <div className="flex items-center gap-1.5">
+                        <h5 className="text-xs font-semibold text-slate-200 truncate group-hover:text-amber-300 transition-colors" title={alt.title}>
+                          {alt.title}
+                        </h5>
+                        {alt.isDriveHosted && (
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase tracking-wider flex-shrink-0 flex items-center gap-1">
+                            <Crown className="w-2.5 h-2.5 text-amber-400" />
+                            Drive VIP
+                          </span>
+                        )}
+                      </div>
                       <div className="flex items-center gap-2 text-[11px] text-slate-400 mt-0.5">
                         <span className="truncate">{alt.author}</span>
                         <span>•</span>
                         <span className="font-mono text-amber-200/80">{alt.duration}</span>
+                        {alt.isDriveHosted && (
+                          <span className="text-[10px] text-emerald-400 font-medium hidden sm:inline">
+                            • Sin anuncios ni bloqueos
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -195,10 +241,14 @@ export default function TrackAlertModal({
                   <button
                     type="button"
                     onClick={() => onReplaceTrack && onReplaceTrack(alt)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-black font-bold text-xs transition active:scale-95 shadow flex-shrink-0"
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold text-xs transition active:scale-95 shadow flex-shrink-0 ${
+                      alt.isDriveHosted
+                        ? 'bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black shadow-[0_0_12px_rgba(245,158,11,0.4)]'
+                        : 'bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-black'
+                    }`}
                   >
-                    <CheckCircle className="w-3.5 h-3.5" />
-                    <span>Usar Esta Versión</span>
+                    {alt.isDriveHosted ? <Crown className="w-3.5 h-3.5" /> : <CheckCircle className="w-3.5 h-3.5" />}
+                    <span>{alt.isDriveHosted ? 'Usar Drive VIP' : 'Usar Esta Versión'}</span>
                   </button>
                 </div>
               ))}
