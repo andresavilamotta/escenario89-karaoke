@@ -228,52 +228,52 @@ export default function OperatorView() {
       setIsSkipping(true);
     }
 
-    setQueue((prevQueue) => {
-      if (prevQueue.length > 0) {
-        const [nextSong, ...remaining] = prevQueue;
-        const nextTitle = remaining[0]?.title || '';
+    const currentQ = queueRef.current;
+    if (currentQ.length > 0) {
+      const [nextSong, ...remaining] = currentQ;
+      const nextTitle = remaining[0]?.title || '';
 
-        setCurrentTrack(nextSong);
-        setIsPlaying(true);
+      // Actualizar estados
+      setQueue(remaining);
+      setCurrentTrack(nextSong);
+      setIsPlaying(true);
 
-        broadcast(MESSAGE_TYPES.PLAY_NEXT, {
-          videoId: nextSong.videoId,
-          title: nextSong.title,
-          author: nextSong.author,
-          queueId: nextSong.queueId,
-          duration: nextSong.duration,
-          thumbnail: nextSong.thumbnail,
-          isNative: !!nextSong.isNative,
-          isServerHosted: !!nextSong.isServerHosted,
-          isDriveHosted: !!nextSong.isDriveHosted,
-          videoUrl: nextSong.videoUrl || null,
-          driveFileId: nextSong.driveFileId || null,
-          driveStreamUrl: nextSong.driveStreamUrl || null,
-          filename: nextSong.filename || null,
-          nextTrackTitle: nextTitle,
-          badge: nextSong.badge || null,
-        });
+      // Emitir broadcast directo e inmediato
+      broadcast(MESSAGE_TYPES.PLAY_NEXT, {
+        videoId: nextSong.videoId,
+        title: nextSong.title,
+        author: nextSong.author,
+        queueId: nextSong.queueId,
+        duration: nextSong.duration,
+        thumbnail: nextSong.thumbnail,
+        isNative: !!nextSong.isNative,
+        isServerHosted: !!nextSong.isServerHosted,
+        isDriveHosted: !!nextSong.isDriveHosted,
+        videoUrl: nextSong.videoUrl || null,
+        driveFileId: nextSong.driveFileId || null,
+        driveStreamUrl: nextSong.driveStreamUrl || null,
+        filename: nextSong.filename || null,
+        nextTrackTitle: nextTitle,
+        badge: nextSong.badge || null,
+      });
 
-        addNotification(
-          nextSong.isDriveHosted || (nextSong.badge && nextSong.badge.includes('VIP'))
-            ? `Reproduciendo pista [Servidor VIP 👑]: "${nextSong.title}"`
-            : nextSong.badge && nextSong.badge.includes('Original')
-            ? `Reproduciendo video original [Para Bailar 🎬]: "${nextSong.title}"`
-            : `Reproduciendo: "${nextSong.title}"`,
-          'success'
-        );
-        return remaining;
-      } else {
-        // Cola vacía
-        setCurrentTrack(null);
-        setIsPlaying(false);
-        broadcast(MESSAGE_TYPES.STANDBY);
-        addNotification('La cola ha finalizado. Pantalla en espera (Standby).', 'info');
-        return [];
-      }
-    });
+      addNotification(
+        nextSong.isDriveHosted || (nextSong.badge && nextSong.badge.includes('VIP'))
+          ? `Reproduciendo pista [Servidor VIP 👑]: "${nextSong.title}"`
+          : nextSong.badge && nextSong.badge.includes('Original')
+          ? `Reproduciendo video original [Para Bailar 🎬]: "${nextSong.title}"`
+          : `Reproduciendo: "${nextSong.title}"`,
+        'success'
+      );
+    } else {
+      // Cola vacía
+      setCurrentTrack(null);
+      setIsPlaying(false);
+      broadcast(MESSAGE_TYPES.STANDBY);
+      addNotification('La cola ha finalizado. Pantalla en espera (Standby).', 'info');
+    }
 
-    const unlockTimeMs = source === 'manual' ? 600 : 1200;
+    const unlockTimeMs = source === 'manual' ? 500 : 1200;
     setTimeout(() => {
       isAdvancingRef.current = false;
       setIsSkipping(false);
@@ -708,8 +708,10 @@ export default function OperatorView() {
   // Acciones de transporte
   const handleTogglePlay = () => {
     if (!currentTrack) {
-      if (queue.length > 0) {
-        advanceToNextTrack();
+      if (queueRef.current.length > 0) {
+        advanceToNextTrack('manual');
+      } else {
+        addNotification('No hay canciones en la cola para reproducir.', 'info');
       }
       return;
     }
@@ -717,6 +719,7 @@ export default function OperatorView() {
     const nextState = !isPlaying;
     setIsPlaying(nextState);
     broadcast(MESSAGE_TYPES.PLAYER_STATE, { isPlaying: nextState });
+    addNotification(nextState ? 'Reanudando reproducción en pantalla.' : 'Reproducción en pausa.', 'info');
   };
 
   const handleRemoveCurrentTrack = () => {
@@ -729,11 +732,10 @@ export default function OperatorView() {
   };
 
   const handleSkip = () => {
-    if (queue.length > 0) {
+    if (queueRef.current.length > 0) {
       advanceToNextTrack('manual');
     } else {
-      addNotification('No hay canciones pendientes en la cola. Pantalla en espera.', 'info');
-      handleRemoveCurrentTrack();
+      addNotification('No hay más canciones pendientes en la cola para saltar.', 'info');
     }
   };
 

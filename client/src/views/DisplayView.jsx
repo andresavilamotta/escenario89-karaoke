@@ -133,17 +133,34 @@ export default function DisplayView() {
   const handlePlayerState = useCallback((payload) => {
     console.log('[Display] PLAYER_STATE recibido:', payload);
     setIsPlaying(payload.isPlaying);
-    if ((currentTrackRef.current?.isNative || currentTrackRef.current?.isDriveHosted || currentTrackRef.current?.driveFileId) && nativeVideoRef.current) {
+
+    // 1. Si es video nativo (HTML5 / Google Drive)
+    if (nativeVideoRef.current) {
       if (payload.isPlaying) {
-        nativeVideoRef.current.play().catch(() => {});
+        const p = nativeVideoRef.current.play();
+        if (p !== undefined) {
+          p.catch((err) => {
+            console.warn('[Display] Autoplay bloqueado al reanudar:', err);
+            nativeVideoRef.current.muted = true;
+            nativeVideoRef.current.play().catch(() => {});
+            setIsAudioUnlocked(false);
+          });
+        }
       } else {
         nativeVideoRef.current.pause();
       }
-    } else if (playerRef.current) {
-      if (payload.isPlaying) {
-        playerRef.current.playVideo();
-      } else {
-        playerRef.current.pauseVideo();
+    }
+
+    // 2. Si es YouTube
+    if (playerRef.current && typeof playerRef.current.playVideo === 'function') {
+      try {
+        if (payload.isPlaying) {
+          playerRef.current.playVideo();
+        } else {
+          playerRef.current.pauseVideo();
+        }
+      } catch (err) {
+        console.warn('[Display] Error al controlar reproductor de YouTube:', err);
       }
     }
   }, []);

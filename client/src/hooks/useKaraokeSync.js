@@ -36,15 +36,19 @@ export function useKaraokeSync(role = 'operator', callbacks = {}) {
     callbacksRef.current = callbacks;
   }, [callbacks]);
 
-  // Enviar mensaje al canal
+  // Enviar mensaje al canal con fallback a localStorage para ventanas secundarias
   const broadcast = useCallback((type, payload = {}) => {
+    const msg = { type, payload, sender: role, timestamp: Date.now(), msgId: Math.random().toString(36).substring(2, 9) };
     if (channelRef.current) {
       try {
-        channelRef.current.postMessage({ type, payload, sender: role, timestamp: Date.now() });
+        channelRef.current.postMessage(msg);
       } catch (err) {
         console.error(`[BroadcastChannel] Error al enviar ${type}:`, err);
       }
     }
+    try {
+      localStorage.setItem('karaoke_sync_event', JSON.stringify(msg));
+    } catch (e) {}
   }, [role]);
 
   useEffect(() => {
@@ -52,15 +56,22 @@ export function useKaraokeSync(role = 'operator', callbacks = {}) {
     const channel = new BroadcastChannel(CHANNEL_NAME);
     channelRef.current = channel;
 
-    const handleMessage = (event) => {
-      const { type, payload, sender } = event.data || {};
-      if (!type) return;
+    const processedMessages = new Set();
+    const handleRawMessage = (data) => {
+      const { type, payload, sender, timestamp, msgId } = data || {};
+      if (!type || sender === role) return;
+      const key = `${type}_${timestamp}_${msgId || ''}`;
+      if (processedMessages.has(key)) return;
+      processedMessages.add(key);
+      if (processedMessages.size > 100) {
+        const first = processedMessages.values().next().value;
+        processedMessages.delete(first);
+      }
 
       // Heartbeat logic
       if (type === MESSAGE_TYPES.PING_DISPLAY) {
         if (role === 'display') {
-          // Display responde al ping
-          channel.postMessage({ type: MESSAGE_TYPES.PONG_OPERATOR, sender: 'display', timestamp: Date.now() });
+          channel.postMessage({ type: MESSAGE_TYPES.PONG_OPERATOR, sender: 'display', timestamp: Date.now(), msgId: Math.random().toString(36).substring(2, 9) });
         }
       } else if (type === MESSAGE_TYPES.PONG_OPERATOR) {
         if (role === 'operator') {
@@ -69,14 +80,25 @@ export function useKaraokeSync(role = 'operator', callbacks = {}) {
         }
       }
 
-      // Despachar a callback específico si existe (incluyendo PONG_OPERATOR para SYNC_STATE)
+      // Despachar a callback específico si existe
       const cb = callbacksRef.current[type];
       if (typeof cb === 'function') {
         cb(payload, sender);
       }
     };
 
-    channel.onmessage = handleMessage;
+    channel.onmessage = (event) => handleRawMessage(event.data);
+
+    // Redundancia con evento storage para pestañas en segundo plano o proyectores
+    const handleStorage = (e) => {
+      if (e.key === 'karaoke_sync_event' && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          handleRawMessage(parsed);
+        } catch (err) {}
+      }
+    };
+    window.addEventListener('storage', handleStorage);
 
     // Heartbeat loop para Operador
     let heartbeatInterval = null;
@@ -107,6 +129,7 @@ export function useKaraokeSync(role = 'operator', callbacks = {}) {
     return () => {
       if (heartbeatInterval) clearInterval(heartbeatInterval);
       if (timeoutChecker) clearInterval(timeoutChecker);
+      window.removeEventListener('storage', handleStorage);
       channel.close();
       channelRef.current = null;
     };
