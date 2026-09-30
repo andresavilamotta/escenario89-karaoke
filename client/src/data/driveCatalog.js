@@ -66121,29 +66121,87 @@ const DRIVE_TRACKS_BY_FILE_ID = new Map(
   DRIVE_TRACKS.filter((t) => t.driveFileId).map((t) => [t.driveFileId, t])
 );
 
+function cleanSearchText(str) {
+  return removeAccents(str || '')
+    .toLowerCase()
+    .replace(/[^a-zA-Z0-9 ]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function normalizeTitleForDeduplication(artist, title) {
+  const cArtist = cleanSearchText(artist);
+  let cTitle = cleanSearchText(title);
+  cTitle = cTitle
+    .replace(/\b(karaoke|version|instrumental|letra|lyrics|video|oficial|official)\b/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return cArtist + '___' + cTitle;
+}
+
+function scoreTrack(track, cleanQuery, terms) {
+  const cTitle = cleanSearchText(track.title);
+  const cAuthor = cleanSearchText(track.author);
+  const cFull = cAuthor ? (cAuthor + ' ' + cTitle) : cTitle;
+
+  // 1. Coincidencia exacta de título o artista o artista - título
+  if (cTitle === cleanQuery || cFull === cleanQuery) return 1000;
+  if (cAuthor === cleanQuery) return 900;
+
+  // 2. Empieza exactamente con la búsqueda
+  if (cTitle.startsWith(cleanQuery) || cFull.startsWith(cleanQuery)) return 800;
+  if (cAuthor.startsWith(cleanQuery)) return 700;
+
+  // 3. Contiene la frase exacta buscada en el título
+  if (cTitle.includes(cleanQuery)) return 600;
+  if (cFull.includes(cleanQuery)) return 500;
+
+  // 4. Si la consulta tiene múltiples palabras, TODAS deben existir como palabras exactas
+  if (terms.length > 1) {
+    const words = cFull.split(' ');
+    const allWordsMatch = terms.every((t) => words.includes(t));
+    if (!allWordsMatch) return 0;
+    if (cTitle.includes(cleanQuery)) return 450;
+    return 300;
+  }
+
+  // Si es una sola palabra: solo si es palabra exacta o inicio de palabra
+  const words = cTitle.split(' ');
+  if (words.some((w) => w === cleanQuery)) return 200;
+  if (words.some((w) => w.startsWith(cleanQuery))) return 150;
+
+  return 0;
+}
+
 /**
- * Busca canciones en el catálogo de Servidor VIP con búsqueda ultra-rápida y límite
+ * Busca canciones en el catálogo de Servidor VIP con alta precisión, scoring estricto y deduplicación
  * @param {string} query
  * @param {number} limit
  * @returns {Array} canciones coincidentes
  */
-export function searchDriveCatalog(query, limit = 50) {
+export function searchDriveCatalog(query, limit = 6) {
   if (!query || typeof query !== 'string') return [];
-  const clean = removeAccents(query.trim().toLowerCase());
-  if (clean.length < 2) return [];
+  const cleanQ = cleanSearchText(query);
+  if (cleanQ.length < 2) return [];
 
-  const terms = clean.split(/\s+/).filter(Boolean);
-  const results = [];
+  const terms = cleanQ.split(' ').filter(Boolean);
+  const scored = [];
+  const seenCanonical = new Set();
 
   for (let i = 0; i < DRIVE_TRACKS.length; i++) {
     const track = DRIVE_TRACKS[i];
-    if (terms.every((term) => track._searchIndex.includes(term))) {
-      results.push(track);
-      if (results.length >= limit) break;
+    const score = scoreTrack(track, cleanQ, terms);
+    if (score >= 200) {
+      const canonicalKey = normalizeTitleForDeduplication(track.author, track.title);
+      if (!seenCanonical.has(canonicalKey)) {
+        seenCanonical.add(canonicalKey);
+        scored.push({ track, score });
+      }
     }
   }
 
-  return results;
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, limit).map((s) => s.track);
 }
 
 /**

@@ -79,8 +79,9 @@ export default function OperatorView() {
   const volumeRef = useRef(volume);
   const searchModeRef = useRef(searchMode);
   const fallbackAttemptsRef = useRef(new Set());
-  const lastAdvanceTimeRef = useRef(0);
   const isAdvancingRef = useRef(false);
+  const searchIdRef = useRef(0);
+  const searchAbortControllerRef = useRef(null);
 
   // Referencia segura al broadcast para evitar ReferenceError de inicialización (TDZ)
   const broadcastRef = useRef(null);
@@ -455,24 +456,39 @@ export default function OperatorView() {
   // Búsqueda en el backend Express con filtro anti-restricción y modos
   const handleSearch = useCallback(async (query, mode = searchModeRef.current) => {
     if (!query || query.trim().length < 2) {
+      if (searchAbortControllerRef.current) {
+        searchAbortControllerRef.current.abort();
+      }
       setSearchResults([]);
       return;
     }
 
+    const currentSearchId = ++searchIdRef.current;
+    if (searchAbortControllerRef.current) {
+      searchAbortControllerRef.current.abort();
+    }
+    const abortController = new AbortController();
+    searchAbortControllerRef.current = abortController;
+
     setSearchMode(mode);
     setIsSearching(true);
     try {
-      // 1. En modo karaoke, buscar coincidencias instantáneas en el catálogo de Servidor VIP
-      const driveMatches = mode === 'karaoke' ? searchDriveCatalog(query) : [];
-      if (driveMatches.length > 0) {
+      // 1. En modo karaoke, buscar coincidencias instantáneas y estrictas en el catálogo VIP
+      const driveMatches = mode === 'karaoke' ? searchDriveCatalog(query, 6) : [];
+      if (currentSearchId === searchIdRef.current && driveMatches.length > 0) {
         setSearchResults(driveMatches);
       }
 
-      const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&mode=${mode}`);
+      const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&mode=${mode}`, {
+        signal: abortController.signal,
+      });
+
       if (!res.ok) {
         throw new Error(`Error en el servidor (${res.status})`);
       }
       const data = await res.json();
+      if (currentSearchId !== searchIdRef.current) return;
+
       const ytResults = data.results || [];
 
       // 2. Enriquecer los resultados de YouTube según el modo seleccionado
@@ -523,16 +539,20 @@ export default function OperatorView() {
         setSearchResults([...driveMatches, ...filteredYt]);
       }
     } catch (err) {
+      if (err.name === 'AbortError') return;
+      if (currentSearchId !== searchIdRef.current) return;
       console.error('Error al consultar API de búsqueda:', err);
       // Fallback: si falla YouTube o no hay internet, mostrar las coincidencias de Servidor VIP
-      const driveMatches = searchDriveCatalog(query);
+      const driveMatches = searchDriveCatalog(query, 6);
       if (driveMatches.length > 0) {
         setSearchResults(driveMatches);
       } else {
         addNotification('No se pudo completar la búsqueda en YouTube. Verifica el servidor.', 'error');
       }
     } finally {
-      setIsSearching(false);
+      if (currentSearchId === searchIdRef.current) {
+        setIsSearching(false);
+      }
     }
   }, [addNotification]);
 
