@@ -1,18 +1,8 @@
 import fs from 'fs';
 
-let videoIdToDriveId = null;
-
+// En rama test/sin-canciones-descargadas: deshabilitar resolución de catálogo pre-descargado
 function getDriveIdForVideo(videoId) {
-  if (!videoId) return null;
-  if (!videoIdToDriveId) {
-    try {
-      const jsonUrl = new URL('./drive_file_ids.min.json', import.meta.url);
-      videoIdToDriveId = JSON.parse(fs.readFileSync(jsonUrl, 'utf8'));
-    } catch (e) {
-      videoIdToDriveId = {};
-    }
-  }
-  return videoIdToDriveId[videoId] || null;
+  return null;
 }
 
 export default async function handler(req, res) {

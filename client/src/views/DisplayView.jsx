@@ -455,9 +455,43 @@ export default function DisplayView() {
       errorMessage = 'El identificador del video no es válido.';
     }
 
-    // 1. AUTO-RESCATE INMEDIATO CON GOOGLE DRIVE (Servidor VIP)
-    // Si la canción o versión alternativa del artista está en el catálogo VIP de Google Drive,
-    // conmuta al instante sin parar el show ni requerir intervención manual del operador.
+    // 1. AUTO-RESCATE VÍA STREAM DIRECTO PROXY WEBSHARE (En vivo sin canciones descargadas)
+    if (currentVid) {
+      try {
+        console.log(`[Display] 🚀 Intentando auto-rescate por Stream Directo con proxy para [${currentVid}]...`);
+        const streamCheck = await fetch(buildBackendUrl(`/api/stream-direct?v=${currentVid}`));
+        if (streamCheck.ok) {
+          const streamData = await streamCheck.json();
+          if (streamData && streamData.streamUrl) {
+            const rescuedTrack = {
+              ...currentTrackRef.current,
+              isNative: true,
+              isDriveHosted: false,
+              videoUrl: streamData.streamUrl,
+              driveStreamUrl: streamData.streamUrl,
+              badge: '🛡️ Stream Proxy VIP',
+            };
+
+            currentTrackRef.current = rescuedTrack;
+            setCurrentTrack(rescuedTrack);
+            setIsPlaying(true);
+            setHasError(null);
+            triggerOverlay(10000);
+
+            const rescueLog = logger.info('YouTube', `[Auto-Rescate Stream Proxy] "${currentTit}" tenía restricción (${errorCode}). Rescatado en vivo vía proxy (${streamData.proxyCountry || 'OK'}).`, {
+              videoId: currentVid,
+              proxyCountry: streamData.proxyCountry,
+            });
+            broadcast(MESSAGE_TYPES.LOG_REMOTE, rescueLog);
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn('[Display] Falló auto-rescate por stream directo:', e);
+      }
+    }
+
+    // 2. AUTO-RESCATE CON GOOGLE DRIVE (Servidor VIP)
     const directDriveMatch = findDriveTrackByVideoId(currentVid);
     const catalogMatches = !directDriveMatch ? searchDriveCatalog(currentTit, 1) : [];
     const driveRescueTrack = directDriveMatch || (catalogMatches.length > 0 ? catalogMatches[0] : null);

@@ -69,38 +69,7 @@ function buildVideoIdMap() {
 }
 
 function resolveLocalVideoPath(filename) {
-  if (!filename) return null;
-  let decoded = filename;
-  try {
-    decoded = decodeURIComponent(filename);
-  } catch (e) {}
-
-  if (videoPathCache.has(decoded)) {
-    return videoPathCache.get(decoded);
-  }
-
-  // 1. Fallback inmediato por videoId: [videoId], videoId.mp4 o videoId puro (11 caracteres)
-  const idMatch = decoded.match(/\[([a-zA-Z0-9_-]{11})\]/i) ||
-                  decoded.match(/(?:^|\/)([a-zA-Z0-9_-]{11})\.(mp4|webm|mkv)$/i) ||
-                  (decoded.length === 11 && /^[a-zA-Z0-9_-]{11}$/.test(decoded) ? [, decoded] : null);
-  if (idMatch && idMatch[1]) {
-    const map = buildVideoIdMap();
-    if (map.has(idMatch[1])) {
-      const foundPath = map.get(idMatch[1]);
-      videoPathCache.set(decoded, foundPath);
-      return foundPath;
-    }
-  }
-
-  // 2. Búsqueda exacta de archivo en los directorios de Google Drive
-  for (const dir of getValidVideoDirs()) {
-    const candidate = path.join(dir, decoded);
-    if (fs.existsSync(candidate)) {
-      videoPathCache.set(decoded, candidate);
-      return candidate;
-    }
-  }
-
+  // En rama de prueba test/sin-canciones-descargadas: deshabilitar resolución de videos pre-descargados
   return null;
 }
 
