@@ -335,6 +335,44 @@ app.post('/api/download-restricted', (req, res) => {
   });
 });
 
+// Endpoint para consultar estado de una descarga (idle | downloading | completed)
+app.get('/api/download-status', (req, res) => {
+  const videoId = req.query.v || req.query.videoId;
+  if (!videoId) return res.status(400).json({ error: 'Parámetro v (videoId) requerido.' });
+
+  // 1. Comprobar si ya existe físicamente en Canciones_Descargadas
+  const filePath = resolveLocalVideoPath(videoId);
+  if (filePath && fs.existsSync(filePath)) {
+    const filename = path.basename(filePath);
+    return res.json({
+      status: 'completed',
+      isReady: true,
+      videoId,
+      filename,
+      videoUrl: `/api/videos/${encodeURIComponent(filename)}`,
+      badge: '👑 Servidor VIP (Descarga Local)',
+      message: 'Video descargado y listo para reproducir.',
+    });
+  }
+
+  // 2. Comprobar si la descarga está en proceso
+  if (activeDownloads.has(videoId)) {
+    return res.json({
+      status: 'downloading',
+      isReady: false,
+      videoId,
+      message: 'Descarga en proceso con yt-dlp hacia Google Drive...',
+    });
+  }
+
+  return res.json({
+    status: 'idle',
+    isReady: false,
+    videoId,
+    message: 'Sin descarga activa para este video.',
+  });
+});
+
 // Endpoint de búsqueda inteligente con modos (karaoke, lyrics, original, directo) y filtro de inserción
 app.get('/api/search', async (req, res) => {
   const query = req.query.q;

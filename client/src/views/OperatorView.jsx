@@ -444,6 +444,69 @@ export default function OperatorView() {
     }
   }, [addNotification]);
 
+  // Poller reactivo: comprueba si alguna pista restringida/encolada ya terminó de descargarse
+  useEffect(() => {
+    const restrictedTracks = queue.filter((t) => {
+      const val = validationMap[t.videoId];
+      return val?.status === 'restricted';
+    });
+
+    if (restrictedTracks.length === 0) return;
+
+    const interval = setInterval(async () => {
+      for (const t of restrictedTracks) {
+        try {
+          let data = null;
+          // 1. Consultar endpoint de Vercel
+          try {
+            const res = await fetch(`/api/download-status?v=${t.videoId}`);
+            if (res.ok) data = await res.json();
+          } catch (e) {}
+
+          // 2. Si no está en Vercel, consultar backend local si está activo
+          if (!data?.isReady) {
+            try {
+              const localRes = await fetch(`http://localhost:3001/api/download-status?v=${t.videoId}`);
+              if (localRes.ok) data = await localRes.json();
+            } catch (e) {}
+          }
+
+          if (data && data.isReady) {
+            // ¡Descarga completada! Auto-transformar la canción en la cola
+            const upgradedTrack = {
+              ...t,
+              isNative: true,
+              isDriveHosted: true,
+              videoUrl: data.streamUrl || data.videoUrl,
+              driveStreamUrl: data.streamUrl || data.videoUrl,
+              driveFileId: data.driveFileId || null,
+              filename: data.filename || null,
+              badge: data.badge || '👑 Servidor VIP (Descargada)',
+            };
+
+            setQueue((prevQueue) => {
+              return prevQueue.map((item) => (item.videoId === t.videoId ? upgradedTrack : item));
+            });
+
+            setValidationMap((prev) => {
+              const next = { ...prev };
+              delete next[t.videoId];
+              next[upgradedTrack.videoId] = { status: 'valid', reason: 'Descarga completada exitosamente' };
+              return next;
+            });
+
+            addNotification(
+              `🎉 ¡Descarga completada! "${t.title}" ya está lista en el Servidor VIP para cantar.`,
+              'success'
+            );
+          }
+        } catch (e) {}
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [queue, validationMap, addNotification]);
+
   // Abrir Modal de Alerta para una pista específica
   const handleOpenAlertModal = useCallback((track, isCurrent = false, reason = '') => {
     setAlertModalState({
