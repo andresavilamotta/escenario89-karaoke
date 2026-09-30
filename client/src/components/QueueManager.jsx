@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash2, ChevronUp, ChevronDown, ListMusic, Clock, Disc, PlayCircle, ExternalLink, Square, CheckCircle, AlertTriangle, Loader2, ShieldAlert, Sparkles, Film, Check, Server, Cloud, Crown, Video } from 'lucide-react';
+import { Trash2, ChevronUp, ChevronDown, ListMusic, Clock, Disc, PlayCircle, ExternalLink, Square, CheckCircle, AlertTriangle, Loader2, ShieldAlert, Sparkles, Film, Check, Server, Cloud, Crown, Video, RefreshCw } from 'lucide-react';
 
 export default function QueueManager({
   currentTrack,
@@ -8,6 +8,7 @@ export default function QueueManager({
   volume = 80,
   isDisplayConnected = false,
   validationMap = {},
+  downloadProgressMap = {},
   restartCounter = 0,
   onRemoveTrack,
   onRemoveCurrentTrack,
@@ -17,6 +18,7 @@ export default function QueueManager({
   onClearQueue,
   onOpenDirectYouTube,
   onOpenAlertModal,
+  onStartDownload,
   onTrackEnded,
 }) {
   return (
@@ -179,168 +181,226 @@ export default function QueueManager({
             const isRestricted = val?.status === 'restricted';
             const isValid = val?.status === 'valid';
             const isTesting = val?.status === 'testing';
+            const downloadState = downloadProgressMap[track.videoId];
+            const isDownloading = downloadState?.status === 'downloading';
+            const isDownloadCompleted = downloadState?.status === 'completed';
 
             return (
               <div
                 key={track.queueId || `${track.videoId}-${index}`}
-                className={`group flex items-center gap-2.5 p-2 rounded-xl border transition-all duration-150 ${
-                  isRestricted
+                className={`group flex flex-col p-2.5 rounded-xl border transition-all duration-150 ${
+                  isDownloading
+                    ? 'bg-amber-950/25 border-amber-500/60 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
+                    : isRestricted
                     ? 'bg-red-950/20 border-red-500/60 shadow-[0_0_12px_rgba(239,68,68,0.15)]'
                     : isNative
                     ? 'bg-purple-950/20 hover:bg-purple-950/35 border-purple-500/40 hover:border-purple-500/70 shadow-[0_0_10px_rgba(168,85,247,0.12)]'
                     : 'bg-[#201C16]/60 hover:bg-[#201C16] border-[#332C22]/60 hover:border-amber-500/40'
                 }`}
               >
-                <div className="w-6 text-center font-mono text-xs font-bold text-amber-400/90 flex-shrink-0">
-                  #{index + 1}
-                </div>
-
-                <div className="w-14 h-10 rounded overflow-hidden flex-shrink-0 bg-black border border-[#332C22] relative">
-                  <img
-                    src={track.thumbnail}
-                    alt={track.title}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                  {isRestricted && (
-                    <div className="absolute inset-0 bg-red-950/70 flex items-center justify-center">
-                      <AlertTriangle className="w-4 h-4 text-red-400" />
-                    </div>
-                  )}
-                  {isNative && !isRestricted && (
-                    <div className="absolute bottom-0 inset-x-0 bg-purple-950/80 text-[8px] font-bold text-purple-200 text-center py-0.2 tracking-wider uppercase">
-                      VIDEO
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
-                    <h5
-                      className={`text-xs font-semibold truncate leading-tight transition-colors ${
-                        isRestricted
-                          ? 'text-red-200'
-                          : isNative
-                          ? 'text-purple-200 group-hover:text-purple-300'
-                          : 'text-slate-200 group-hover:text-amber-300'
-                      }`}
-                      title={track.title}
-                    >
-                      {track.title}
-                    </h5>
+                {/* Fila Principal de la Canción */}
+                <div className="flex items-center gap-2.5 w-full">
+                  <div className="w-6 text-center font-mono text-xs font-bold text-amber-400/90 flex-shrink-0">
+                    #{index + 1}
                   </div>
 
-                  <div className="flex items-center gap-2 text-[11px] text-slate-400 flex-wrap">
-                    <span className="truncate max-w-[120px]">{track.author}</span>
-                    <span>•</span>
-                    <span className="font-mono text-amber-200/60">{track.duration}</span>
+                  <div className="w-14 h-10 rounded overflow-hidden flex-shrink-0 bg-black border border-[#332C22] relative">
+                    <img
+                      src={track.thumbnail}
+                      alt={track.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    {isDownloading ? (
+                      <div className="absolute inset-0 bg-amber-950/80 flex items-center justify-center">
+                        <Loader2 className="w-4 h-4 text-amber-400 animate-spin" />
+                      </div>
+                    ) : isRestricted ? (
+                      <div className="absolute inset-0 bg-red-950/70 flex items-center justify-center">
+                        <AlertTriangle className="w-4 h-4 text-red-400" />
+                      </div>
+                    ) : null}
+                    {isNative && !isRestricted && (
+                      <div className="absolute bottom-0 inset-x-0 bg-purple-950/80 text-[8px] font-bold text-purple-200 text-center py-0.2 tracking-wider uppercase">
+                        VIDEO
+                      </div>
+                    )}
+                  </div>
 
-                    {track.isDriveHosted || track.isServerHosted || (track.badge && track.badge.includes('VIP')) ? (
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-500/25 text-amber-300 border border-amber-500/40">
-                        <Crown className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
-                        👑 Servidor VIP
-                      </span>
-                    ) : isNative ? (
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-purple-500/25 text-purple-300 border border-purple-500/40">
-                        <Film className="w-2.5 h-2.5 text-purple-400" />
-                        Cortinilla
-                      </span>
-                    ) : (track.badge && track.badge.includes('Original')) ? (
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-sky-500/25 text-sky-300 border border-sky-500/40">
-                        <Video className="w-2.5 h-2.5 text-sky-400" />
-                        🎬 Video Original
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-medium bg-[#14120F] text-slate-400 border border-[#332C22]">
-                        {track.badge || '📺 YouTube'}
-                      </span>
-                    )}
-                    {isValid && (
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                        <CheckCircle className="w-2.5 h-2.5 text-emerald-400" />
-                        {isNative ? 'Nativo 100%' : 'Verificada'}
-                      </span>
-                    )}
-                    {isTesting && (
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                        <Loader2 className="w-2.5 h-2.5 text-amber-400 animate-spin" />
-                        Comprobando...
-                      </span>
-                    )}
-                    {isRestricted && (
-                      <>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
+                      <h5
+                        className={`text-xs font-semibold truncate leading-tight transition-colors ${
+                          isRestricted
+                            ? 'text-red-200'
+                            : isNative
+                            ? 'text-purple-200 group-hover:text-purple-300'
+                            : 'text-slate-200 group-hover:text-amber-300'
+                        }`}
+                        title={track.title}
+                      >
+                        {track.title}
+                      </h5>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-[11px] text-slate-400 flex-wrap">
+                      <span className="truncate max-w-[120px]">{track.author}</span>
+                      <span>•</span>
+                      <span className="font-mono text-amber-200/60">{track.duration}</span>
+
+                      {track.isDriveHosted || track.isServerHosted || (track.badge && track.badge.includes('VIP')) ? (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-500/25 text-amber-300 border border-amber-500/40">
+                          <Crown className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
+                          👑 Servidor VIP
+                        </span>
+                      ) : isNative ? (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-purple-500/25 text-purple-300 border border-purple-500/40">
+                          <Film className="w-2.5 h-2.5 text-purple-400" />
+                          Cortinilla
+                        </span>
+                      ) : (track.badge && track.badge.includes('Original')) ? (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-sky-500/25 text-sky-300 border border-sky-500/40">
+                          <Video className="w-2.5 h-2.5 text-sky-400" />
+                          🎬 Video Original
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-medium bg-[#14120F] text-slate-400 border border-[#332C22]">
+                          {track.badge || '📺 YouTube'}
+                        </span>
+                      )}
+
+                      {isValid && (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                          <CheckCircle className="w-2.5 h-2.5 text-emerald-400" />
+                          {isNative ? 'Nativo 100%' : 'Verificada'}
+                        </span>
+                      )}
+                      {isTesting && (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                          <Loader2 className="w-2.5 h-2.5 text-amber-400 animate-spin" />
+                          Comprobando...
+                        </span>
+                      )}
+                      {isDownloading && (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 animate-pulse">
+                          <Loader2 className="w-2.5 h-2.5 text-amber-400 animate-spin" />
+                          Descargando al Servidor VIP ({downloadState.percent || 15}%)
+                        </span>
+                      )}
+                      {isRestricted && !isDownloading && (
                         <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold bg-red-500/25 text-red-300 border border-red-500/50">
                           <AlertTriangle className="w-2.5 h-2.5 text-red-400" />
-                          Restringida
+                          Restringida en YouTube
                         </span>
-                        <span className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40">
-                          📥 Encolada para Drive
-                        </span>
-                      </>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-1 flex-shrink-0">
+                    {track.videoId && (
+                      <button
+                        type="button"
+                        onClick={() => window.open(`https://www.youtube.com/watch?v=${track.videoId}&autoplay=1`, '_blank')}
+                        className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/30 transition"
+                        title="Abrir video en YouTube"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </button>
                     )}
+
+                    <button
+                      type="button"
+                      onClick={() => onPlayNow && onPlayNow(track.queueId, index)}
+                      className="p-1 rounded text-slate-400 hover:text-amber-400 hover:bg-[#332C22] transition"
+                      title="Reproducir este tema ahora"
+                    >
+                      <PlayCircle className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      disabled={index === 0}
+                      onClick={() => onMoveUp && onMoveUp(track.queueId, index)}
+                      className="p-1 rounded text-slate-400 hover:text-white hover:bg-[#332C22] disabled:opacity-25 transition"
+                      title="Subir de posición"
+                    >
+                      <ChevronUp className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      disabled={index === queue.length - 1}
+                      onClick={() => onMoveDown && onMoveDown(track.queueId, index)}
+                      className="p-1 rounded text-slate-400 hover:text-white hover:bg-[#332C22] disabled:opacity-25 transition"
+                      title="Bajar de posición"
+                    >
+                      <ChevronDown className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onRemoveTrack && onRemoveTrack(track.queueId, index)}
+                      className="p-1 rounded text-slate-400 hover:text-red-400 hover:bg-red-950/30 transition"
+                      title="Eliminar de la cola"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1 flex-shrink-0">
-                  {/* Botón especial para pistas restringidas: Resolver con 1 clic */}
-                  {isRestricted && (
-                    <button
-                      type="button"
-                      onClick={() => onOpenAlertModal && onOpenAlertModal(track, false, val?.reason)}
-                      className="px-2 py-1 rounded bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition flex items-center gap-1 shadow active:scale-95 cursor-pointer"
-                      title="Resolver problema: Buscar versión alternativa o abrir en YouTube"
-                    >
-                      <ShieldAlert className="w-3.5 h-3.5" />
-                      <span className="hidden sm:inline">Resolver</span>
-                    </button>
-                  )}
+                {/* Fila Secundaria: Barra de Progreso de Descarga en Vivo */}
+                {isDownloading && (
+                  <div className="w-full mt-2 pt-2 border-t border-amber-500/25 bg-amber-950/30 -mx-1 px-3 py-2 rounded-lg">
+                    <div className="flex items-center justify-between text-xs mb-1.5">
+                      <span className="text-amber-300 font-semibold flex items-center gap-2">
+                        <Loader2 className="w-3.5 h-3.5 text-amber-400 animate-spin" />
+                        {downloadState.stage || 'Descargando al Servidor VIP...'}
+                      </span>
+                      <span className="font-mono text-amber-200 font-bold">{downloadState.percent || 15}%</span>
+                    </div>
+                    <div className="w-full bg-[#14120F] rounded-full h-2 overflow-hidden border border-amber-500/40">
+                      <div
+                        className="bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-300 h-2 rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]"
+                        style={{ width: `${downloadState.percent || 15}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
 
-                  {track.videoId && (
-                    <button
-                      type="button"
-                      onClick={() => window.open(`https://www.youtube.com/watch?v=${track.videoId}&autoplay=1`, '_blank')}
-                      className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/30 transition"
-                      title="Abrir video en YouTube"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </button>
-                  )}
+                {/* Fila Secundaria: Banner Interactivo de Oferta para Añadir al Servidor VIP */}
+                {isRestricted && !isDownloading && !isDownloadCompleted && (
+                  <div className="w-full mt-2 pt-2 border-t border-red-500/25 bg-red-950/30 -mx-1 px-3 py-2 rounded-lg flex flex-wrap items-center justify-between gap-2 animate-fadeIn">
+                    <div className="flex items-center gap-2 text-xs text-red-200 font-medium">
+                      <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0" />
+                      <span>¿Deseas añadirla al Servidor VIP?</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => onStartDownload && onStartDownload(track)}
+                        className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black text-xs font-bold transition flex items-center gap-1.5 shadow-[0_0_12px_rgba(245,158,11,0.3)] active:scale-95 cursor-pointer"
+                        title="Descargar esta canción para tenerla disponible siempre en el Servidor VIP sin restricciones"
+                      >
+                        <Crown className="w-3.5 h-3.5" />
+                        <span>Sí, Añadir al Servidor VIP</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onOpenAlertModal && onOpenAlertModal(track, false, val?.reason)}
+                        className="px-2.5 py-1.5 rounded-lg bg-[#201C16] hover:bg-[#332C22] text-slate-300 text-xs font-medium border border-[#332C22] transition flex items-center gap-1 cursor-pointer"
+                        title="Buscar otras versiones en YouTube"
+                      >
+                        <RefreshCw className="w-3 h-3 text-amber-400" />
+                        <span>Alternativas</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
 
-                  <button
-                    type="button"
-                    onClick={() => onPlayNow && onPlayNow(track.queueId, index)}
-                    className="p-1 rounded text-slate-400 hover:text-amber-400 hover:bg-[#332C22] transition"
-                    title="Reproducir este tema ahora"
-                  >
-                    <PlayCircle className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    disabled={index === 0}
-                    onClick={() => onMoveUp && onMoveUp(track.queueId, index)}
-                    className="p-1 rounded text-slate-400 hover:text-white hover:bg-[#332C22] disabled:opacity-25 transition"
-                    title="Subir de posición"
-                  >
-                    <ChevronUp className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    disabled={index === queue.length - 1}
-                    onClick={() => onMoveDown && onMoveDown(track.queueId, index)}
-                    className="p-1 rounded text-slate-400 hover:text-white hover:bg-[#332C22] disabled:opacity-25 transition"
-                    title="Bajar de posición"
-                  >
-                    <ChevronDown className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onRemoveTrack && onRemoveTrack(track.queueId, index)}
-                    className="p-1 rounded text-slate-400 hover:text-red-400 hover:bg-red-950/30 transition"
-                    title="Eliminar de la cola"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
+                {/* Fila Secundaria: Confirmación de Descarga Completada */}
+                {isDownloadCompleted && (
+                  <div className="w-full mt-2 pt-1.5 border-t border-emerald-500/20 bg-emerald-950/20 -mx-1 px-3 py-1.5 rounded-lg flex items-center gap-2 text-xs font-bold text-emerald-300">
+                    <CheckCircle className="w-4 h-4 text-emerald-400" />
+                    <span>¡Canción añadida y descargada con éxito en el Servidor VIP!</span>
+                  </div>
+                )}
               </div>
             );
           })

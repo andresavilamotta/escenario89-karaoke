@@ -30,7 +30,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Parámetro v (videoId) requerido.' });
   }
 
-  // 1. Comprobar si ya está disponible en el catálogo de Google Drive (Servidor VIP)
+  // 1. Comprobar si ya está disponible en el catálogo de Servidor VIP
   const driveId = getDriveIdForVideo(videoId);
   if (driveId) {
     return res.status(200).json({
@@ -39,16 +39,16 @@ export default async function handler(req, res) {
       videoId,
       driveFileId: driveId,
       streamUrl: `/api/stream?id=${driveId}`,
-      badge: '👑 Servidor VIP (Google Drive)',
+      badge: '👑 Servidor VIP',
       message: 'La canción ya está descargada y disponible en el Servidor VIP.',
     });
   }
 
-  // 2. Si no está en Google Drive, reportar estado en cola
+  // 2. Si no está en Servidor VIP, reportar estado en cola
   return res.status(200).json({
     status: 'queued',
     isReady: false,
     videoId,
-    message: 'Canción en cola para descarga en segundo plano a Google Drive.',
+    message: 'Canción en cola para descarga en segundo plano al Servidor VIP.',
   });
 }

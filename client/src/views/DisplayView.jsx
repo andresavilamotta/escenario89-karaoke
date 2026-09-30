@@ -470,7 +470,7 @@ export default function DisplayView() {
         isDriveHosted: true,
         driveStreamUrl: streamUrl,
         videoUrl: streamUrl,
-        badge: '👑 Servidor VIP (Rescate Drive)',
+        badge: '👑 Servidor VIP',
       };
 
       currentTrackRef.current = rescuedTrack;
@@ -479,7 +479,7 @@ export default function DisplayView() {
       setHasError(null);
       triggerOverlay(10000);
 
-      const rescueLog = logger.info('YouTube', `[Auto-Rescate Drive VIP] "${currentTit}" tenía restricción (${errorCode}). Reemplazado instantáneamente por Servidor VIP Google Drive: "${driveRescueTrack.title}".`, {
+      const rescueLog = logger.info('YouTube', `[Auto-Rescate VIP] "${currentTit}" tenía restricción (${errorCode}). Reemplazado instantáneamente por Servidor VIP: "${driveRescueTrack.title}".`, {
         originalVideoId: currentVid,
         driveFileId: driveRescueTrack.driveFileId,
         title: driveRescueTrack.title,

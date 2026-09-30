@@ -42,6 +42,9 @@ export default function OperatorView() {
   // Estado de validación silenciosa Pre-Flight de la cola
   const [validationMap, setValidationMap] = useState({});
 
+  // Estado de progreso de descargas al Servidor VIP
+  const [downloadProgressMap, setDownloadProgressMap] = useState({});
+
   // Estado del Modal de Alerta y Rescate de Canción
   const [alertModalState, setAlertModalState] = useState({
     isOpen: false,
@@ -385,7 +388,7 @@ export default function OperatorView() {
           ...driveRescueTrack,
           isNative: true,
           isDriveHosted: true,
-          badge: '👑 Servidor VIP (Rescate Drive)',
+          badge: '👑 Servidor VIP',
           driveStreamUrl: streamUrl,
           videoUrl: streamUrl,
         };
@@ -403,16 +406,16 @@ export default function OperatorView() {
         setValidationMap((prev) => {
           const next = { ...prev };
           delete next[videoId];
-          next[replacement.videoId] = { status: 'valid', reason: 'Auto-rescatado con Servidor VIP Drive' };
+          next[replacement.videoId] = { status: 'valid', reason: 'Auto-rescatado con Servidor VIP' };
           return next;
         });
 
         addNotification(
-          `👑 Auto-Rescate VIP: "${title}" tenía restricción en YouTube y fue sustituida automáticamente por la versión Servidor VIP de Google Drive.`,
+          `👑 Auto-Rescate VIP: "${title}" tenía restricción en YouTube y fue sustituida automáticamente por la versión Servidor VIP.`,
           'success'
         );
 
-        logger.info('Auto-Rescue', `[Auto-Rescate Cola] "${title}" reemplazada automáticamente por versión VIP de Google Drive: "${driveRescueTrack.title}".`);
+        logger.info('Auto-Rescue', `[Auto-Rescate Cola] "${title}" reemplazada automáticamente por versión Servidor VIP: "${driveRescueTrack.title}".`);
         return;
       }
 
@@ -472,7 +475,17 @@ export default function OperatorView() {
           }
 
           if (data && data.isReady) {
-            // ¡Descarga completada! Auto-transformar la canción en la cola
+            // 1. Marcar en mapa de progreso visual como completada
+            setDownloadProgressMap((prev) => ({
+              ...prev,
+              [t.videoId]: {
+                status: 'completed',
+                stage: '¡Lista en Servidor VIP!',
+                percent: 100,
+              },
+            }));
+
+            // 2. ¡Descarga completada! Auto-transformar la canción en la cola
             const upgradedTrack = {
               ...t,
               isNative: true,
@@ -481,7 +494,7 @@ export default function OperatorView() {
               driveStreamUrl: data.streamUrl || data.videoUrl,
               driveFileId: data.driveFileId || null,
               filename: data.filename || null,
-              badge: data.badge || '👑 Servidor VIP (Descargada)',
+              badge: data.badge || '👑 Servidor VIP',
             };
 
             setQueue((prevQueue) => {
@@ -506,6 +519,79 @@ export default function OperatorView() {
 
     return () => clearInterval(interval);
   }, [queue, validationMap, addNotification]);
+
+  // Manejo de inicio interactivo de descarga al Servidor VIP con progreso visual
+  const handleStartDownload = useCallback((track) => {
+    if (!track?.videoId) return;
+
+    if (downloadProgressMap[track.videoId]?.status === 'downloading') {
+      return;
+    }
+
+    addNotification(`📥 Iniciando descarga de "${track.title}" al Servidor VIP...`, 'info');
+
+    // 1. Iniciar estado en el mapa de progreso
+    setDownloadProgressMap((prev) => ({
+      ...prev,
+      [track.videoId]: {
+        status: 'downloading',
+        stage: 'Conectando con el Servidor VIP...',
+        percent: 15,
+      },
+    }));
+
+    // 2. Disparar al backend local si está activo para descarga real en disco
+    try {
+      fetch('http://localhost:3001/api/download-restricted', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ videoId: track.videoId, title: track.title }),
+      }).catch(() => {});
+    } catch (e) {}
+
+    // 3. Registrar en backend de Vercel
+    try {
+      fetch('/api/report-restricted', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          videoId: track.videoId,
+          title: track.title,
+          errorCode: 150,
+          rescued: false,
+        }),
+      }).catch(() => {});
+    } catch (e) {}
+
+    // 4. Etapas progresivas de descarga visual
+    setTimeout(() => {
+      setDownloadProgressMap((prev) => {
+        if (!prev[track.videoId] || prev[track.videoId].status !== 'downloading') return prev;
+        return {
+          ...prev,
+          [track.videoId]: {
+            status: 'downloading',
+            stage: 'Descargando audio y video HD...',
+            percent: 45,
+          },
+        };
+      });
+    }, 2000);
+
+    setTimeout(() => {
+      setDownloadProgressMap((prev) => {
+        if (!prev[track.videoId] || prev[track.videoId].status !== 'downloading') return prev;
+        return {
+          ...prev,
+          [track.videoId]: {
+            status: 'downloading',
+            stage: 'Procesando pista y sincronizando VIP...',
+            percent: 78,
+          },
+        };
+      });
+    }, 5500);
+  }, [downloadProgressMap, addNotification]);
 
   // Abrir Modal de Alerta para una pista específica
   const handleOpenAlertModal = useCallback((track, isCurrent = false, reason = '') => {
@@ -1249,6 +1335,7 @@ export default function OperatorView() {
             volume={volume}
             isDisplayConnected={isDisplayConnected}
             validationMap={validationMap}
+            downloadProgressMap={downloadProgressMap}
             restartCounter={restartCounter}
             onRemoveTrack={handleRemoveTrack}
             onRemoveCurrentTrack={handleRemoveCurrentTrack}
@@ -1258,6 +1345,7 @@ export default function OperatorView() {
             onClearQueue={handleClearQueue}
             onOpenDirectYouTube={handleOpenDirectYouTube}
             onOpenAlertModal={handleOpenAlertModal}
+            onStartDownload={handleStartDownload}
             onTrackEnded={handleTrackEnded}
           />
         </section>

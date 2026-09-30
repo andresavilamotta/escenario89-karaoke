@@ -55,7 +55,7 @@ export default function TrackAlertModal({
           thumbnail: dm.thumbnail,
           isNative: true,
           isDriveHosted: true,
-          badge: '👑 Servidor VIP (Google Drive)',
+          badge: '👑 Servidor VIP',
           driveStreamUrl: dm.driveStreamUrl || `/api/stream?id=${dm.driveFileId}`,
           videoUrl: dm.driveStreamUrl || `/api/stream?id=${dm.driveFileId}`,
           embeddable: true,
@@ -201,7 +201,7 @@ export default function TrackAlertModal({
           </div>
 
           <div className="flex items-center gap-2 flex-shrink-0">
-            {/* Botón para solicitar/iniciar descarga en segundo plano a Google Drive */}
+            {/* Botón para solicitar/iniciar descarga en segundo plano al Servidor VIP */}
             <button
               type="button"
               onClick={handleTriggerDownload}
@@ -210,7 +210,7 @@ export default function TrackAlertModal({
                   ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-600/70'
                   : 'bg-amber-950/40 hover:bg-amber-900/60 text-amber-300 border border-amber-800/60'
               }`}
-              title="Descargar esta pista a Google Drive para reproducirla sin restricciones"
+              title="Descargar esta pista al Servidor VIP para reproducirla sin restricciones"
             >
               {downloadStatus === 'downloading' ? (
                 <>
@@ -220,12 +220,12 @@ export default function TrackAlertModal({
               ) : downloadStatus === 'queued' ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Encolada para Drive</span>
+                  <span>Encolada para Servidor VIP</span>
                 </>
               ) : (
                 <>
                   <Download className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Descargar a Drive</span>
+                  <span>Descargar al Servidor VIP</span>
                 </>
               )}
             </button>
@@ -292,7 +292,7 @@ export default function TrackAlertModal({
                         {alt.isDriveHosted && (
                           <span className="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase tracking-wider flex-shrink-0 flex items-center gap-1">
                             <Crown className="w-2.5 h-2.5 text-amber-400" />
-                            Drive VIP
+                            Servidor VIP
                           </span>
                         )}
                       </div>
@@ -319,7 +319,7 @@ export default function TrackAlertModal({
                     }`}
                   >
                     {alt.isDriveHosted ? <Crown className="w-3.5 h-3.5" /> : <CheckCircle className="w-3.5 h-3.5" />}
-                    <span>{alt.isDriveHosted ? 'Usar Drive VIP' : 'Usar Esta Versión'}</span>
+                    <span>{alt.isDriveHosted ? 'Usar Servidor VIP' : 'Usar Esta Versión'}</span>
                   </button>
                 </div>
               ))}
