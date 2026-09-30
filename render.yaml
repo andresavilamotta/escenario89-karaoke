@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: escenario89-karaoke-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: NODE_ENV
+        value: production
+      - key: WEBSHARE_API_KEY
+        value: bn8qg3zywbviivriuh2mulbmh1h1ng4468xk6t54

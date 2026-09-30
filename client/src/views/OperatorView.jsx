@@ -20,6 +20,7 @@ import { useAuth } from '../context/AuthContext';
 import IntroSplash from '../components/IntroSplash';
 import { logger } from '../utils/logger';
 import * as Sentry from '@sentry/react';
+import { buildBackendUrl, getBackendBaseUrl } from '../utils/backendUrl';
 
 
 const STORAGE_KEY = 'karaoke_operator_state_v1';
@@ -243,7 +244,7 @@ export default function OperatorView() {
       setIsPlaying(true);
 
       const finalVideoUrl = nextSong.videoUrl?.startsWith('/api/videos/')
-        ? `http://localhost:3001${nextSong.videoUrl}`
+        ? buildBackendUrl(nextSong.videoUrl)
         : nextSong.videoUrl;
 
       // Emitir broadcast directo e inmediato
@@ -438,9 +439,9 @@ export default function OperatorView() {
         }).catch(() => {});
       } catch (e) {}
 
-      // Intentar también iniciar descarga en servidor local si está activo en la máquina
+      // Intentar también iniciar descarga en servidor backend (local o en la nube) si está activo
       try {
-        fetch('http://localhost:3001/api/download-restricted', {
+        fetch(buildBackendUrl('/api/download-restricted'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ videoId, title }),
@@ -476,10 +477,10 @@ export default function OperatorView() {
             if (res.ok) data = await res.json();
           } catch (e) {}
 
-          // 2. Si no está en Vercel, consultar backend local si está activo
+          // 2. Si no está en Vercel, consultar backend (local o Render) si está activo
           if (!data?.isReady) {
             try {
-              const localRes = await fetch(`http://localhost:3001/api/download-status?v=${t.videoId}`);
+              const localRes = await fetch(buildBackendUrl(`/api/download-status?v=${t.videoId}`));
               if (localRes.ok) data = await localRes.json();
             } catch (e) {}
           }
@@ -487,7 +488,7 @@ export default function OperatorView() {
           if (data && data.isReady) {
             let finalVideoUrl = data.streamUrl || data.videoUrl;
             if (finalVideoUrl && finalVideoUrl.startsWith('/api/videos/')) {
-              finalVideoUrl = `http://localhost:3001${finalVideoUrl}`;
+              finalVideoUrl = buildBackendUrl(finalVideoUrl);
             }
 
             // 1. Marcar en mapa de progreso visual como completada
@@ -594,9 +595,9 @@ export default function OperatorView() {
       },
     }));
 
-    // 2. Disparar al backend local si está activo para descarga real en disco
+    // 2. Disparar al backend (local o Render) si está activo para descarga real en disco
     try {
-      fetch('http://localhost:3001/api/download-restricted', {
+      fetch(buildBackendUrl('/api/download-restricted'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ videoId: track.videoId, title: track.title }),
@@ -1099,7 +1100,7 @@ export default function OperatorView() {
       const newQueue = prev.filter((_, i) => i !== idx);
 
       const finalVideoUrl = selected.videoUrl?.startsWith('/api/videos/')
-        ? `http://localhost:3001${selected.videoUrl}`
+        ? buildBackendUrl(selected.videoUrl)
         : selected.videoUrl;
 
       const upgradedSelected = {

@@ -32,6 +32,8 @@ const CANDIDATE_DIRS = [
   path.resolve(__dirname, '..', 'Canciones_Descargadas'),
   path.resolve('Canciones_Descargadas'),
   path.resolve('..', 'Canciones_Descargadas'),
+  '/app/Canciones_Descargadas',
+  '/app/server/Canciones_Descargadas',
   path.resolve(__dirname, '..', '..', 'client', 'public', 'videos'),
   path.resolve(__dirname, '..', '..', 'client', 'public'),
   path.resolve(__dirname, '..', '..', 'Videos'),
@@ -279,6 +281,77 @@ app.get('/api/stream', (req, res) => {
   });
 });
 
+// ============================================================================
+// GESTOR DE PROXIES ROTATIVOS (WEBSHARE API v2)
+// Burlar bloqueos de IP de datacenter / cloud de YouTube
+// ============================================================================
+const WEBSHARE_API_KEY = process.env.WEBSHARE_API_KEY || 'bn8qg3zywbviivriuh2mulbmh1h1ng4468xk6t54';
+let proxyPool = [];
+let lastProxyFetch = 0;
+let proxyIndex = 0;
+
+async function refreshWebshareProxies() {
+  if (!WEBSHARE_API_KEY) {
+    console.log('[Webshare Proxy] No se ha configurado WEBSHARE_API_KEY.');
+    return;
+  }
+  try {
+    const res = await fetch('https://proxy.webshare.io/api/v2/proxy/list/?mode=direct&page=1&page_size=25', {
+      headers: {
+        'Authorization': `Token ${WEBSHARE_API_KEY}`,
+      },
+    });
+
+    if (!res.ok) {
+      console.warn(`[Webshare Proxy] Error HTTP al consultar proxies: ${res.status} ${res.statusText}`);
+      return;
+    }
+
+    const data = await res.json();
+    if (Array.isArray(data.results) && data.results.length > 0) {
+      const active = data.results.filter((p) => p.valid !== false);
+      proxyPool = active.map((p) => ({
+        ip: p.proxy_address,
+        port: p.port,
+        username: p.username,
+        password: p.password,
+        country: p.country_code || 'US',
+        url: `http://${p.username}:${p.password}@${p.proxy_address}:${p.port}`,
+        safeUrl: `http://${p.username}:****@${p.proxy_address}:${p.port} (${p.country_code || '??'})`,
+      }));
+      lastProxyFetch = Date.now();
+      console.log(`[Webshare Proxy] 🔄 Pool actualizado: ${proxyPool.length} proxies activos listos.`);
+    }
+  } catch (err) {
+    console.warn(`[Webshare Proxy] Error al conectar con API Webshare:`, err.message);
+  }
+}
+
+function getRotatingProxy() {
+  if (!proxyPool || proxyPool.length === 0) return null;
+  const proxy = proxyPool[proxyIndex % proxyPool.length];
+  proxyIndex = (proxyIndex + 1) % proxyPool.length;
+  return proxy;
+}
+
+// Iniciar recarga periódica de proxies cada 60 minutos
+refreshWebshareProxies();
+setInterval(refreshWebshareProxies, 60 * 60 * 1000);
+
+// Endpoint para consultar el estado del pool de proxies
+app.get('/api/proxies/status', (req, res) => {
+  res.json({
+    status: 'ok',
+    total: proxyPool.length,
+    lastRefresh: lastProxyFetch ? new Date(lastProxyFetch).toISOString() : null,
+    proxies: proxyPool.map((p) => ({
+      ip: p.ip,
+      port: p.port,
+      country: p.country,
+    })),
+  });
+});
+
 // Registro de descargas activas en memoria para evitar procesos duplicados
 const activeDownloads = new Set();
 
@@ -296,7 +369,7 @@ app.post('/api/download-restricted', (req, res) => {
     status: 'download_started',
     videoId,
     title: title || videoId,
-    message: 'Descarga iniciada en segundo plano hacia Canciones_Descargadas.',
+    message: 'Descarga iniciada en segundo plano hacia Canciones_Descargadas con proxy rotativo.',
   });
 
   const safeTitle = (title || videoId).replace(/[\\/:*?"<>|]/g, '_').trim();
@@ -305,6 +378,13 @@ app.post('/api/download-restricted', (req, res) => {
   const validDirs = getValidVideoDirs();
   const targetDir = validDirs[0] || path.resolve(__dirname, '..', '..', 'Canciones_Descargadas');
 
+  if (!fs.existsSync(targetDir)) {
+    try {
+      fs.mkdirSync(targetDir, { recursive: true });
+    } catch (e) {}
+  }
+
+  const proxy = getRotatingProxy();
   const args = [
     '--no-js-runtimes',
     '--js-runtimes', 'node',
@@ -314,11 +394,19 @@ app.post('/api/download-restricted', (req, res) => {
     '-o', outputTemplate,
     '--no-playlist',
     '--no-overwrites',
-    '--retries', '2',
-    '--socket-timeout', '25',
+    '--retries', '3',
+    '--socket-timeout', '30',
     '--no-mtime',
-    url,
   ];
+
+  if (proxy) {
+    args.unshift('--proxy', proxy.url);
+    console.log(`[Karaoke Backend] 🛡️ Descargando a través de proxy Webshare: ${proxy.safeUrl}`);
+  } else {
+    console.log(`[Karaoke Backend] 📥 Descargando directamente sin proxy...`);
+  }
+
+  args.push(url);
 
   console.log(`[Karaoke Backend] 📥 Iniciando descarga en segundo plano para [${videoId}] "${title || videoId}"...`);
 
@@ -335,10 +423,65 @@ app.post('/api/download-restricted', (req, res) => {
   });
 });
 
+// Endpoint de extracción de stream directo ultra-rápido (bypassa descargas largas en disco)
+app.get('/api/stream-direct', (req, res) => {
+  const videoId = req.query.v || req.query.videoId;
+  const shouldRedirect = req.query.redirect === 'true' || req.query.redirect === '1';
+
+  if (!videoId || !/^[a-zA-Z0-9_-]{11}$/.test(videoId)) {
+    return res.status(400).json({ error: 'ID de video de YouTube no válido.' });
+  }
+
+  const url = `https://www.youtube.com/watch?v=${videoId}`;
+  const proxy = getRotatingProxy();
+  const args = [
+    '--no-js-runtimes',
+    '--js-runtimes', 'node',
+    '--remote-components', 'ejs:github',
+    '--extractor-args', 'youtube:player_client=android',
+    '-g',
+    '-f', '18/b',
+    '--socket-timeout', '20',
+  ];
+
+  if (proxy) {
+    args.unshift('--proxy', proxy.url);
+    console.log(`[Karaoke Backend] 🚀 Extrayendo stream directo con proxy: ${proxy.safeUrl}`);
+  }
+
+  args.push(url);
+
+  execFile('yt-dlp', args, (err, stdout, stderr) => {
+    if (err || !stdout.trim()) {
+      console.warn(`[Karaoke Backend] Error al extraer stream directo para [${videoId}]:`, err?.message || stderr);
+      return res.status(502).json({
+        error: 'No se pudo resolver el enlace de streaming directo de YouTube.',
+        details: stderr || err?.message,
+      });
+    }
+
+    const streamUrl = stdout.trim().split('\n')[0].trim();
+    if (shouldRedirect) {
+      return res.redirect(302, streamUrl);
+    }
+
+    return res.json({
+      status: 'ok',
+      videoId,
+      streamUrl,
+      proxyCountry: proxy ? proxy.country : 'direct',
+    });
+  });
+});
+
 // Endpoint para consultar estado de una descarga (idle | downloading | completed)
 app.get('/api/download-status', (req, res) => {
   const videoId = req.query.v || req.query.videoId;
   if (!videoId) return res.status(400).json({ error: 'Parámetro v (videoId) requerido.' });
+
+  const host = req.get('host');
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+  const baseUrl = process.env.PUBLIC_BACKEND_URL || `${protocol}://${host}`;
 
   // 1. Comprobar si ya existe físicamente en Canciones_Descargadas
   const filePath = resolveLocalVideoPath(videoId);
@@ -349,7 +492,7 @@ app.get('/api/download-status', (req, res) => {
       isReady: true,
       videoId,
       filename,
-      videoUrl: `http://localhost:${PORT}/api/videos/${encodeURIComponent(filename)}`,
+      videoUrl: `${baseUrl}/api/videos/${encodeURIComponent(filename)}`,
       badge: '👑 Servidor VIP',
       message: 'Video descargado y listo para reproducir.',
     });

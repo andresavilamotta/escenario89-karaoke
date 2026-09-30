@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AlertTriangle, ExternalLink, RefreshCw, SkipForward, X, Disc3, ShieldAlert, Sparkles, CheckCircle, Crown, Download, Check } from 'lucide-react';
 import { searchDriveCatalog, findDriveTrackByVideoId } from '../data/driveCatalog';
+import { buildBackendUrl } from '../utils/backendUrl';
 
 export default function TrackAlertModal({
   isOpen,
@@ -119,9 +120,9 @@ export default function TrackAlertModal({
         }),
       });
 
-      // 2. Intentar notificar al servidor local para descarga inmediata si está activo
+      // 2. Intentar notificar al servidor backend (local o en la nube) para descarga inmediata si está activo
       try {
-        const localRes = await fetch('http://localhost:3001/api/download-restricted', {
+        const localRes = await fetch(buildBackendUrl('/api/download-restricted'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

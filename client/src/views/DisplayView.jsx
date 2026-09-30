@@ -5,6 +5,7 @@ import StandbyScreen from '../components/StandbyScreen';
 import { Music, Radio, ExternalLink, AlertTriangle, Film, Server, Cloud, Crown, Volume2 } from 'lucide-react';
 import { logger } from '../utils/logger';
 import { findDriveTrackByVideoId, findDriveTrackByFileId, searchDriveCatalog } from '../data/driveCatalog';
+import { buildBackendUrl, getBackendBaseUrl } from '../utils/backendUrl';
 
 
 export default function DisplayView() {
@@ -505,16 +506,16 @@ export default function DisplayView() {
       return;
     }
 
-    // 2. Si no está en catálogo Drive estático, comprobar si ya fue descargado localmente en el PC (Servidor VIP)
+    // 2. Si no está en catálogo Drive estático, comprobar si ya fue descargado en el Servidor VIP (local o Render)
     if (currentVid) {
       try {
-        const localCheck = await fetch(`http://localhost:3001/api/download-status?v=${currentVid}`);
+        const localCheck = await fetch(buildBackendUrl(`/api/download-status?v=${currentVid}`));
         if (localCheck.ok) {
           const localData = await localCheck.json();
           if (localData && localData.isReady) {
             const localVideoUrl = localData.videoUrl?.startsWith('http')
               ? localData.videoUrl
-              : `http://localhost:3001${localData.videoUrl}`;
+              : buildBackendUrl(localData.videoUrl);
 
             const rescuedTrack = {
               ...currentTrackRef.current,
@@ -660,13 +661,13 @@ export default function DisplayView() {
                   : (currentTrack.videoId ? `/api/stream?v=${currentTrack.videoId}` : ''));
 
             if (rawSrc && rawSrc.startsWith('/api/videos/')) {
-              rawSrc = `http://localhost:3001${rawSrc}`;
+              rawSrc = buildBackendUrl(rawSrc);
             }
             const streamSrc = rawSrc;
 
             const formatLocal = (url) => {
               if (!url) return '';
-              return url.startsWith('/api/videos/') ? `http://localhost:3001${url}` : url;
+              return url.startsWith('/api/videos/') ? buildBackendUrl(url) : url;
             };
 
             return (
@@ -715,7 +716,7 @@ export default function DisplayView() {
                     <source src={formatLocal(currentTrack.driveStreamUrl)} type="video/mp4" />
                   )}
                   {currentTrack.filename && (
-                    <source src={`http://localhost:3001/api/videos/${encodeURIComponent(currentTrack.filename)}`} type="video/mp4" />
+                    <source src={buildBackendUrl(`/api/videos/${encodeURIComponent(currentTrack.filename)}`)} type="video/mp4" />
                   )}
                 </video>
               </div>
