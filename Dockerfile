@@ -3,12 +3,11 @@
 # Compatible con Render.com, Railway.app, Koyeb, Docker y servidores VPS
 # ==============================================================================
 
-FROM node:20-bullseye-slim
+FROM node:20-bookworm-slim
 
 # Instalar dependencias esenciales del sistema: Python 3, FFmpeg, Curl, certificados
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 \
-    python3-pip \
     ffmpeg \
     curl \
     ca-certificates \
