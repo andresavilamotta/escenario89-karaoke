@@ -295,7 +295,7 @@ app.get('/api/stream', (req, res) => {
 // GESTOR DE PROXIES ROTATIVOS (WEBSHARE API v2)
 // Burlar bloqueos de IP de datacenter / cloud de YouTube
 // ============================================================================
-const WEBSHARE_API_KEY = process.env.WEBSHARE_API_KEY || 'bn8qg3zywbviivriuh2mulbmh1h1ng4468xk6t54';
+const WEBSHARE_API_KEY = process.env.WEBSHARE_API_KEY || '';
 let proxyPool = [];
 let lastProxyFetch = 0;
 let proxyIndex = 0;
