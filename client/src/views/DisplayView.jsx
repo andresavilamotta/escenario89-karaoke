@@ -821,6 +821,7 @@ export default function DisplayView() {
             <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden flex items-center justify-center bg-black">
               <div className="w-screen h-screen scale-[1.05] pointer-events-none">
                 <YouTube
+                  key={currentTrack.videoId}
                   videoId={currentTrack.videoId}
                   opts={youtubeOptions}
                   onReady={onPlayerReady}

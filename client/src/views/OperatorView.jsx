@@ -1196,12 +1196,44 @@ export default function OperatorView() {
     });
   };
 
-  const handlePlayNow = (targetId, fallbackIndex) => {
+  const handlePlayNow = async (targetId, fallbackIndex) => {
+    const idx = targetId ? queueRef.current.findIndex((t) => t.queueId === targetId) : fallbackIndex;
+    if (idx < 0 || idx >= queueRef.current.length) return;
+    let selected = queueRef.current[idx];
+
+    // Si la pista tiene restricción conocida o embeddable === false, auto-rescatar ANTES de enviar al proyector
+    if (selected && !selected.isNative && selected.embeddable === false) {
+      addNotification(`🛡️ Auto-rescatando "${selected.title}" con versión libre para el proyector...`, 'info');
+      try {
+        let res = await fetch(`/api/resolve-fallback?v=${selected.videoId}&q=${encodeURIComponent(selected.title)}`);
+        if (!res.ok) {
+          res = await fetch(buildBackendUrl(`/api/resolve-fallback?v=${selected.videoId}&q=${encodeURIComponent(selected.title)}`));
+        }
+        if (res.ok) {
+          const data = await res.json();
+          if (data.resolved && data.alternative) {
+            const alt = data.alternative;
+            selected = {
+              ...selected,
+              videoId: alt.videoId,
+              title: alt.title,
+              author: alt.author || selected.author,
+              duration: alt.duration || selected.duration,
+              seconds: alt.seconds || selected.seconds,
+              thumbnail: alt.thumbnail || selected.thumbnail,
+              embeddable: true,
+              isNative: false,
+              isDriveHosted: false,
+              badge: data.source === 'youtube_karaoke' ? '🛡️ Karaoke Libre' : '🛡️ Letra Comunidad',
+            };
+          }
+        }
+      } catch (e) {}
+    }
+
     setQueue((prev) => {
-      const idx = targetId ? prev.findIndex((t) => t.queueId === targetId) : fallbackIndex;
-      if (idx < 0) return prev;
-      const selected = prev[idx];
-      const newQueue = prev.filter((_, i) => i !== idx);
+      const currentIdx = targetId ? prev.findIndex((t) => t.queueId === targetId) : fallbackIndex;
+      const newQueue = prev.filter((_, i) => i !== currentIdx);
 
       const finalVideoUrl = selected.videoUrl?.startsWith('/api/videos/')
         ? buildBackendUrl(selected.videoUrl)

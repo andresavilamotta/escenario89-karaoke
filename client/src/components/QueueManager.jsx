@@ -406,11 +406,11 @@ export default function QueueManager({
                   </div>
                 )}
 
-                {/* Fila Secundaria: Confirmación de Descarga Completada */}
+                {/* Fila Secundaria: Confirmación de Descarga / Auto-Rescate Completado */}
                 {isDownloadCompleted && (
                   <div className="w-full mt-2 pt-1.5 border-t border-emerald-500/20 bg-emerald-950/20 -mx-1 px-3 py-1.5 rounded-lg flex items-center gap-2 text-xs font-bold text-emerald-300">
-                    <CheckCircle className="w-4 h-4 text-emerald-400" />
-                    <span>¡Canción añadida y descargada con éxito en el Servidor VIP!</span>
+                    <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                    <span>{downloadState.stage || '¡Canción lista para reproducir sin esperas!'}</span>
                   </div>
                 )}
               </div>
