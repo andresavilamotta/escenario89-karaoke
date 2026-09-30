@@ -911,6 +911,10 @@ export default function OperatorView() {
       queueId: `${trackToEnqueue.videoId}-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
     };
 
+    if (video.embeddable === false) {
+      addNotification(`⚠️ "${video.title}" suele tener bloqueo de derechos en YouTube. Si no reproduce, elige una versión con ✓ OK.`, 'warning');
+    }
+
     if (!currentTrack) {
       setCurrentTrack(newTrack);
       setIsPlaying(true);

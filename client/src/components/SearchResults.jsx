@@ -89,7 +89,14 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-        {results.map((video) => {
+        {[...results].sort((a, b) => {
+          const aVip = a.isDriveHosted || a.isServerHosted || (a.badge && a.badge.includes('VIP')) ? 1 : 0;
+          const bVip = b.isDriveHosted || b.isServerHosted || (b.badge && b.badge.includes('VIP')) ? 1 : 0;
+          if (bVip !== aVip) return bVip - aVip;
+          const aEmb = a.embeddable !== false ? 1 : 0;
+          const bEmb = b.embeddable !== false ? 1 : 0;
+          return bEmb - aEmb;
+        }).map((video) => {
           const itemKey = video.videoId || video.id || video.driveFileId;
           const isAdded = !!addedIds[itemKey];
           const isDrive = !!video.isDriveHosted;
@@ -108,6 +115,8 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
                   ? 'bg-[#141009]/95 hover:bg-[#1d170d]/95 border-amber-500/60 hover:border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.18)] hover:shadow-[0_0_25px_rgba(245,158,11,0.35)]'
                   : isOriginal
                   ? 'bg-[#0b1322]/95 hover:bg-[#111e33]/95 border-sky-500/50 hover:border-sky-400 shadow-[0_0_15px_rgba(14,165,233,0.15)] hover:shadow-[0_0_25px_rgba(14,165,233,0.25)]'
+                  : video.embeddable === false
+                  ? 'bg-[#181111]/90 hover:bg-[#251515]/90 border-red-500/30 hover:border-red-500/60'
                   : 'bg-[#14120F]/90 hover:bg-[#201C16]/90 border-[#332C22] hover:border-amber-500/50'
               }`}
             >
@@ -144,7 +153,11 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
                     <Check className="w-2.5 h-2.5 stroke-[3]" />
                     OK
                   </span>
-                ) : null}
+                ) : (
+                  <span className="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-red-600/90 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-0.5 shadow">
+                    ⚠️ Restringido
+                  </span>
+                )}
               </div>
 
               {/* Info y Botones */}
