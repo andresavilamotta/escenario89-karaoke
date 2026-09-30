@@ -95,16 +95,16 @@ export default function DisplayView() {
         }
       }, 50);
     } else {
-      // Watchdog de arranque YouTube: Si en 6.5s el video no comienza a reproducir
+      // Watchdog de arranque YouTube: Si en 12s el video no comienza a reproducir
       if (unstartedWatchdogRef.current) {
         clearTimeout(unstartedWatchdogRef.current);
       }
       unstartedWatchdogRef.current = setTimeout(() => {
         if (!hasStartedPlayingRef.current && currentTrackRef.current) {
-          console.warn('[Display] El video no arrancó en 6.5s (bloqueo por derechos o error de carga). Activando fallback...');
+          console.warn('[Display] El video no arrancó en 12s (bloqueo por derechos o error de carga). Activando fallback...');
           onPlayerError({ data: 150 });
         }
-      }, 6500);
+      }, 12000);
 
       if (playerRef.current) {
         try {

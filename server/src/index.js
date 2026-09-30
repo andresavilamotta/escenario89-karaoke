@@ -326,8 +326,8 @@ app.get('/api/search', async (req, res) => {
   const lowerQ = cleanQuery.toLowerCase();
 
   if (mode === 'karaoke') {
-    if (!lowerQ.includes('karaoke') && !lowerQ.includes('instrumental')) {
-      searchQuery = `${cleanQuery} karaoke instrumental`;
+    if (!lowerQ.includes('karaoke')) {
+      searchQuery = `${cleanQuery} karaoke`;
     }
   } else if (mode === 'lyrics') {
     if (!lowerQ.includes('lyrics') && !lowerQ.includes('letra')) {
@@ -370,16 +370,14 @@ app.get('/api/search', async (req, res) => {
 
     const allValidated = await Promise.all(validationPromises);
 
-    // Filtramos para garantizar que solo mostramos videos con inserción permitida
-    // (o si todos fallaron, mantenemos la lista marcando embeddable)
-    const playableVideos = allValidated.filter((v) => v.embeddable);
-    const finalResults = playableVideos.length > 0 ? playableVideos : allValidated;
+    // Mantener todos los resultados válidos para dar opciones reales al operador
+    const finalResults = allValidated;
 
     return res.json({
       query: searchQuery,
       mode,
       count: finalResults.length,
-      filteredOutCount: candidateVideos.length - finalResults.length,
+      filteredOutCount: 0,
       results: finalResults,
     });
   } catch (error) {

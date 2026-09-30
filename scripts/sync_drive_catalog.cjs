@@ -101,7 +101,7 @@ function sync() {
     }
 
     const driveInfo = driveFileIds[videoId] || driveFileIds[file];
-    const driveFileId = driveInfo ? driveInfo.driveFileId : null;
+    const driveFileId = typeof driveInfo === 'string' ? driveInfo : (driveInfo ? driveInfo.driveFileId : null);
     if (driveFileId) driveMatchCount++;
 
     const driveStreamUrl = driveFileId 

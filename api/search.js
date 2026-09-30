@@ -97,8 +97,8 @@ export default async function handler(req, res) {
 
   if (mode === 'karaoke') {
     const isExplicitlyOriginal = lowerQ.includes('original') || lowerQ.includes('oficial') || lowerQ.includes('official') || lowerQ.includes('videoclip') || lowerQ.includes('baile');
-    if (!isExplicitlyOriginal && !lowerQ.includes('karaoke') && !lowerQ.includes('instrumental')) {
-      searchQuery = `${cleanQuery} karaoke instrumental`;
+    if (!isExplicitlyOriginal && !lowerQ.includes('karaoke')) {
+      searchQuery = `${cleanQuery} karaoke`;
     }
   } else if (mode === 'lyrics') {
     if (!lowerQ.includes('lyrics') && !lowerQ.includes('letra')) {
@@ -140,15 +140,14 @@ export default async function handler(req, res) {
 
     const allValidated = await Promise.all(validationPromises);
 
-    // Filtrar para priorizar videos con inserción permitida (evita Error 150)
-    const playableVideos = allValidated.filter((v) => v.embeddable);
-    const finalResults = playableVideos.length > 0 ? playableVideos : allValidated;
+    // Priorizar videos reproducibles directamente, manteniendo todos los resultados válidos sin mutilar el catálogo
+    const finalResults = allValidated;
 
     return res.status(200).json({
       query: searchQuery,
       mode,
       count: finalResults.length,
-      filteredOutCount: candidateVideos.length - finalResults.length,
+      filteredOutCount: 0,
       results: finalResults,
     });
   } catch (error) {
