@@ -1,9 +1,9 @@
 /**
  * Utilidad para resolver la URL base del backend de Karaoke.
- * 1. Si se configuró VITE_BACKEND_URL (ej. en Render: https://escenario89-backend.onrender.com), usa esa URL.
- * 2. Si se ejecuta en localhost / 127.0.0.1, usa http://localhost:3001.
- * 3. Si se ejecuta en la nube de Vercel (escenario89.andresavila.org o *.vercel.app) y no hay servidor externo,
- *    usa rutas relativas (/api) para JAMÁS disparar la alerta de Chrome de acceso a red privada local.
+ * 1. Si se configuró VITE_BACKEND_URL, usa esa URL específica.
+ * 2. Si se ejecuta en localhost / 127.0.0.1, usa http://localhost:3001 para desarrollo local.
+ * 3. En la nube (escenario89.andresavila.org o *.vercel.app), se conecta automáticamente
+ *    al backend 24/7 en Render (https://escenario89-karaoke-backend.onrender.com).
  */
 export function getBackendBaseUrl() {
   const envUrl = import.meta.env.VITE_BACKEND_URL;
@@ -16,8 +16,8 @@ export function getBackendBaseUrl() {
     return 'http://localhost:3001';
   }
 
-  // En producción web / Vercel: rutas relativas (cero llamadas a localhost, cero alertas del navegador)
-  return '';
+  // En producción web / Vercel: conectar automáticamente al backend en la nube 24/7 de Render
+  return 'https://escenario89-karaoke-backend.onrender.com';
 }
 
 export function buildBackendUrl(path) {

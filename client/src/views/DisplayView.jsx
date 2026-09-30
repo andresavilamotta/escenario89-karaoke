@@ -506,7 +506,43 @@ export default function DisplayView() {
       return;
     }
 
-    // 2. Si no está en catálogo Drive estático, comprobar si ya fue descargado en el Servidor VIP (local o Render)
+    // 2. AUTO-RESCATE EN VIVO CON WORKER EN LA NUBE (Render + Webshare Proxy)
+    if (currentVid) {
+      try {
+        console.log(`[Display] 🚀 Intentando auto-rescate en vivo por Stream Directo con proxy en Render para [${currentVid}]...`);
+        const streamCheck = await fetch(buildBackendUrl(`/api/stream-direct?v=${currentVid}`));
+        if (streamCheck.ok) {
+          const streamData = await streamCheck.json();
+          if (streamData && streamData.streamUrl) {
+            const rescuedTrack = {
+              ...currentTrackRef.current,
+              isNative: true,
+              isDriveHosted: false,
+              videoUrl: streamData.streamUrl,
+              driveStreamUrl: streamData.streamUrl,
+              badge: '🛡️ Stream Proxy VIP',
+            };
+
+            currentTrackRef.current = rescuedTrack;
+            setCurrentTrack(rescuedTrack);
+            setIsPlaying(true);
+            setHasError(null);
+            triggerOverlay(10000);
+
+            const rescueLog = logger.info('YouTube', `[Auto-Rescate Stream Proxy] "${currentTit}" tenía restricción (${errorCode}). Rescatado en vivo por Render vía proxy (${streamData.proxyCountry || 'OK'}).`, {
+              videoId: currentVid,
+              proxyCountry: streamData.proxyCountry,
+            });
+            broadcast(MESSAGE_TYPES.LOG_REMOTE, rescueLog);
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn('[Display] Falló auto-rescate por stream directo:', e);
+      }
+    }
+
+    // 3. Si no está en catálogo Drive estático, comprobar si ya fue descargado en el Servidor VIP (local o Render)
     if (currentVid) {
       try {
         const localCheck = await fetch(buildBackendUrl(`/api/download-status?v=${currentVid}`));
