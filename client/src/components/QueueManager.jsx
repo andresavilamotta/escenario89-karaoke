@@ -19,6 +19,7 @@ export default function QueueManager({
   onOpenDirectYouTube,
   onOpenAlertModal,
   onStartDownload,
+  onResolveAlternative,
   onTrackEnded,
 }) {
   return (
@@ -348,12 +349,23 @@ export default function QueueManager({
                 {/* Fila Secundaria: Barra de Progreso de Descarga en Vivo */}
                 {isDownloading && (
                   <div className="w-full mt-2 pt-2 border-t border-amber-500/25 bg-amber-950/30 -mx-1 px-3 py-2 rounded-lg">
-                    <div className="flex items-center justify-between text-xs mb-1.5">
-                      <span className="text-amber-300 font-semibold flex items-center gap-2">
-                        <Loader2 className="w-3.5 h-3.5 text-amber-400 animate-spin" />
-                        {downloadState.stage || 'Descargando al Servidor VIP...'}
+                    <div className="flex items-center justify-between text-xs mb-1.5 gap-2">
+                      <span className="text-amber-300 font-semibold flex items-center gap-2 truncate">
+                        <Loader2 className="w-3.5 h-3.5 text-amber-400 animate-spin flex-shrink-0" />
+                        <span className="truncate">{downloadState.stage || 'Descargando al Servidor VIP...'}</span>
                       </span>
-                      <span className="font-mono text-amber-200 font-bold">{downloadState.percent || 15}%</span>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => onResolveAlternative && onResolveAlternative(track)}
+                          className="px-2 py-0.5 rounded bg-amber-500 hover:bg-amber-400 text-black text-[10px] font-extrabold uppercase tracking-wider transition flex items-center gap-1 cursor-pointer shadow"
+                          title="Evitar la espera y usar de inmediato una versión alternativa libre de restricción"
+                        >
+                          <Sparkles className="w-3 h-3" />
+                          Usar Inmediata
+                        </button>
+                        <span className="font-mono text-amber-200 font-bold">{downloadState.percent || 15}%</span>
+                      </div>
                     </div>
                     <div className="w-full bg-[#14120F] rounded-full h-2 overflow-hidden border border-amber-500/40">
                       <div

@@ -452,6 +452,68 @@ export default function OperatorView() {
     }
   }, [addNotification]);
 
+  // Auto-resolución inmediata de canciones restringidas con alternativas comunitarias libres
+  const handleResolveAlternative = useCallback(async (track) => {
+    if (!track?.videoId) return false;
+    try {
+      addNotification(`🛡️ Buscando alternativa libre para "${track.title}"...`, 'info');
+      let fbRes = await fetch(`/api/resolve-fallback?v=${track.videoId}&q=${encodeURIComponent(track.title)}`);
+      if (!fbRes.ok) {
+        fbRes = await fetch(buildBackendUrl(`/api/resolve-fallback?v=${track.videoId}&q=${encodeURIComponent(track.title)}`));
+      }
+      if (fbRes.ok) {
+        const data = await fbRes.json();
+        if (data.resolved && data.alternative && data.alternative.videoId !== track.videoId) {
+          const alt = data.alternative;
+          const isKaraoke = data.source === 'youtube_karaoke';
+          const upgraded = {
+            ...track,
+            videoId: alt.videoId,
+            title: alt.title,
+            author: alt.author || track.author,
+            duration: alt.duration || track.duration,
+            seconds: alt.seconds || track.seconds,
+            thumbnail: alt.thumbnail || track.thumbnail,
+            embeddable: true,
+            isNative: false,
+            isDriveHosted: false,
+            badge: isKaraoke ? '🛡️ Karaoke Libre' : '🛡️ Letra Comunidad',
+          };
+
+          setQueue((prev) => prev.map((item) => (item.videoId === track.videoId ? upgraded : item)));
+
+          if (currentTrackRef.current?.videoId === track.videoId) {
+            currentTrackRef.current = upgraded;
+            setCurrentTrack(upgraded);
+            broadcast(MESSAGE_TYPES.PLAY_NEXT, upgraded);
+          }
+
+          setDownloadProgressMap((prev) => ({
+            ...prev,
+            [track.videoId]: {
+              status: 'completed',
+              stage: isKaraoke ? '¡Lista con Karaoke Libre!' : '¡Lista con Letra!',
+              percent: 100,
+            },
+          }));
+
+          setValidationMap((prev) => {
+            const next = { ...prev };
+            delete next[track.videoId];
+            next[alt.videoId] = { status: 'valid', reason: 'Auto-rescatada' };
+            return next;
+          });
+
+          addNotification(`✅ "${track.title}" lista para reproducir sin esperas.`, 'success');
+          return true;
+        }
+      }
+    } catch (e) {
+      console.warn('Error resolviendo alternativa:', e);
+    }
+    return false;
+  }, [addNotification, broadcast]);
+
   // Poller reactivo: comprueba si alguna pista restringida/encolada ya terminó de descargarse
   useEffect(() => {
     const candidateTracks = [
@@ -485,20 +547,34 @@ export default function OperatorView() {
             } catch (e) {}
           }
 
+          if (!data?.isReady && (!data?.status || data?.status === 'idle' || data?.status === 'failed')) {
+            const currentProg = downloadProgressMap[t.videoId];
+            if (currentProg && currentProg.status === 'downloading') {
+              console.log(`[Operador] Descarga directa no disponible para [${t.videoId}]. Auto-rescatando en cola...`);
+              handleResolveAlternative(t);
+            }
+          }
+
           if (data && data.status === 'downloading') {
-            setDownloadProgressMap((prev) => {
-              const current = prev[t.videoId];
-              if (!current || current.status !== 'downloading') return prev;
-              const nextPercent = Math.min(92, (current.percent || 78) + 2);
-              return {
-                ...prev,
-                [t.videoId]: {
-                  status: 'downloading',
-                  stage: 'Procesando y sincronizando con Servidor VIP...',
-                  percent: nextPercent,
-                },
-              };
-            });
+            const cur = downloadProgressMap[t.videoId];
+            if (cur && (cur.percent || 78) >= 86) {
+              console.log(`[Operador] Tiempo límite de espera alcanzado para [${t.videoId}]. Auto-rescatando...`);
+              handleResolveAlternative(t);
+            } else {
+              setDownloadProgressMap((prev) => {
+                const current = prev[t.videoId];
+                if (!current || current.status !== 'downloading') return prev;
+                const nextPercent = Math.min(88, (current.percent || 78) + 2);
+                return {
+                  ...prev,
+                  [t.videoId]: {
+                    status: 'downloading',
+                    stage: 'Procesando y sincronizando con Servidor VIP...',
+                    percent: nextPercent,
+                  },
+                };
+              });
+            }
           }
 
           if (data && data.isReady) {
@@ -1440,6 +1516,7 @@ export default function OperatorView() {
             onOpenDirectYouTube={handleOpenDirectYouTube}
             onOpenAlertModal={handleOpenAlertModal}
             onStartDownload={handleStartDownload}
+            onResolveAlternative={handleResolveAlternative}
             onTrackEnded={handleTrackEnded}
           />
         </section>
