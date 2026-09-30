@@ -80,6 +80,7 @@ export default function OperatorView() {
   const volumeRef = useRef(volume);
   const searchModeRef = useRef(searchMode);
   const fallbackAttemptsRef = useRef(new Set());
+  const lastAdvanceTimeRef = useRef(0);
   const isAdvancingRef = useRef(false);
   const searchIdRef = useRef(0);
   const searchAbortControllerRef = useRef(null);
