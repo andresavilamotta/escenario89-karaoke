@@ -3,12 +3,13 @@ services:
     name: escenario89-karaoke-backend
     runtime: docker
     dockerfilePath: ./Dockerfile
+    dockerContext: .
     plan: free
     region: oregon
     envVars:
       - key: PORT
-        value: 3001
+        value: "3001"
       - key: NODE_ENV
-        value: production
+        value: "production"
       - key: WEBSHARE_API_KEY
-        value: bn8qg3zywbviivriuh2mulbmh1h1ng4468xk6t54
+        value: "bn8qg3zywbviivriuh2mulbmh1h1ng4468xk6t54"

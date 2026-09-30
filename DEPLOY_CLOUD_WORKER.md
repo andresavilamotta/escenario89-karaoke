@@ -1,5 +1,7 @@
 # 🚀 Despliegue del Backend Worker 24/7 en la Nube (Sin PC Local)
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/anders2D/escenario89-karaoke)
+
 Este backend worker se encarga de:
 1. **Evadir el bloqueo de YouTube (Error 150/403/Bot Detection)** usando la rotación automática de proxies residenciales/datacenter con la API de Webshare.
 2. **Descargar canciones en segundo plano** directamente a la nube.
@@ -8,12 +10,25 @@ Este backend worker se encarga de:
 
 ---
 
-## Opción 1: Despliegue Gratuito en Render.com (Recomendado - 2 minutos)
+## Opción Rápida con 1 Solo Clic (Blueprint Render)
+
+Haz clic directamente en este botón para crear el servicio automáticamente en Render:
+
+👉 **[Crear Backend en Render con 1 Clic](https://render.com/deploy?repo=https://github.com/anders2D/escenario89-karaoke)**
+
+Render leerá el archivo `render.yaml` de tu repositorio y configurará automáticamente:
+- **Runtime:** Docker con Python3, Node.js 20, FFmpeg y `yt-dlp`
+- **Plan:** Free
+- **Variables de Entorno:** `WEBSHARE_API_KEY` y `PORT`
+
+---
+
+## Opción Manual en Render.com (2 minutos)
 
 1. Ve a **[render.com](https://render.com/)** e inicia sesión con tu cuenta de **GitHub**.
 2. Haz clic en el botón azul **"New +"** y selecciona **"Web Service"**.
 3. Elige tu repositorio: `anders2D/escenario89-karaoke`.
-4. Render detectará automáticamente el archivo `Dockerfile`. Configura únicamente:
+4. Render detectará automáticamente el archivo `Dockerfile`. Configura:
    - **Name**: `escenario89-karaoke-backend`
    - **Region**: Oregon (US West) o Frankfurt (EU Central)
    - **Instance Type**: **Free**
