@@ -26,8 +26,18 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 
+// Directorio base de descargas preparado al inicio
+const defaultDownloadDir = path.resolve(process.cwd(), 'Canciones_Descargadas');
+if (!fs.existsSync(defaultDownloadDir)) {
+  try {
+    fs.mkdirSync(defaultDownloadDir, { recursive: true });
+    console.log(`[Karaoke Backend] Directorio preparado: ${defaultDownloadDir}`);
+  } catch (e) {}
+}
+
 // Directorios para videos de Servidor VIP (Canciones_Descargadas en Google Drive):
 const CANDIDATE_DIRS = [
+  defaultDownloadDir,
   path.resolve(__dirname, '..', '..', 'Canciones_Descargadas'),
   path.resolve(__dirname, '..', 'Canciones_Descargadas'),
   path.resolve('Canciones_Descargadas'),
@@ -376,7 +386,7 @@ app.post('/api/download-restricted', (req, res) => {
   const outputTemplate = `${safeTitle} [${videoId}].%(ext)s`;
   const url = `https://www.youtube.com/watch?v=${videoId}`;
   const validDirs = getValidVideoDirs();
-  const targetDir = validDirs[0] || path.resolve(__dirname, '..', '..', 'Canciones_Descargadas');
+  const targetDir = validDirs[0] || defaultDownloadDir;
 
   if (!fs.existsSync(targetDir)) {
     try {
@@ -386,11 +396,9 @@ app.post('/api/download-restricted', (req, res) => {
 
   const proxy = getRotatingProxy();
   const args = [
-    '--no-js-runtimes',
     '--js-runtimes', 'node',
-    '--remote-components', 'ejs:github',
-    '--extractor-args', 'youtube:player_client=android',
-    '-f', '18/b',
+    '-f', 'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
+    '--merge-output-format', 'mp4',
     '-o', outputTemplate,
     '--no-playlist',
     '--no-overwrites',
@@ -410,7 +418,7 @@ app.post('/api/download-restricted', (req, res) => {
 
   console.log(`[Karaoke Backend] 📥 Iniciando descarga en segundo plano para [${videoId}] "${title || videoId}"...`);
 
-  execFile('yt-dlp', args, { cwd: targetDir }, (err) => {
+  execFile('yt-dlp', args, { cwd: targetDir }, (err, stdout, stderr) => {
     activeDownloads.delete(videoId);
     if (!err) {
       console.log(`[Karaoke Backend] ✅ Descarga completada exitosamente: [${videoId}] "${title || videoId}"`);
@@ -418,7 +426,23 @@ app.post('/api/download-restricted', (req, res) => {
       videoIdToPathMap = null;
       buildVideoIdMap();
     } else {
-      console.warn(`[Karaoke Backend] ⚠️ Error en descarga de [${videoId}]:`, err?.message || err);
+      console.warn(`[Karaoke Backend] ⚠️ Error en descarga de [${videoId}]:`, err?.message || stderr);
+      // Reintento directo si falló con proxy
+      if (proxy) {
+        console.log(`[Karaoke Backend] 🔄 Reintentando descarga directa sin proxy para [${videoId}]...`);
+        const fallbackArgs = args.filter((a, i) => a !== '--proxy' && args[i - 1] !== '--proxy');
+        activeDownloads.add(videoId);
+        execFile('yt-dlp', fallbackArgs, { cwd: targetDir }, (fErr) => {
+          activeDownloads.delete(videoId);
+          if (!fErr) {
+            console.log(`[Karaoke Backend] ✅ Descarga completada en reintento directo: [${videoId}]`);
+            videoIdToPathMap = null;
+            buildVideoIdMap();
+          } else {
+            console.error(`[Karaoke Backend] ❌ Falló también reintento directo para [${videoId}]:`, fErr?.message);
+          }
+        });
+      }
     }
   });
 });
@@ -435,12 +459,9 @@ app.get('/api/stream-direct', (req, res) => {
   const url = `https://www.youtube.com/watch?v=${videoId}`;
   const proxy = getRotatingProxy();
   const args = [
-    '--no-js-runtimes',
     '--js-runtimes', 'node',
-    '--remote-components', 'ejs:github',
-    '--extractor-args', 'youtube:player_client=android',
     '-g',
-    '-f', '18/b',
+    '-f', 'best[ext=mp4]/best',
     '--socket-timeout', '20',
   ];
 
@@ -513,6 +534,89 @@ app.get('/api/download-status', (req, res) => {
     isReady: false,
     videoId,
     message: 'Sin descarga activa para este video.',
+  });
+});
+
+// Endpoint de resolución de alternativas inmediatas no restringidas (Auto-Rescate)
+app.get('/api/resolve-fallback', async (req, res) => {
+  const videoId = req.query.v || req.query.videoId;
+  const rawQuery = req.query.q || '';
+
+  // 1. Comprobar si el video ya está descargado en Servidor VIP
+  if (videoId) {
+    const filePath = resolveLocalVideoPath(videoId);
+    if (filePath && fs.existsSync(filePath)) {
+      const filename = path.basename(filePath);
+      const host = req.get('host');
+      const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+      const baseUrl = process.env.PUBLIC_BACKEND_URL || `${protocol}://${host}`;
+      return res.json({
+        resolved: true,
+        source: 'local_vip',
+        filename,
+        videoUrl: `${baseUrl}/api/videos/${encodeURIComponent(filename)}`,
+        badge: '👑 Servidor VIP',
+        message: 'Canción encontrada en Servidor VIP.',
+      });
+    }
+  }
+
+  // 2. Buscar alternativas libres de restricción en YouTube (Karaoke primero, luego Lyrics)
+  if (rawQuery.trim().length > 1) {
+    try {
+      const cleanTitle = rawQuery
+        .replace(/\(Karaoke.*?\)/gi, '')
+        .replace(/\[Karaoke.*?\]/gi, '')
+        .replace(/\(Official.*?\)/gi, '')
+        .replace(/\(Lyrics.*?\)/gi, '')
+        .replace(/\(Video.*?\)/gi, '')
+        .replace(/\[Video.*?\]/gi, '')
+        .trim();
+
+      const searchStrategies = [
+        { query: `${cleanTitle} karaoke`, source: 'youtube_karaoke' },
+        { query: `${cleanTitle} lyrics letra`, source: 'youtube_lyrics' },
+      ];
+
+      for (const strat of searchStrategies) {
+        try {
+          const searchRes = await ytSearch(strat.query);
+          if (searchRes && Array.isArray(searchRes.videos)) {
+            const candidates = searchRes.videos
+              .filter((v) => v.videoId && v.videoId !== videoId && v.type === 'video')
+              .slice(0, 6);
+
+            for (const candidate of candidates) {
+              const embeddable = await isVideoEmbeddable(candidate.videoId);
+              if (embeddable) {
+                return res.json({
+                  resolved: true,
+                  source: strat.source,
+                  alternative: {
+                    videoId: candidate.videoId,
+                    title: candidate.title,
+                    author: candidate.author?.name || 'Comunidad',
+                    duration: candidate.timestamp || '0:00',
+                    seconds: candidate.seconds || 0,
+                    thumbnail: candidate.thumbnail || `https://i.ytimg.com/vi/${candidate.videoId}/hqdefault.jpg`,
+                    embeddable: true,
+                  },
+                });
+              }
+            }
+          }
+        } catch (subErr) {
+          console.warn(`[Resolve API] Error en estrategia ${strat.source}:`, subErr.message);
+        }
+      }
+    } catch (e) {
+      console.warn('[Resolve API] Error al consultar alternativas:', e.message);
+    }
+  }
+
+  return res.json({
+    resolved: false,
+    message: 'No se encontró alternativa automática inmediata.',
   });
 });
 

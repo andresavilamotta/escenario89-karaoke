@@ -60,7 +60,7 @@ export default async function handler(req, res) {
     }
   }
 
-  // Paso 2: Si hay título/búsqueda, buscar alternativas libres de restricción en YouTube (Lyrics / Comunidad)
+  // Paso 2: Si hay título/búsqueda, buscar alternativas libres de restricción en YouTube (Karaoke primero, luego Lyrics)
   if (rawQuery.trim().length > 1) {
     try {
       const cleanTitle = rawQuery
@@ -69,33 +69,43 @@ export default async function handler(req, res) {
         .replace(/\(Official.*?\)/gi, '')
         .replace(/\(Lyrics.*?\)/gi, '')
         .replace(/\(Video.*?\)/gi, '')
+        .replace(/\[Video.*?\]/gi, '')
         .trim();
 
-      const searchTerms = `${cleanTitle} lyrics letra`;
-      const searchRes = await ytSearch(searchTerms);
+      const searchStrategies = [
+        { query: `${cleanTitle} karaoke`, source: 'youtube_karaoke' },
+        { query: `${cleanTitle} lyrics letra`, source: 'youtube_lyrics' },
+      ];
 
-      if (searchRes && Array.isArray(searchRes.videos)) {
-        const candidates = searchRes.videos
-          .filter((v) => v.videoId && v.videoId !== videoId && v.type === 'video')
-          .slice(0, 5);
+      for (const strat of searchStrategies) {
+        try {
+          const searchRes = await ytSearch(strat.query);
+          if (searchRes && Array.isArray(searchRes.videos)) {
+            const candidates = searchRes.videos
+              .filter((v) => v.videoId && v.videoId !== videoId && v.type === 'video')
+              .slice(0, 6);
 
-        for (const candidate of candidates) {
-          const embeddable = await isVideoEmbeddable(candidate.videoId);
-          if (embeddable) {
-            return res.status(200).json({
-              resolved: true,
-              source: 'youtube_lyrics',
-              alternative: {
-                videoId: candidate.videoId,
-                title: candidate.title,
-                author: candidate.author?.name || 'Comunidad',
-                duration: candidate.timestamp || '0:00',
-                seconds: candidate.seconds || 0,
-                thumbnail: candidate.thumbnail || `https://i.ytimg.com/vi/${candidate.videoId}/hqdefault.jpg`,
-                embeddable: true,
-              },
-            });
+            for (const candidate of candidates) {
+              const embeddable = await isVideoEmbeddable(candidate.videoId);
+              if (embeddable) {
+                return res.status(200).json({
+                  resolved: true,
+                  source: strat.source,
+                  alternative: {
+                    videoId: candidate.videoId,
+                    title: candidate.title,
+                    author: candidate.author?.name || 'Comunidad',
+                    duration: candidate.timestamp || '0:00',
+                    seconds: candidate.seconds || 0,
+                    thumbnail: candidate.thumbnail || `https://i.ytimg.com/vi/${candidate.videoId}/hqdefault.jpg`,
+                    embeddable: true,
+                  },
+                });
+              }
+            }
           }
+        } catch (subErr) {
+          console.warn(`[Resolve API] Error en estrategia ${strat.source}:`, subErr.message);
         }
       }
     } catch (e) {

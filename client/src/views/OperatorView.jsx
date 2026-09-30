@@ -485,6 +485,22 @@ export default function OperatorView() {
             } catch (e) {}
           }
 
+          if (data && data.status === 'downloading') {
+            setDownloadProgressMap((prev) => {
+              const current = prev[t.videoId];
+              if (!current || current.status !== 'downloading') return prev;
+              const nextPercent = Math.min(92, (current.percent || 78) + 2);
+              return {
+                ...prev,
+                [t.videoId]: {
+                  status: 'downloading',
+                  stage: 'Procesando y sincronizando con Servidor VIP...',
+                  percent: nextPercent,
+                },
+              };
+            });
+          }
+
           if (data && data.isReady) {
             let finalVideoUrl = data.streamUrl || data.videoUrl;
             if (finalVideoUrl && finalVideoUrl.startsWith('/api/videos/')) {
@@ -726,11 +742,23 @@ export default function OperatorView() {
     }
   }, [broadcast]);
 
+  const handleSyncStateFromDisplay = useCallback((payload) => {
+    if (payload?.currentTrack) {
+      currentTrackRef.current = payload.currentTrack;
+      setCurrentTrack(payload.currentTrack);
+      if (typeof payload.isPlaying === 'boolean') {
+        setIsPlaying(payload.isPlaying);
+      }
+      addNotification(`🛡️ Auto-Rescate en pantalla: "${payload.currentTrack.title}"`, 'info');
+    }
+  }, [addNotification]);
+
   // Hook de sincronización
   const { broadcast: realBroadcast, isDisplayConnected } = useKaraokeSync('operator', {
     [MESSAGE_TYPES.TRACK_ENDED]: handleTrackEnded,
     [MESSAGE_TYPES.ERROR_RESTRICTED]: handleRestrictedError,
     [MESSAGE_TYPES.PONG_OPERATOR]: handlePongOperator,
+    [MESSAGE_TYPES.SYNC_STATE]: handleSyncStateFromDisplay,
   });
 
   useEffect(() => {

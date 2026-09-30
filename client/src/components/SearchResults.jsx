@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Check, Clock, Eye, Music, Disc3, Sparkles, ExternalLink, Zap, Crown, Video } from 'lucide-react';
+import { Plus, Check, Clock, Eye, Music, Disc3, Sparkles, ExternalLink, Zap, Crown, Video, ShieldAlert } from 'lucide-react';
 import { searchDriveCatalog } from '../data/driveCatalog';
 
 export default function SearchResults({ results = [], onAddToQueue, onSelectSuggestion, searchMode = 'karaoke' }) {
@@ -143,6 +143,14 @@ export default function SearchResults({ results = [], onAddToQueue, onSelectSugg
                   <span className="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-emerald-500/90 text-black text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-0.5 shadow">
                     <Check className="w-2.5 h-2.5 stroke-[3]" />
                     OK
+                  </span>
+                ) : video.embeddable === false ? (
+                  <span 
+                    className="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-amber-500/90 text-black text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-0.5 shadow"
+                    title="YouTube restringe inserción externa. La app aplicará auto-rescate instantáneo al reproducir."
+                  >
+                    <ShieldAlert className="w-2.5 h-2.5" />
+                    Auto-Rescate
                   </span>
                 ) : null}
               </div>

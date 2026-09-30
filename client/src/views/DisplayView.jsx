@@ -506,39 +506,98 @@ export default function DisplayView() {
       return;
     }
 
-    // 2. AUTO-RESCATE EN VIVO CON WORKER EN LA NUBE (Render + Webshare Proxy)
+    // 2. AUTO-RESCATE INSTANTÁNEO EN VIVO: Resolver alternativa comunitaria libre de restricción (o Servidor VIP)
     if (currentVid) {
       try {
-        console.log(`[Display] 🚀 Intentando auto-rescate en vivo por Stream Directo con proxy en Render para [${currentVid}]...`);
-        const streamCheck = await fetch(buildBackendUrl(`/api/stream-direct?v=${currentVid}`));
-        if (streamCheck.ok) {
-          const streamData = await streamCheck.json();
-          if (streamData && streamData.streamUrl) {
-            const rescuedTrack = {
-              ...currentTrackRef.current,
-              isNative: true,
-              isDriveHosted: false,
-              videoUrl: streamData.streamUrl,
-              driveStreamUrl: streamData.streamUrl,
-              badge: '🛡️ Stream Proxy VIP',
-            };
+        console.log(`[Display] 🛡️ Buscando auto-rescate para [${currentVid}] "${currentTit}"...`);
+        let resolveRes = await fetch(`/api/resolve-fallback?v=${currentVid}&q=${encodeURIComponent(currentTit)}`);
+        if (!resolveRes.ok) {
+          resolveRes = await fetch(buildBackendUrl(`/api/resolve-fallback?v=${currentVid}&q=${encodeURIComponent(currentTit)}`));
+        }
 
-            currentTrackRef.current = rescuedTrack;
-            setCurrentTrack(rescuedTrack);
-            setIsPlaying(true);
-            setHasError(null);
-            triggerOverlay(10000);
+        if (resolveRes.ok) {
+          const fallbackData = await resolveRes.json();
+          if (fallbackData.resolved) {
+            // Caso A: Rescatado desde Servidor VIP
+            if (fallbackData.streamUrl || fallbackData.videoUrl) {
+              const videoUrl = fallbackData.videoUrl || fallbackData.streamUrl;
+              const rescuedTrack = {
+                ...currentTrackRef.current,
+                isNative: true,
+                isDriveHosted: true,
+                videoUrl,
+                driveStreamUrl: videoUrl,
+                driveFileId: fallbackData.driveFileId || null,
+                filename: fallbackData.filename || null,
+                badge: fallbackData.badge || '👑 Servidor VIP',
+              };
 
-            const rescueLog = logger.info('YouTube', `[Auto-Rescate Stream Proxy] "${currentTit}" tenía restricción (${errorCode}). Rescatado en vivo por Render vía proxy (${streamData.proxyCountry || 'OK'}).`, {
-              videoId: currentVid,
-              proxyCountry: streamData.proxyCountry,
-            });
-            broadcast(MESSAGE_TYPES.LOG_REMOTE, rescueLog);
-            return;
+              currentTrackRef.current = rescuedTrack;
+              setCurrentTrack(rescuedTrack);
+              setIsPlaying(true);
+              setHasError(null);
+              triggerOverlay(10000);
+
+              const rescueLog = logger.info('Auto-Rescue', `[Auto-Rescate Servidor VIP] "${currentTit}" tenía restricción (${errorCode}). Reemplazado instantáneamente por Servidor VIP.`, {
+                originalVideoId: currentVid,
+                source: fallbackData.source,
+              });
+              broadcast(MESSAGE_TYPES.LOG_REMOTE, rescueLog);
+              return;
+            }
+
+            // Caso B: Rescatado con alternativa libre en YouTube (Karaoke o Letra)
+            if (fallbackData.alternative?.videoId && fallbackData.alternative.videoId !== currentVid) {
+              const alt = fallbackData.alternative;
+              const isKaraokeAlt = fallbackData.source === 'youtube_karaoke';
+              const rescuedTrack = {
+                ...currentTrackRef.current,
+                videoId: alt.videoId,
+                title: alt.title || currentTrackRef.current?.title,
+                author: alt.author || currentTrackRef.current?.author,
+                duration: alt.duration || currentTrackRef.current?.duration,
+                seconds: alt.seconds || currentTrackRef.current?.seconds,
+                thumbnail: alt.thumbnail || `https://i.ytimg.com/vi/${alt.videoId}/hqdefault.jpg`,
+                isNative: false,
+                isDriveHosted: false,
+                embeddable: true,
+                badge: isKaraokeAlt ? '🛡️ Karaoke Libre' : '🛡️ Letra Comunidad',
+              };
+
+              currentTrackRef.current = rescuedTrack;
+              setCurrentTrack(rescuedTrack);
+              setIsPlaying(true);
+              setHasError(null);
+              triggerOverlay(10000);
+
+              const rescueLog = logger.info('YouTube', `[Auto-Rescate YouTube] "${currentTit}" tenía restricción (${errorCode}). Sustituida instantáneamente por versión libre: "${alt.title}" (${alt.videoId}).`, {
+                originalVideoId: currentVid,
+                newVideoId: alt.videoId,
+                source: fallbackData.source,
+              });
+              broadcast(MESSAGE_TYPES.LOG_REMOTE, rescueLog);
+
+              // Sincronizar al operador
+              broadcast(MESSAGE_TYPES.SYNC_STATE, {
+                currentTrack: rescuedTrack,
+                isPlaying: true,
+              });
+
+              // Solicitar descarga en segundo plano del video original al Servidor VIP en Render
+              try {
+                fetch(buildBackendUrl('/api/download-restricted'), {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ videoId: currentVid, title: currentTit }),
+                }).catch(() => {});
+              } catch (e) {}
+
+              return;
+            }
           }
         }
-      } catch (e) {
-        console.warn('[Display] Falló auto-rescate por stream directo:', e);
+      } catch (err) {
+        console.warn('[Display] Error en auto-rescate resolve-fallback:', err);
       }
     }
 
