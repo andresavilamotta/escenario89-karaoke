@@ -1,472 +1,2101 @@
 [
   {
-    "title": "Juan Gabriel - Querida (Version Karaoke)",
-    "videoId": "xKvPqbiRK_w",
-    "youtubeUrl": "https://www.youtube.com/watch?v=xKvPqbiRK_w",
-    "totalEvents": 21,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
+    "videoId": "Reproducien",
+    "title": "BANDA EL RECODO, SEBASTIÁN YATRA - CONSECUENCIA DE MIS ACTOS (LETRA)",
+    "count": 117,
+    "issueIds": [
+      "7755962041",
+      "7755947961",
+      "7755914935",
+      "7755925653",
+      "7755899312",
+      "7755899242",
+      "7755895812",
+      "7755895719",
+      "7755895562",
+      "7755852497",
+      "7755654622",
+      "7755555106",
+      "7755515429",
+      "7750974696",
+      "7750974781",
+      "7753652224",
+      "7753607020",
+      "7753607122",
+      "7753601523",
+      "7751653688",
+      "7751653020",
+      "7751645362",
+      "7751644394",
+      "7743478202",
+      "7742903865",
+      "7742903977",
+      "7741407425",
+      "7741445897",
+      "7741407034",
+      "7741406841",
+      "7741406613",
+      "7741178250",
+      "7741178187",
+      "7741178192",
+      "7741177792",
+      "7741169661",
+      "7741170136",
+      "7740755975",
+      "7740755323",
+      "7740753340",
+      "7740750213",
+      "7740750015",
+      "7740749921",
+      "7740746959",
+      "7740736093",
+      "7740737204",
+      "7740736327",
+      "7731664992",
+      "7739593135",
+      "7739077906",
+      "7729938615"
     ],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)",
-      "Alerta a Consola Operador"
-    ],
-    "firstSeen": "2026-09-13T16:45:37.632000Z",
-    "lastSeen": "2026-09-18T16:28:59.271000Z"
+    "lastSeen": "2026-09-26T07:57:07Z"
   },
   {
-    "title": "Juan Gabriel - Querida (Versión Karaoke)",
-    "videoId": "vNfNjG5Q6FU",
-    "youtubeUrl": "https://www.youtube.com/watch?v=vNfNjG5Q6FU",
-    "totalEvents": 21,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)",
-      "Alerta a Consola Operador"
-    ],
-    "firstSeen": "2026-09-14T16:06:45.062000Z",
-    "lastSeen": "2026-09-18T16:22:06.209000Z"
-  },
-  {
-    "title": "Vicente Fernández - Escuché Las Golondrinas (Letra / Lyrics)",
-    "videoId": "XCkQ00efb40",
-    "youtubeUrl": "https://www.youtube.com/watch?v=XCkQ00efb40",
-    "totalEvents": 16,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [],
-    "firstSeen": "2026-09-14T02:13:47.037000Z",
-    "lastSeen": "2026-09-14T02:21:41.650000Z"
-  },
-  {
-    "title": "Querida | Karaoke Version Lower Key 2 | Juan Gabriel",
-    "videoId": "qfG8iUy_C7k",
-    "youtubeUrl": "https://www.youtube.com/watch?v=qfG8iUy_C7k",
-    "totalEvents": 12,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)",
-      "Alerta a Consola Operador"
-    ],
-    "firstSeen": "2026-09-17T23:42:09.442000Z",
-    "lastSeen": "2026-09-18T16:23:46.480000Z"
-  },
-  {
-    "title": "*QUERIDA* - JUAN GABRIEL - 1984 (REMASTERIZADO)  Q.E.P.D (1950-2016)",
-    "videoId": "1hf7oFCL1Sg",
-    "youtubeUrl": "https://www.youtube.com/watch?v=1hf7oFCL1Sg",
-    "totalEvents": 11,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)",
-      "Alerta a Consola Operador"
-    ],
-    "firstSeen": "2026-09-17T23:52:26.262000Z",
-    "lastSeen": "2026-09-18T16:23:20.267000Z"
-  },
-  {
-    "title": "Juan Gabriel - Querida [Letra]",
-    "videoId": "XcTkOFsoMI8",
-    "youtubeUrl": "https://www.youtube.com/watch?v=XcTkOFsoMI8",
-    "totalEvents": 10,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [
-      "Alerta a Consola Operador"
-    ],
-    "firstSeen": "2026-09-18T16:23:10.972000Z",
-    "lastSeen": "2026-09-18T16:23:26.932000Z"
-  },
-  {
-    "title": "Vicente Fernández - Escuche Las Golondrinas (Letra/Lyrics)",
-    "videoId": "iykbtvLMLYA",
-    "youtubeUrl": "https://www.youtube.com/watch?v=iykbtvLMLYA",
-    "totalEvents": 8,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [],
-    "firstSeen": "2026-09-14T02:13:49.582000Z",
-    "lastSeen": "2026-09-14T02:13:50.110000Z"
-  },
-  {
-    "title": "Busco Un Corazón - Raúl Santi (Letra/ Lyrics)",
-    "videoId": "kS8uDG3dFz4",
-    "youtubeUrl": "https://www.youtube.com/watch?v=kS8uDG3dFz4",
-    "totalEvents": 6,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [],
-    "firstSeen": "2026-09-14T01:40:59.460000Z",
-    "lastSeen": "2026-09-14T01:40:59.472000Z"
-  },
-  {
-    "title": "Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke",
-    "videoId": "pK1_sbxBG-w",
-    "youtubeUrl": "https://www.youtube.com/watch?v=pK1_sbxBG-w",
-    "totalEvents": 6,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)",
-      "Alerta a Consola Operador"
-    ],
-    "firstSeen": "2026-09-18T16:30:10.156000Z",
-    "lastSeen": "2026-09-18T16:30:29.243000Z"
-  },
-  {
-    "title": "Karaokanta - Juan Gabriel - Querida (1 tono más grave)",
-    "videoId": "mzuHmKjnrCA",
-    "youtubeUrl": "https://www.youtube.com/watch?v=mzuHmKjnrCA",
-    "totalEvents": 6,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
-    ],
-    "firstSeen": "2026-09-13T16:46:00.782000Z",
-    "lastSeen": "2026-09-17T23:43:18.327000Z"
-  },
-  {
-    "title": "Video con restricción de derechos en YouTube. Pasando al siguiente tema...",
-    "videoId": null,
-    "youtubeUrl": null,
-    "totalEvents": 5,
-    "errorCodes": [],
-    "reasons": [
-      "Alerta a Consola Operador"
-    ],
-    "firstSeen": "2026-09-13T16:54:56.298000Z",
-    "lastSeen": "2026-09-14T02:21:41.656000Z"
-  },
-  {
-    "title": "Vicente Fernández - Volver, Volver (Letra/Lyrics)",
-    "videoId": "BW2xNLIPxdE",
-    "youtubeUrl": "https://www.youtube.com/watch?v=BW2xNLIPxdE",
-    "totalEvents": 5,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [
-      "Alerta a Consola Operador"
-    ],
-    "firstSeen": "2026-09-18T16:33:49.804000Z",
-    "lastSeen": "2026-09-18T16:33:49.816000Z"
-  },
-  {
-    "title": "Volver Volver - Vicente Fernandez | Karaoke | Instrumental",
-    "videoId": "ul1f-I6gg2E",
-    "youtubeUrl": "https://www.youtube.com/watch?v=ul1f-I6gg2E",
-    "totalEvents": 5,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [
-      "Alerta a Consola Operador"
-    ],
-    "firstSeen": "2026-09-18T16:33:31.544000Z",
-    "lastSeen": "2026-09-18T16:33:31.569000Z"
-  },
-  {
-    "title": "Juan Gabriel, Juanes - Querida",
-    "videoId": "oADpF--uirA",
-    "youtubeUrl": "https://www.youtube.com/watch?v=oADpF--uirA",
-    "totalEvents": 5,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [
-      "Alerta a Consola Operador"
-    ],
-    "firstSeen": "2026-09-18T16:32:29.074000Z",
-    "lastSeen": "2026-09-18T16:32:29.096000Z"
-  },
-  {
-    "title": "Querida (Karaoke Version)",
-    "videoId": "1g17-X0Mej4",
-    "youtubeUrl": "https://www.youtube.com/watch?v=1g17-X0Mej4",
-    "totalEvents": 5,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [
-      "Alerta a Consola Operador"
-    ],
-    "firstSeen": "2026-09-18T16:30:38.213000Z",
-    "lastSeen": "2026-09-18T16:30:38.233000Z"
-  },
-  {
-    "title": "JUAN GABRIEL, Querida (karaoke)",
-    "videoId": "uPhjhldugiw",
-    "youtubeUrl": "https://www.youtube.com/watch?v=uPhjhldugiw",
-    "totalEvents": 5,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [
-      "Alerta a Consola Operador"
-    ],
-    "firstSeen": "2026-09-18T16:30:21.539000Z",
-    "lastSeen": "2026-09-18T16:30:21.557000Z"
-  },
-  {
-    "title": "Si Se Fue Se Fue - Francy (Video Oficial - Explicita)",
-    "videoId": "Nf4GNFghEn4",
-    "youtubeUrl": "https://www.youtube.com/watch?v=Nf4GNFghEn4",
-    "totalEvents": 5,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [
-      "Alerta a Consola Operador"
-    ],
-    "firstSeen": "2026-09-18T05:53:07.069000Z",
-    "lastSeen": "2026-09-18T05:53:07.154000Z"
-  },
-  {
-    "title": "KAROL G - Amargura (Letra/Lyrics)",
-    "videoId": "W5Sbslo7h_g",
-    "youtubeUrl": "https://www.youtube.com/watch?v=W5Sbslo7h_g",
-    "totalEvents": 4,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [],
-    "firstSeen": "2026-09-14T02:23:08.881000Z",
-    "lastSeen": "2026-09-14T02:23:08.916000Z"
-  },
-  {
-    "title": "RAUL SANTI - BUSCO UN CORAZON Karaoke FULL",
-    "videoId": "La2ApKBxFXc",
-    "youtubeUrl": "https://www.youtube.com/watch?v=La2ApKBxFXc",
-    "totalEvents": 4,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [],
-    "firstSeen": "2026-09-14T01:40:51.426000Z",
-    "lastSeen": "2026-09-14T01:40:51.439000Z"
-  },
-  {
-    "title": "🔥 Mix Crossover Discoteca 🔥 ( Salsa, Reggaeton, Merengue, Vallenato )  💎 Junio 2026 💎",
-    "videoId": "EHpH9HYe9Rg",
-    "youtubeUrl": "https://www.youtube.com/watch?v=EHpH9HYe9Rg",
-    "totalEvents": 4,
-    "errorCodes": [
-      "150 (Inserción Prohibida / Derechos)",
-      "101 (Inserción Prohibida)"
-    ],
-    "reasons": [],
-    "firstSeen": "2026-09-14T00:16:22.310000Z",
-    "lastSeen": "2026-09-14T00:16:22.333000Z"
-  },
-  {
-    "title": "Juan Gabriel - Querida (Karaoke Version)",
-    "videoId": "dKbT8gXwzmQ",
-    "youtubeUrl": "https://www.youtube.com/watch?v=dKbT8gXwzmQ",
-    "totalEvents": 3,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
-    ],
-    "firstSeen": "2026-09-14T16:56:20.875000Z",
-    "lastSeen": "2026-09-17T23:42:12.324000Z"
-  },
-  {
-    "title": "Juan Gabriel - Querida Karaoke Version con Testo | Versione Strumentale Originale",
-    "videoId": "FqfKsJTVAlE",
-    "youtubeUrl": "https://www.youtube.com/watch?v=FqfKsJTVAlE",
-    "totalEvents": 2,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
-    ],
-    "firstSeen": "2026-09-14T16:25:57.666000Z",
-    "lastSeen": "2026-09-17T23:42:22.258000Z"
-  },
-  {
-    "title": "Paola Jara - Mala Mujer (Video Oficial)",
     "videoId": "EbIyusl1fos",
-    "youtubeUrl": "https://www.youtube.com/watch?v=EbIyusl1fos",
-    "totalEvents": 1,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
+    "title": "Paola Jara - Mala Mujer (Video Oficial)",
+    "count": 58,
+    "issueIds": [
+      "7742903863",
+      "7742903845",
+      "7740737977",
+      "7742903868",
+      "7742903827"
     ],
-    "firstSeen": "2026-09-18T16:24:08.876000Z",
-    "lastSeen": "2026-09-18T16:24:08.876000Z"
+    "lastSeen": "2026-09-25T03:05:43Z"
   },
   {
-    "title": "Paola Jara - Mala Mujer (Karaoke)",
+    "videoId": "xKvPqbiRK_w",
+    "title": "Juan Gabriel - Querida (Version Karaoke)",
+    "count": 17,
+    "issueIds": [
+      "7729938601",
+      "7729938422",
+      "7729938617",
+      "7729938428",
+      "7731664580",
+      "7729927930"
+    ],
+    "lastSeen": "2026-09-18T16:28:59Z"
+  },
+  {
+    "videoId": "vNfNjG5Q6FU",
+    "title": "Juan Gabriel - Querida (Versión Karaoke)",
+    "count": 17,
+    "issueIds": [
+      "7731664776",
+      "7731664773",
+      "7731665406",
+      "7731664804",
+      "7739067082"
+    ],
+    "lastSeen": "2026-09-18T16:22:06Z"
+  },
+  {
+    "videoId": "object-cont",
+    "title": "muted",
+    "count": 15,
+    "issueIds": [
+      "7743074870",
+      "7743074852"
+    ],
+    "lastSeen": "2026-09-19T23:06:50Z"
+  },
+  {
+    "videoId": "qfG8iUy_C7k",
+    "title": "Querida | Karaoke Version Lower Key 2 | Juan Gabriel",
+    "count": 10,
+    "issueIds": [
+      "7740737244",
+      "7740737180",
+      "7740737248",
+      "7740737182",
+      "7739067363"
+    ],
+    "lastSeen": "2026-09-18T16:23:46Z"
+  },
+  {
+    "videoId": "1hf7oFCL1Sg",
+    "title": "*QUERIDA* - JUAN GABRIEL - 1984 (REMASTERIZADO)  Q.E.P.D (1950-2016)",
+    "count": 9,
+    "issueIds": [
+      "7740736265",
+      "7740736257",
+      "7740736312",
+      "7740736251",
+      "7739080027"
+    ],
+    "lastSeen": "2026-09-18T16:23:20Z"
+  },
+  {
+    "videoId": "En-B_Lurkyo",
+    "title": "Paola Jara x Chiquis - Lo Que No Sirve, Estorba (Video Oficial)",
+    "count": 8,
+    "issueIds": [
+      "7743469992",
+      "7743469972",
+      "7743469971",
+      "7743469995"
+    ],
+    "lastSeen": "2026-09-20T05:33:32Z"
+  },
+  {
+    "videoId": "_ce1QuVG5nM",
+    "title": "Bad Bunny - Tití Me Preguntó // Letra // Video Official",
+    "count": 8,
+    "issueIds": [
+      "7741178262",
+      "7741178260",
+      "7741178375",
+      "7741178310"
+    ],
+    "lastSeen": "2026-09-18T20:34:38Z"
+  },
+  {
+    "videoId": "qBUKfQRbzuk",
+    "title": "Bad Bunny - Tití Me Preguntó (La Letra / Lyrics)",
+    "count": 8,
+    "issueIds": [
+      "7741178169",
+      "7741178102",
+      "7741178332",
+      "7741178175"
+    ],
+    "lastSeen": "2026-09-18T20:34:32Z"
+  },
+  {
+    "videoId": "XcTkOFsoMI8",
+    "title": "Juan Gabriel - Querida [Letra]",
+    "count": 8,
+    "issueIds": [
+      "7740736100",
+      "7740736051",
+      "7740736077",
+      "7740736069"
+    ],
+    "lastSeen": "2026-09-18T16:23:26Z"
+  },
+  {
+    "videoId": "XCkQ00efb40",
+    "title": "Vicente Fernández - Escuché Las Golondrinas (Letra / Lyrics)",
+    "count": 8,
+    "issueIds": [
+      "7730501240",
+      "7730501232"
+    ],
+    "lastSeen": "2026-09-14T02:21:41Z"
+  },
+  {
+    "videoId": "iykbtvLMLYA",
+    "title": "Vicente Fernández - Escuche Las Golondrinas (Letra/Lyrics)",
+    "count": 8,
+    "issueIds": [
+      "7730501259",
+      "7730501255",
+      "7730501273",
+      "7730501258"
+    ],
+    "lastSeen": "2026-09-14T02:13:50Z"
+  },
+  {
+    "videoId": "tqkc8luuF24",
+    "title": "COSTUMBRES YEISON JIMENEZ            KARAOKE",
+    "count": 6,
+    "issueIds": [
+      "7755899308",
+      "7755899292",
+      "7755899295",
+      "7741774283"
+    ],
+    "lastSeen": "2026-09-26T06:51:53Z"
+  },
+  {
     "videoId": "BU0IPVzGeKs",
-    "youtubeUrl": "https://www.youtube.com/watch?v=BU0IPVzGeKs",
-    "totalEvents": 1,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
+    "title": "Paola Jara - Mala Mujer",
+    "count": 6,
+    "issueIds": [
+      "7742904026",
+      "7742903994",
+      "7742903997",
+      "7742903955",
+      "7740737009"
     ],
-    "firstSeen": "2026-09-18T16:23:39.007000Z",
-    "lastSeen": "2026-09-18T16:23:39.007000Z"
+    "lastSeen": "2026-09-19T20:22:32Z"
   },
   {
-    "title": "ADRIANA LUCIA CEDRO KARAOKE. COMPLETO",
-    "videoId": "hbYCuNfOsuA",
-    "youtubeUrl": "https://www.youtube.com/watch?v=hbYCuNfOsuA",
-    "totalEvents": 1,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
+    "videoId": "ZW0m7SwMWMk",
+    "title": "Karaoke Costumbres - Yeison Jiménez",
+    "count": 5,
+    "issueIds": [
+      "7755899270",
+      "7755899229",
+      "7755899224",
+      "7741774205"
     ],
-    "firstSeen": "2026-09-18T05:15:39.442000Z",
-    "lastSeen": "2026-09-18T05:15:39.442000Z"
+    "lastSeen": "2026-09-26T06:51:46Z"
   },
   {
-    "title": "Karaokanta - Paquita la del barrio - Rata de dos patas",
-    "videoId": "cpednliUC_o",
-    "youtubeUrl": "https://www.youtube.com/watch?v=cpednliUC_o",
-    "totalEvents": 1,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
+    "videoId": "xVWLmTT2mQM",
+    "title": "VICENTE FERNANDEZ - YO QUIERO SER TU MARIDO",
+    "count": 5,
+    "issueIds": [
+      "7755895774",
+      "7755895848",
+      "7755895826"
     ],
-    "firstSeen": "2026-09-18T04:47:06.987000Z",
-    "lastSeen": "2026-09-18T04:47:06.987000Z"
+    "lastSeen": "2026-09-26T06:47:50Z"
   },
   {
-    "title": "“Hasta ayer” (Marc Anthony karaoke)",
-    "videoId": "QlLCJZI56w0",
-    "youtubeUrl": "https://www.youtube.com/watch?v=QlLCJZI56w0",
-    "totalEvents": 1,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
+    "videoId": "qTTaRm6-7LM",
+    "title": "Vicente Fernández - Yo Quiero Ser Tu Marido - letra",
+    "count": 5,
+    "issueIds": [
+      "7755895725",
+      "7755895743",
+      "7755895723"
     ],
-    "firstSeen": "2026-09-18T04:40:54.902000Z",
-    "lastSeen": "2026-09-18T04:40:54.902000Z"
+    "lastSeen": "2026-09-26T06:47:45Z"
   },
   {
-    "title": "Ni Plata Ni Nada - Andrés Franco (Cover) En Vivo.",
-    "videoId": "XW3o_wjtOoA",
-    "youtubeUrl": "https://www.youtube.com/watch?v=XW3o_wjtOoA",
-    "totalEvents": 1,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
+    "videoId": "bnwhPE_jd9A",
+    "title": "Karol G - Amargura (Official Video) | Mañana Será Bonito",
+    "count": 5,
+    "issueIds": [
+      "7753652240",
+      "7753652220",
+      "7753635027",
+      "7753652228"
     ],
-    "firstSeen": "2026-09-18T03:26:18.901000Z",
-    "lastSeen": "2026-09-18T03:26:18.901000Z"
+    "lastSeen": "2026-09-25T22:36:13Z"
   },
   {
-    "title": "BAD BUNNY - EoO (Video Visualizer) | DeBÍ TiRAR MáS FOToS",
-    "videoId": "YY2z-m2Bh64",
-    "youtubeUrl": "https://www.youtube.com/watch?v=YY2z-m2Bh64",
-    "totalEvents": 1,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
+    "videoId": "QrI0Mnpzi5g",
+    "title": "Maelo Ruiz - Si supieras - Letra/Lyrics",
+    "count": 5,
+    "issueIds": [
+      "7753607143",
+      "7753607152",
+      "7753607135"
     ],
-    "firstSeen": "2026-09-18T01:52:33.936000Z",
-    "lastSeen": "2026-09-18T01:52:33.936000Z"
+    "lastSeen": "2026-09-24T23:32:51Z"
   },
   {
-    "title": "DEVUELVEME A MI CHICA-HOMBRES G-(LETRA)+VIDEO",
+    "videoId": "dt2lyC92ueE",
+    "title": "Maelo Ruiz - Si Supieras - CON LETRA",
+    "count": 5,
+    "issueIds": [
+      "7753607025",
+      "7753607045",
+      "7753607006"
+    ],
+    "lastSeen": "2026-09-24T23:32:45Z"
+  },
+  {
+    "videoId": "0rBGjrasBhg",
+    "title": "SONIDO MAZTER -Falsa traicion (con letra)",
+    "count": 5,
+    "issueIds": [
+      "7751653693",
+      "7751653677",
+      "7751653698"
+    ],
+    "lastSeen": "2026-09-23T23:33:47Z"
+  },
+  {
+    "videoId": "pK1_sbxBG-w",
+    "title": "Querida - Juan Gabriel (ft. Juanes) | Versión Karaoke",
+    "count": 5,
+    "issueIds": [
+      "7740749679",
+      "7740749642",
+      "7740749913",
+      "7740749468",
+      "7740748954"
+    ],
+    "lastSeen": "2026-09-18T16:30:29Z"
+  },
+  {
+    "videoId": "mzuHmKjnrCA",
+    "title": "Karaokanta - Juan Gabriel - Querida (1 tono más grave)",
+    "count": 5,
+    "issueIds": [
+      "7731665368",
+      "7729928425"
+    ],
+    "lastSeen": "2026-09-17T23:43:18Z"
+  },
+  {
+    "videoId": "hv7HYP-We4g",
+    "title": "karaoke volver volver Vicente Fernández -1",
+    "count": 4,
+    "issueIds": [
+      "7755947962",
+      "7755947908",
+      "7755947949",
+      "7755928847"
+    ],
+    "lastSeen": "2026-09-26T07:40:40Z"
+  },
+  {
+    "videoId": "YvAEmg0auyM",
+    "title": "Vicente Fernandez Yo Quiero Ser Tu Marido (letra)",
+    "count": 4,
+    "issueIds": [
+      "7755895573",
+      "7755895543",
+      "7755895549",
+      "7755866622"
+    ],
+    "lastSeen": "2026-09-26T06:47:30Z"
+  },
+  {
+    "videoId": "HVpkzx1f2jg",
+    "title": "Ya Supérame - Grupo Firme (Letra/English Lyrics)",
+    "count": 4,
+    "issueIds": [
+      "7755555107",
+      "7755555105",
+      "7755555124",
+      "7755534109"
+    ],
+    "lastSeen": "2026-09-26T00:45:15Z"
+  },
+  {
+    "videoId": "nicdLMeFhT0",
+    "title": "Maelo Ruiz-Si Supieras (Video Oficial) Hd",
+    "count": 4,
+    "issueIds": [
+      "7753601564",
+      "7753601509",
+      "7753589471",
+      "7753601554"
+    ],
+    "lastSeen": "2026-09-24T23:27:48Z"
+  },
+  {
+    "videoId": "5fIhgWPjXuw",
+    "title": "Falsa Traicion - Grupo Explosivo",
+    "count": 4,
+    "issueIds": [
+      "7751653053",
+      "7751653036",
+      "7751653048",
+      "7751634415"
+    ],
+    "lastSeen": "2026-09-23T23:33:11Z"
+  },
+  {
+    "videoId": "8qHky6jPruE",
+    "title": "Lo que no sirve estorba paola jara pista",
+    "count": 4,
+    "issueIds": [
+      "7743484090",
+      "7743484083",
+      "7743484071",
+      "7743484069"
+    ],
+    "lastSeen": "2026-09-20T05:34:06Z"
+  },
+  {
+    "videoId": "oa27LN8Wxh8",
+    "title": "LO QUE NO SIRVE ESTORBA - PAOLA JARA FT CHIQUIS DEMO SERTRIERO KARAOKE",
+    "count": 4,
+    "issueIds": [
+      "7743478215",
+      "7743478211",
+      "7743478213",
+      "7743478204"
+    ],
+    "lastSeen": "2026-09-20T05:29:04Z"
+  },
+  {
+    "videoId": "UFG97S-928I",
+    "title": "INSTRUMENTAL - YEISON JIMENEZ - AVENTURERO (CUMBIA - REGGAETON)",
+    "count": 4,
+    "issueIds": [
+      "7741445920",
+      "7741445816",
+      "7741445911",
+      "7741445904"
+    ],
+    "lastSeen": "2026-09-19T00:02:05Z"
+  },
+  {
+    "videoId": "fRpkZIaVC1w",
+    "title": "Ryan Castro - LA VILLA ft. Kapo & Gangsta (Lyrics)",
+    "count": 4,
+    "issueIds": [
+      "7741407391",
+      "7741407348",
+      "7741407400",
+      "7741407358"
+    ],
+    "lastSeen": "2026-09-18T23:28:10Z"
+  },
+  {
+    "videoId": "Zh-yT20Kec4",
+    "title": "Ryan Castro - LA VILLA (Letra/Lyrics) ft. Kapo & Gangsta",
+    "count": 4,
+    "issueIds": [
+      "7741407181",
+      "7741406939",
+      "7741406989",
+      "7741406945"
+    ],
+    "lastSeen": "2026-09-18T23:27:56Z"
+  },
+  {
+    "videoId": "Q5BI2ycz0Io",
+    "title": "Ryan Castro, Kapo - LA VILLA (Letra) || su mini mini a mí me hipnotizo",
+    "count": 4,
+    "issueIds": [
+      "7741406780",
+      "7741406746",
+      "7741406852",
+      "7741406707"
+    ],
+    "lastSeen": "2026-09-18T23:27:45Z"
+  },
+  {
+    "videoId": "EochZ-iyrqQ",
+    "title": "Ryan Castro, Kapo, Gangsta - LA VILLA (Video Oficial) | HOPI SENDÉ",
+    "count": 4,
+    "issueIds": [
+      "7741406553",
+      "7741406514",
+      "7741406720",
+      "7741406477"
+    ],
+    "lastSeen": "2026-09-18T23:27:32Z"
+  },
+  {
+    "videoId": "swObP-ES85E",
+    "title": "Bad Bunny - Tití Me Preguntó (KARAOKE)",
+    "count": 4,
+    "issueIds": [
+      "7741178249",
+      "7741178034",
+      "7741178113",
+      "7741178026"
+    ],
+    "lastSeen": "2026-09-18T20:34:26Z"
+  },
+  {
+    "videoId": "bCrghsy-ZV0",
+    "title": "Karaoke♬ Tití Me Preguntó - Bad Bunny 【No Guide Melody】 Instrumental",
+    "count": 4,
+    "issueIds": [
+      "7741177828",
+      "7741177627",
+      "7741178123",
+      "7741177737"
+    ],
+    "lastSeen": "2026-09-18T20:34:15Z"
+  },
+  {
+    "videoId": "lEKL6ZIUZ7g",
+    "title": "Luis Miguel - La Incondicional - Karaoke",
+    "count": 4,
+    "issueIds": [
+      "7741170156",
+      "7741170149",
+      "7741170184",
+      "7741170162"
+    ],
+    "lastSeen": "2026-09-18T20:29:41Z"
+  },
+  {
+    "videoId": "mKRDAy707VY",
+    "title": "Luis Miguel  La Incondicional  Karaoke 4K",
+    "count": 4,
+    "issueIds": [
+      "7741169658",
+      "7741169623",
+      "7741169622",
+      "7741169609"
+    ],
+    "lastSeen": "2026-09-18T20:29:21Z"
+  },
+  {
+    "videoId": "BW2xNLIPxdE",
+    "title": "Vicente Fernández - Volver, Volver (Letra/Lyrics)",
+    "count": 4,
+    "issueIds": [
+      "7740755920",
+      "7740755900",
+      "7740755946",
+      "7740755904"
+    ],
+    "lastSeen": "2026-09-18T16:33:49Z"
+  },
+  {
+    "videoId": "ul1f-I6gg2E",
+    "title": "Volver Volver - Vicente Fernandez | Karaoke | Instrumental",
+    "count": 4,
+    "issueIds": [
+      "7740755271",
+      "7740755259",
+      "7740755284",
+      "7740755258"
+    ],
+    "lastSeen": "2026-09-18T16:33:31Z"
+  },
+  {
+    "videoId": "oADpF--uirA",
+    "title": "Juan Gabriel, Juanes - Querida",
+    "count": 4,
+    "issueIds": [
+      "7740753372",
+      "7740753358",
+      "7740753490",
+      "7740753366"
+    ],
+    "lastSeen": "2026-09-18T16:32:29Z"
+  },
+  {
+    "videoId": "1g17-X0Mej4",
+    "title": "Querida (Karaoke Version)",
+    "count": 4,
+    "issueIds": [
+      "7740749993",
+      "7740749827",
+      "7740750170",
+      "7740750146"
+    ],
+    "lastSeen": "2026-09-18T16:30:38Z"
+  },
+  {
+    "videoId": "uPhjhldugiw",
+    "title": "JUAN GABRIEL, Querida (karaoke)",
+    "count": 4,
+    "issueIds": [
+      "7740749490",
+      "7740749363",
+      "7740749803",
+      "7740749568"
+    ],
+    "lastSeen": "2026-09-18T16:30:21Z"
+  },
+  {
+    "videoId": "Nf4GNFghEn4",
+    "title": "Si Se Fue Se Fue - Francy (Video Oficial - Explicita)",
+    "count": 4,
+    "issueIds": [
+      "7739593184",
+      "7739593132",
+      "7739593133",
+      "7739593129"
+    ],
+    "lastSeen": "2026-09-18T05:53:07Z"
+  },
+  {
+    "videoId": "W5Sbslo7h_g",
+    "title": "KAROL G - Amargura (Letra/Lyrics)",
+    "count": 4,
+    "issueIds": [
+      "7730510004",
+      "7730509956",
+      "7730509953",
+      "7730509968"
+    ],
+    "lastSeen": "2026-09-14T02:23:08Z"
+  },
+  {
+    "videoId": "kS8uDG3dFz4",
+    "title": "Busco Un Corazón - Raúl Santi (Letra/ Lyrics)",
+    "count": 4,
+    "issueIds": [
+      "7730469627",
+      "7730469588",
+      "7730469576",
+      "7730469569"
+    ],
+    "lastSeen": "2026-09-14T01:40:59Z"
+  },
+  {
+    "videoId": "La2ApKBxFXc",
+    "title": "RAUL SANTI - BUSCO UN CORAZON Karaoke FULL",
+    "count": 4,
+    "issueIds": [
+      "7730469475",
+      "7730469448",
+      "7730469454",
+      "7730469471"
+    ],
+    "lastSeen": "2026-09-14T01:40:51Z"
+  },
+  {
+    "videoId": "EHpH9HYe9Rg",
+    "title": "🔥 Mix Crossover Discoteca 🔥 ( Salsa, Reggaeton, Merengue, Vallenato )  💎 Junio 2026 💎",
+    "count": 4,
+    "issueIds": [
+      "7730381137",
+      "7730381118",
+      "7730381154",
+      "7730381126"
+    ],
+    "lastSeen": "2026-09-14T00:16:22Z"
+  },
+  {
+    "videoId": "DKhlpSk3Sh8",
+    "title": "BANDA EL RECODO, SEBASTIÁN YATRA - CONSECUENCIA DE MIS ACTOS (LETRA)",
+    "count": 3,
+    "issueIds": [
+      "7755962054",
+      "7755962044",
+      "7755962055"
+    ],
+    "lastSeen": "2026-09-26T07:57:07Z"
+  },
+  {
+    "videoId": "S2QwYV_PTg4",
+    "title": "Lenin Ramírez - Todo Lo Fue (Versión Karaoke)",
+    "count": 3,
+    "issueIds": [
+      "7755925631",
+      "7755925629",
+      "7755925643"
+    ],
+    "lastSeen": "2026-09-26T07:18:33Z"
+  },
+  {
+    "videoId": "YW-NzfEr1Jc",
+    "title": "Ahora Si Va En Serio - Joan Sebastian - Letra",
+    "count": 3,
+    "issueIds": [
+      "7755914947",
+      "7755914913",
+      "7755914917"
+    ],
+    "lastSeen": "2026-09-26T07:08:25Z"
+  },
+  {
+    "videoId": "7r3JfBjlyLI",
+    "title": "karaoke, ayer y hoy, Jean Carlos Centeno.",
+    "count": 3,
+    "issueIds": [
+      "7755852536",
+      "7755852502",
+      "7755852540"
+    ],
+    "lastSeen": "2026-09-26T06:02:02Z"
+  },
+  {
+    "videoId": "MQmkvzYJM7U",
+    "title": "Elvis Crespo – Suavemente [Letra]",
+    "count": 3,
+    "issueIds": [
+      "7755654649",
+      "7755654621",
+      "7755654646"
+    ],
+    "lastSeen": "2026-09-26T02:23:59Z"
+  },
+  {
+    "videoId": "qZJzHnSHJg4",
+    "title": "ALZATE X YEISON JIMÉNEZ - MI VENGANZA | VIDEO OFICIAL",
+    "count": 3,
+    "issueIds": [
+      "7755515492",
+      "7755515448",
+      "7755515410"
+    ],
+    "lastSeen": "2026-09-26T00:08:18Z"
+  },
+  {
+    "videoId": "5vLN8OmEIUY",
+    "title": "Los Ángeles Azules - Nunca Es Suficiente ft. Natalia Lafourcade (letra)",
+    "count": 3,
+    "issueIds": [
+      "7751645324",
+      "7751645256"
+    ],
+    "lastSeen": "2026-09-23T23:26:49Z"
+  },
+  {
+    "videoId": "PpFk34GDqqc",
+    "title": "Nunca Es Suficiente - Los Angeles Azules ft Natalia Lafourcade (Letra)",
+    "count": 3,
+    "issueIds": [
+      "7751644636",
+      "7751644508",
+      "7751622672"
+    ],
+    "lastSeen": "2026-09-23T23:26:10Z"
+  },
+  {
+    "videoId": "YuljjDSBe5M",
+    "title": "Los Hermanos Rosario - La Dueña del Swing (Lyric Video)",
+    "count": 3,
+    "issueIds": [
+      "7745041696"
+    ],
+    "lastSeen": "2026-09-25T22:13:40Z"
+  },
+  {
+    "videoId": "dKbT8gXwzmQ",
+    "title": "Juan Gabriel - Querida (Karaoke Version)",
+    "count": 3,
+    "issueIds": [
+      "7731754220"
+    ],
+    "lastSeen": "2026-09-17T23:42:12Z"
+  },
+  {
+    "videoId": "Ucjx85yj0bs",
+    "title": "Manuel Turizo - La Bachata (Letra/Lyrics)",
+    "count": 2,
+    "issueIds": [
+      "7755565635"
+    ],
+    "lastSeen": "2026-09-26T01:02:57Z"
+  },
+  {
+    "videoId": "StmGMvzfJmE",
+    "title": "Tabaco y Ron | Rodolfo y su Tipica Ra7 | Letra",
+    "count": 2,
+    "issueIds": [
+      "7755397144"
+    ],
+    "lastSeen": "2026-09-25T22:15:53Z"
+  },
+  {
+    "videoId": "9LUGpfVtJgI",
+    "title": "MAR DE EMOCIONES - Afrosound // Letra.",
+    "count": 2,
+    "issueIds": [
+      "7755397107"
+    ],
+    "lastSeen": "2026-09-25T22:13:52Z"
+  },
+  {
+    "videoId": "nN4SHtaNl20",
+    "title": "Frankie Ruíz - Deseándote (Audio)",
+    "count": 2,
+    "issueIds": [
+      "7755397057"
+    ],
+    "lastSeen": "2026-09-25T22:13:48Z"
+  },
+  {
+    "videoId": "3mHdCHbM3xc",
+    "title": "El Tiburón - Proyecto Uno (Letra)",
+    "count": 2,
+    "issueIds": [
+      "7741688547"
+    ],
+    "lastSeen": "2026-09-25T05:23:52Z"
+  },
+  {
+    "videoId": "nbp-Uhw6kas",
+    "title": "Cómo Lo Hizo - Silvestre Dangond (Letra)",
+    "count": 2,
+    "issueIds": [
+      "7741680709"
+    ],
+    "lastSeen": "2026-09-21T00:56:45Z"
+  },
+  {
     "videoId": "2j0zvkA1UxU",
-    "youtubeUrl": "https://www.youtube.com/watch?v=2j0zvkA1UxU",
-    "totalEvents": 1,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
+    "title": "DEVUELVEME A MI CHICA-HOMBRES G-(LETRA)+VIDEO",
+    "count": 2,
+    "issueIds": [
+      "7739197891"
     ],
-    "firstSeen": "2026-09-18T01:03:34.599000Z",
-    "lastSeen": "2026-09-18T01:03:34.599000Z"
+    "lastSeen": "2026-09-19T07:12:29Z"
   },
   {
-    "title": "Hombre G - Devuelveme A Mi Chica (Video Oficial) VideoMusic",
-    "videoId": "fEOdkXjwhn8",
-    "youtubeUrl": "https://www.youtube.com/watch?v=fEOdkXjwhn8",
-    "totalEvents": 1,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
+    "videoId": "FqfKsJTVAlE",
+    "title": "Juan Gabriel - Querida Karaoke Version con Testo | Versione Strumentale Originale",
+    "count": 2,
+    "issueIds": [
+      "7731700885"
     ],
-    "firstSeen": "2026-09-18T01:03:28.115000Z",
-    "lastSeen": "2026-09-18T01:03:28.115000Z"
+    "lastSeen": "2026-09-17T23:42:22Z"
   },
   {
-    "title": "Paisaje - Vicentico // Letra //",
-    "videoId": "Cww1160s78A",
-    "youtubeUrl": "https://www.youtube.com/watch?v=Cww1160s78A",
-    "totalEvents": 1,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
+    "videoId": "zeE2vMFrocY",
+    "title": "Eres todo en mi vida   Dario Gómez   Karaoke 720 x 1280",
+    "count": 1,
+    "issueIds": [
+      "7755957000"
     ],
-    "firstSeen": "2026-09-18T00:55:38.485000Z",
-    "lastSeen": "2026-09-18T00:55:38.485000Z"
+    "lastSeen": "2026-09-26T07:50:56Z"
   },
   {
-    "title": "Vicentico   Paisaje  Con Letra",
+    "videoId": "YlZm8afKCw0",
+    "title": "KARAOKE - AVE DE CRISTAL (Version) - PACHA - BuriOkey",
+    "count": 1,
+    "issueIds": [
+      "7755932949"
+    ],
+    "lastSeen": "2026-09-26T07:26:12Z"
+  },
+  {
+    "videoId": "-YmgZwCgnJo",
+    "title": "MAIA INGENUIDAD kARAOKE",
+    "count": 1,
+    "issueIds": [
+      "7755934326"
+    ],
+    "lastSeen": "2026-09-26T07:27:33Z"
+  },
+  {
+    "videoId": "2yOVWujIFbM",
+    "title": "Banda El Recodo De Cruz Lizárraga, Sebastián Yatra - Consecuencia De Mis Actos",
+    "count": 1,
+    "issueIds": [
+      "7755928980"
+    ],
+    "lastSeen": "2026-09-26T07:22:03Z"
+  },
+  {
+    "videoId": "S3wL07-05s4",
+    "title": "AVE DE CRISTAL   LOS KJARKAS",
+    "count": 1,
+    "issueIds": [
+      "7755925638"
+    ],
+    "lastSeen": "2026-09-26T07:18:30Z"
+  },
+  {
+    "videoId": "N1u4_aTYezQ",
+    "title": "[KARAOKE] Yeison Jiménez | Por Qué La Envidia - LETRA",
+    "count": 1,
+    "issueIds": [
+      "7755918049"
+    ],
+    "lastSeen": "2026-09-26T07:11:31Z"
+  },
+  {
+    "videoId": "1xR5xKl9Ieg",
+    "title": "Que Nunca Me Falte Tu Amor Gustavo R  Karaoke",
+    "count": 1,
+    "issueIds": [
+      "7755867716"
+    ],
+    "lastSeen": "2026-09-26T06:19:29Z"
+  },
+  {
+    "videoId": "0J9ytnX2_ls",
+    "title": "fueron tres años - Pedro Fernández - karaoke",
+    "count": 1,
+    "issueIds": [
+      "7755895565"
+    ],
+    "lastSeen": "2026-09-26T06:47:32Z"
+  },
+  {
+    "videoId": "b8O0cX0aU3M",
+    "title": "Karaokanta - Lola Beltrán - Cucurrucucú paloma",
+    "count": 1,
+    "issueIds": [
+      "7755854246"
+    ],
+    "lastSeen": "2026-09-26T06:03:53Z"
+  },
+  {
+    "videoId": "I9pQUxuZRTk",
+    "title": "I9pQUxuZRTk",
+    "count": 1,
+    "issueIds": [
+      "7755772531"
+    ],
+    "lastSeen": "2026-09-26T04:27:26Z"
+  },
+  {
+    "videoId": "r8_uRf23_p8",
+    "title": "Cucurrucucú paloma - Karaoke",
+    "count": 1,
+    "issueIds": [
+      "7755852498"
+    ],
+    "lastSeen": "2026-09-26T06:01:59Z"
+  },
+  {
+    "videoId": "5sf4JgXKAH8",
+    "title": "Ayer y hoy - Jean Carlo Centeno - Karaoke PRO (Remasterizado)",
+    "count": 1,
+    "issueIds": [
+      "7755834313"
+    ],
+    "lastSeen": "2026-09-26T05:39:59Z"
+  },
+  {
+    "videoId": "XVR6F3L1yqQ",
+    "title": "Mi Palabra Contra la De ellos - Luis Alfonso karaoke",
+    "count": 1,
+    "issueIds": [
+      "7755827507"
+    ],
+    "lastSeen": "2026-09-26T05:32:06Z"
+  },
+  {
+    "videoId": "HIQc1qeRXBY",
+    "title": "Ana Gabriel – Es Demasiado Tarde (Letra/Lyrics)",
+    "count": 1,
+    "issueIds": [
+      "7755759277"
+    ],
+    "lastSeen": "2026-09-26T04:12:00Z"
+  },
+  {
+    "videoId": "8GHExewfixM",
+    "title": "Me Vas A Extrañar, Binomio De Oro De América, Video Letra - Sentir Vallenato",
+    "count": 1,
+    "issueIds": [
+      "7755755253"
+    ],
+    "lastSeen": "2026-09-26T04:06:46Z"
+  },
+  {
+    "videoId": "dnapbWP8qWs",
+    "title": "busca por dentro-grupo niche",
+    "count": 1,
+    "issueIds": [
+      "7755659782"
+    ],
+    "lastSeen": "2026-09-26T02:28:03Z"
+  },
+  {
+    "videoId": "AuYZJ9f5L48",
+    "title": "Busca Por Dentro, Grupo Niche, Video Letra - Salsa Power",
+    "count": 1,
+    "issueIds": [
+      "7755659374"
+    ],
+    "lastSeen": "2026-09-26T02:27:46Z"
+  },
+  {
+    "videoId": "JXmC2z54hHI",
+    "title": "Grupo Niche - Busca Por Dentro (Letra/Lyrics)",
+    "count": 1,
+    "issueIds": [
+      "7755654607"
+    ],
+    "lastSeen": "2026-09-26T02:23:56Z"
+  },
+  {
+    "videoId": "1ztojDhiTNw",
+    "title": "Marc Anthony - Flor Pálida (Letra/Lyrics)",
+    "count": 1,
+    "issueIds": [
+      "7755663964"
+    ],
+    "lastSeen": "2026-09-26T02:32:18Z"
+  },
+  {
+    "videoId": "BgwO5u-h41w",
+    "title": "Chichi Peralta — Procura [Letra]",
+    "count": 1,
+    "issueIds": [
+      "7755672974"
+    ],
+    "lastSeen": "2026-09-26T02:41:33Z"
+  },
+  {
+    "videoId": "CizRZtW6bJs",
+    "title": "Luis Alfonso - Mi palabra contra la de ellos (letra)",
+    "count": 1,
+    "issueIds": [
+      "7755630792"
+    ],
+    "lastSeen": "2026-09-26T01:57:43Z"
+  },
+  {
+    "videoId": "giXIGol4hGE",
+    "title": "Elvis Crespo - Suavemente (Letra) (From The Man From Toronto)",
+    "count": 1,
+    "issueIds": [
+      "7755630067"
+    ],
+    "lastSeen": "2026-09-26T01:56:56Z"
+  },
+  {
+    "videoId": "9c6OWdrpPik",
+    "title": "Luis Alfonso - Mi Palabra Contra La De Ellos (Letra)",
+    "count": 1,
+    "issueIds": [
+      "7755626862"
+    ],
+    "lastSeen": "2026-09-26T01:53:02Z"
+  },
+  {
+    "videoId": "IqS3013G3w8",
+    "title": "Mi Palabra Contra La De Ellos - Luis Alfonso | (LETRA)",
+    "count": 1,
+    "issueIds": [
+      "7755627271"
+    ],
+    "lastSeen": "2026-09-26T01:53:37Z"
+  },
+  {
+    "videoId": "RLfP6GMl3YI",
+    "title": "Luis Alfonso - Mi  Palabra Contra La De Ellos",
+    "count": 1,
+    "issueIds": [
+      "7755626755"
+    ],
+    "lastSeen": "2026-09-26T01:52:54Z"
+  },
+  {
+    "videoId": "cSZJ1pT778c",
+    "title": "Mi Palabra Contra La De Ellos (En Vivo) - Luis Alfonso | Video Letra",
+    "count": 1,
+    "issueIds": [
+      "7755625007"
+    ],
+    "lastSeen": "2026-09-26T01:50:41Z"
+  },
+  {
+    "videoId": "NAIglu7vLqE",
+    "title": "Mi palabra contra la de ellos  ( LETRA ) Luis Alfonso",
+    "count": 1,
+    "issueIds": [
+      "7755626615"
+    ],
+    "lastSeen": "2026-09-26T01:52:46Z"
+  },
+  {
+    "videoId": "WsA2btBIq3k",
+    "title": "Caballero - Luis Alfonso | (LETRA)",
+    "count": 1,
+    "issueIds": [
+      "7755621249"
+    ],
+    "lastSeen": "2026-09-26T01:46:18Z"
+  },
+  {
+    "videoId": "7LsDb2VeU7E",
+    "title": "No pude quitarte las espinas  -  Erick Escobar con letra",
+    "count": 1,
+    "issueIds": [
+      "7755607909"
+    ],
+    "lastSeen": "2026-09-26T01:31:28Z"
+  },
+  {
+    "videoId": "n6zvD8kA3z4",
+    "title": "Aventurero - Yeison Jiménez (Video Oficial)",
+    "count": 1,
+    "issueIds": [
+      "7755614917"
+    ],
+    "lastSeen": "2026-09-26T01:39:08Z"
+  },
+  {
+    "videoId": "9WxWkXqFMKU",
+    "title": "Mi Destino 🐴 🐎 - ALZATE | Video Lyric",
+    "count": 1,
+    "issueIds": [
+      "7755602468"
+    ],
+    "lastSeen": "2026-09-26T01:26:05Z"
+  },
+  {
+    "videoId": "zEL2Q4u6LIg",
+    "title": "Maria Becerra - Desafiando el Destino LETRA",
+    "count": 1,
+    "issueIds": [
+      "7755582487"
+    ],
+    "lastSeen": "2026-09-26T01:04:32Z"
+  },
+  {
+    "videoId": "ei0uQA1EnoI",
+    "title": "Noches de fantasía - Joseph Fonseca || [Letra] 🎆",
+    "count": 1,
+    "issueIds": [
+      "7755597028"
+    ],
+    "lastSeen": "2026-09-26T01:19:42Z"
+  },
+  {
+    "videoId": "u8a2swQK5yc",
+    "title": "Letra // POR SI MAÑANA NO ESTOY - Omar Courtz | POR SI MAÑANA NO ESTOY",
+    "count": 1,
+    "issueIds": [
+      "7755590229"
+    ],
+    "lastSeen": "2026-09-26T01:12:25Z"
+  },
+  {
+    "videoId": "EBCnip0W58A",
+    "title": "No Voy A Llorar, Los Diablitos, Video Letra - Sentir Vallenato",
+    "count": 1,
+    "issueIds": [
+      "7755563288"
+    ],
+    "lastSeen": "2026-09-26T00:54:12Z"
+  },
+  {
+    "videoId": "ItQ3ktVyGtE",
+    "title": "Carin León - Despídase Bien (Letra)",
+    "count": 1,
+    "issueIds": [
+      "7755561395"
+    ],
+    "lastSeen": "2026-09-26T00:51:46Z"
+  },
+  {
+    "videoId": "czJ7N1KiSBk",
+    "title": "Viti Ruiz - Caricias Prohibidas (Video Letra) | Salsa Romántica",
+    "count": 1,
+    "issueIds": [
+      "7755586469"
+    ],
+    "lastSeen": "2026-09-26T01:08:28Z"
+  },
+  {
+    "videoId": "G_76ELTEA6M",
+    "title": "Maria Becerra - CORAZÓN VACÍO (Letra)",
+    "count": 1,
+    "issueIds": [
+      "7755560147"
+    ],
+    "lastSeen": "2026-09-26T00:50:20Z"
+  },
+  {
+    "videoId": "c50IBD96vH4",
+    "title": "Ryan Castro - LA VILLA (Letra/Lyrics) ft. Kapo & Gangsta",
+    "count": 1,
+    "issueIds": [
+      "7755549823"
+    ],
+    "lastSeen": "2026-09-26T00:41:52Z"
+  },
+  {
+    "videoId": "CG4etB64TJA",
+    "title": "Ozuna & Omar Courtz - ZIZI (Letra/Lyrics)",
+    "count": 1,
+    "issueIds": [
+      "7755545955"
+    ],
+    "lastSeen": "2026-09-26T00:38:25Z"
+  },
+  {
+    "videoId": "K2g-6gV5crA",
+    "title": "Maria Becerra - CORAZÓN VACÍO (Letra/Lyrics)",
+    "count": 1,
+    "issueIds": [
+      "7755543190"
+    ],
+    "lastSeen": "2026-09-26T00:35:14Z"
+  },
+  {
+    "videoId": "xcENmmF3CIw",
+    "title": "KAROL G, Judeline, Rusowsky - BbY WOW (Letra)",
+    "count": 1,
+    "issueIds": [
+      "7755536673"
+    ],
+    "lastSeen": "2026-09-26T00:31:12Z"
+  },
+  {
+    "videoId": "0W0T8ZQvf1E",
+    "title": "Carin León - Primera Cita (Letra/Lyrics)",
+    "count": 1,
+    "issueIds": [
+      "7755531352"
+    ],
+    "lastSeen": "2026-09-26T00:25:16Z"
+  },
+  {
+    "videoId": "lbJfKecbRCc",
+    "title": "Mon Laferte - Amárrame (ft. Juanes) (Letra)",
+    "count": 1,
+    "issueIds": [
+      "7755528614"
+    ],
+    "lastSeen": "2026-09-26T00:22:07Z"
+  },
+  {
+    "videoId": "v2vOi9fCuZQ",
+    "title": "Tu Falta De Querer - Mon Laferte (Letra)",
+    "count": 1,
+    "issueIds": [
+      "7755451602"
+    ],
+    "lastSeen": "2026-09-25T23:02:27Z"
+  },
+  {
+    "videoId": "evp5B6UZfQA",
+    "title": "Ya Me Canse - ALZATE (LETRA)",
+    "count": 1,
+    "issueIds": [
+      "7755508577"
+    ],
+    "lastSeen": "2026-09-26T00:02:03Z"
+  },
+  {
+    "videoId": "UDIqKbQ4BYU",
+    "title": "MALDITA TRAICIÓN-ÁLZATE(LETRA)",
+    "count": 1,
+    "issueIds": [
+      "7755512638"
+    ],
+    "lastSeen": "2026-09-26T00:05:16Z"
+  },
+  {
+    "videoId": "-EFRH4j4L90",
+    "title": "Mi Venganza - Yeison Jimenez / Alzate - Letra",
+    "count": 1,
+    "issueIds": [
+      "7755495676"
+    ],
+    "lastSeen": "2026-09-25T23:48:20Z"
+  },
+  {
+    "videoId": "moMQ_et_vG8",
+    "title": "Rocío Dúrcal - Hoy Lo Vi Pasar - Karaoke",
+    "count": 1,
+    "issueIds": [
+      "7755433155"
+    ],
+    "lastSeen": "2026-09-25T22:44:08Z"
+  },
+  {
+    "videoId": "SOG26FAD1wo",
+    "title": "Amárrame - Mon Laferte ft. Juanes (Spotify Lyrics)",
+    "count": 1,
+    "issueIds": [
+      "7755448605"
+    ],
+    "lastSeen": "2026-09-25T22:59:55Z"
+  },
+  {
+    "videoId": "ymFAtB--Iwo",
+    "title": "Rocío Dúrcal  Hoy Lo Vi Pasar karaoke La Poderosa",
+    "count": 1,
+    "issueIds": [
+      "7755432997"
+    ],
+    "lastSeen": "2026-09-25T22:43:36Z"
+  },
+  {
+    "videoId": "8ey4cgB0hjE",
+    "title": "Ninel Conde || El Bombon Asesino || Versión Cumbia || Vídeo OfIcial || HD",
+    "count": 1,
+    "issueIds": [
+      "7755426373"
+    ],
+    "lastSeen": "2026-09-25T22:38:35Z"
+  },
+  {
+    "videoId": "FRklkdMUekc",
+    "title": "Hoy Lo Vi Pasar -Rocío Dúrcal (Karaoke - Instrumental)",
+    "count": 1,
+    "issueIds": [
+      "7755432133"
+    ],
+    "lastSeen": "2026-09-25T22:43:08Z"
+  },
+  {
+    "videoId": "p0zROppCrMo",
+    "title": "@Dianahoyosoficial - Las Dolidas (Video Lyric)",
+    "count": 1,
+    "issueIds": [
+      "7755410183"
+    ],
+    "lastSeen": "2026-09-25T22:24:33Z"
+  },
+  {
+    "videoId": "NXN_bcGEpFA",
+    "title": "🎵 Frankie Ruíz - Deseándote (Letra)",
+    "count": 1,
+    "issueIds": [
+      "7753979755"
+    ],
+    "lastSeen": "2026-09-25T05:28:00Z"
+  },
+  {
+    "videoId": "qdop963DWwc",
+    "title": "\"En los años 1600, cuando el tirano mandó\"- LA REBELION",
+    "count": 1,
+    "issueIds": [
+      "7753970048"
+    ],
+    "lastSeen": "2026-09-25T05:16:15Z"
+  },
+  {
+    "videoId": "3Fjdg7R19Ns",
+    "title": "MLP - YEISON JIMÉNEZ KARAOKE OFICIAL",
+    "count": 1,
+    "issueIds": [
+      "7753921856"
+    ],
+    "lastSeen": "2026-09-25T04:21:27Z"
+  },
+  {
+    "videoId": "B0qTFcPi_08",
+    "title": "Karaoke MLP - Yeison Jiménez",
+    "count": 1,
+    "issueIds": [
+      "7753921318"
+    ],
+    "lastSeen": "2026-09-25T04:20:48Z"
+  },
+  {
+    "videoId": "4w1TtGjTpqo",
+    "title": "MLP - YEISON JIMÉNEZ - (LETRA) @letreadomusical",
+    "count": 1,
+    "issueIds": [
+      "7753922177"
+    ],
+    "lastSeen": "2026-09-25T04:21:52Z"
+  },
+  {
+    "videoId": "N4G_YZ7Ew9E",
+    "title": "MLP Yeison Jiménez Karaoke",
+    "count": 1,
+    "issueIds": [
+      "7753917644"
+    ],
+    "lastSeen": "2026-09-25T04:16:20Z"
+  },
+  {
+    "videoId": "TBx-yDFPA4g",
+    "title": "Eddy Herrera - Tú Eres Ajena (Lyrics)",
+    "count": 1,
+    "issueIds": [
+      "7753883693"
+    ],
+    "lastSeen": "2026-09-25T03:38:05Z"
+  },
+  {
+    "videoId": "8GWUyaCGE5k",
+    "title": "Ajena Eddy Herrera Letra",
+    "count": 1,
+    "issueIds": [
+      "7753883600"
+    ],
+    "lastSeen": "2026-09-25T03:37:59Z"
+  },
+  {
+    "videoId": "EIc9-W1S7OU",
+    "title": "Eddy Herrera - Tú Eres Ajena [Letra Oficial]",
+    "count": 1,
+    "issueIds": [
+      "7753883550"
+    ],
+    "lastSeen": "2026-09-25T03:37:55Z"
+  },
+  {
+    "videoId": "ImG6j2KHz60",
+    "title": "Eddy Herrera - Ajena | Lyrics/Letra",
+    "count": 1,
+    "issueIds": [
+      "7753883399"
+    ],
+    "lastSeen": "2026-09-25T03:37:43Z"
+  },
+  {
+    "videoId": "M2tQW2HqciA",
+    "title": "Tuya Mas Que Tuya - Celia Cruz",
+    "count": 1,
+    "issueIds": [
+      "7753867606"
+    ],
+    "lastSeen": "2026-09-25T03:22:33Z"
+  },
+  {
+    "videoId": "L_M8XP0nVFM",
+    "title": "Tú Eres Ajena",
+    "count": 1,
+    "issueIds": [
+      "7753883489"
+    ],
+    "lastSeen": "2026-09-25T03:37:50Z"
+  },
+  {
+    "videoId": "G7ktj4mWwEE",
+    "title": "Amanda Miguel - Así No Te Amará Jamás (Video Oficial)",
+    "count": 1,
+    "issueIds": [
+      "7753858553"
+    ],
+    "lastSeen": "2026-09-25T03:12:57Z"
+  },
+  {
+    "videoId": "dTTuaDWVaA0",
+    "title": "Adolescentes - Me Tengo Que Ir | (Letra/Lyrics)",
+    "count": 1,
+    "issueIds": [
+      "7753882320"
+    ],
+    "lastSeen": "2026-09-25T03:36:30Z"
+  },
+  {
+    "videoId": "BtLk9vQrXoo",
+    "title": "Tuya Mas Que Tuya (Karaoke Version)",
+    "count": 1,
+    "issueIds": [
+      "7753868755"
+    ],
+    "lastSeen": "2026-09-25T03:24:01Z"
+  },
+  {
+    "videoId": "NkcKI2N4yQQ",
+    "title": "No Me Preguntes -  Paola Jara (KARAOKE)",
+    "count": 1,
+    "issueIds": [
+      "7753832740"
+    ],
+    "lastSeen": "2026-09-25T02:46:35Z"
+  },
+  {
+    "videoId": "w6-opblg-r0",
+    "title": "NO ME PREGUNTES PAOLA JARA KARAOKE LETRA",
+    "count": 1,
+    "issueIds": [
+      "7753831005"
+    ],
+    "lastSeen": "2026-09-25T02:44:46Z"
+  },
+  {
+    "videoId": "7nBajXqqcWg",
+    "title": "Rocío Dúrcal - Ya Te Olvidé - Karaoke",
+    "count": 1,
+    "issueIds": [
+      "7753824055"
+    ],
+    "lastSeen": "2026-09-25T02:37:17Z"
+  },
+  {
+    "videoId": "MxAjEdybuVQ",
+    "title": "Caballero - Luis Alfonso | En Vivo",
+    "count": 1,
+    "issueIds": [
+      "7753803738"
+    ],
+    "lastSeen": "2026-09-25T02:16:14Z"
+  },
+  {
+    "videoId": "iPGNkWREHfg",
+    "title": "Ya Te Olvidé -Rocío Dúrcal (Karaoke - Instrumental)",
+    "count": 1,
+    "issueIds": [
+      "7753803996"
+    ],
+    "lastSeen": "2026-09-25T02:16:33Z"
+  },
+  {
+    "videoId": "YU7jWxVkCkk",
+    "title": "Niégame Tres Veces, Silvestre Dangond - Letra Oficial",
+    "count": 1,
+    "issueIds": [
+      "7753553565"
+    ],
+    "lastSeen": "2026-09-24T22:43:08Z"
+  },
+  {
+    "videoId": "8Y-azRnqYHs",
+    "title": "Grupo Exterminador - Las Monjitas",
+    "count": 1,
+    "issueIds": [
+      "7753548892"
+    ],
+    "lastSeen": "2026-09-24T22:38:53Z"
+  },
+  {
+    "videoId": "rT1cnQw2TAI",
+    "title": "Clave Especial X Edgardo Nuñez - Tu Tu Tu [Official Video]",
+    "count": 1,
+    "issueIds": [
+      "7753545703"
+    ],
+    "lastSeen": "2026-09-24T22:35:45Z"
+  },
+  {
+    "videoId": "kGGF7wNRWTc",
+    "title": "Fuerza Regida - Marlboro Rojo (Letra/Lyrics)",
+    "count": 1,
+    "issueIds": [
+      "7753545650"
+    ],
+    "lastSeen": "2026-09-24T22:35:41Z"
+  },
+  {
+    "videoId": "6-GjUAyTivM",
+    "title": "Así Es Nuestro Amor (En Vivo) - Luis Alfonso | Video Oficial",
+    "count": 1,
+    "issueIds": [
+      "7751819344"
+    ],
+    "lastSeen": "2026-09-24T01:51:54Z"
+  },
+  {
+    "videoId": "3VmoZrxXbmg",
+    "title": "Marc Anthony - Flor Pálida (Official Video)",
+    "count": 1,
+    "issueIds": [
+      "7751745626"
+    ],
+    "lastSeen": "2026-09-24T00:47:23Z"
+  },
+  {
+    "videoId": "00QVU7voMq8",
+    "title": "Fonseca - Eres Mi Sueño",
+    "count": 1,
+    "issueIds": [
+      "7751870269"
+    ],
+    "lastSeen": "2026-09-24T02:37:26Z"
+  },
+  {
+    "videoId": "dk5UgQ5wOSk",
+    "title": "El Desmadre Yeison Jimenez (letra/liryc video)",
+    "count": 1,
+    "issueIds": [
+      "7751608876"
+    ],
+    "lastSeen": "2026-09-23T22:55:28Z"
+  },
+  {
+    "videoId": "4Yfb4OqqlWY",
+    "title": "Veinte años menos, KARAOKE.(Jhon Onofre).",
+    "count": 1,
+    "issueIds": [
+      "7751603363"
+    ],
+    "lastSeen": "2026-09-23T22:51:08Z"
+  },
+  {
+    "videoId": "hlHeaHX4SGY",
+    "title": "Gabriel Arriaga   Aunque No Sea Mayo Karaoke",
+    "count": 1,
+    "issueIds": [
+      "7749343841"
+    ],
+    "lastSeen": "2026-09-22T20:57:52Z"
+  },
+  {
+    "videoId": "XAkN3YHCbhw",
+    "title": "Gracias, Silvestre Dangond - Letra",
+    "count": 1,
+    "issueIds": [
+      "7749343948"
+    ],
+    "lastSeen": "2026-09-22T20:57:48Z"
+  },
+  {
+    "videoId": "vKFw7EQr7Xc",
+    "title": "Polvo Rosita Lenin Ramirez Karaoke Ritchie´s",
+    "count": 1,
+    "issueIds": [
+      "7745186645"
+    ],
+    "lastSeen": "2026-09-21T05:42:15Z"
+  },
+  {
+    "videoId": "bZiWc4Lm_XE",
+    "title": "POLVO ROSITA karaoke",
+    "count": 1,
+    "issueIds": [
+      "7745186502"
+    ],
+    "lastSeen": "2026-09-21T05:42:05Z"
+  },
+  {
+    "videoId": "jLDsvEE_MDU",
+    "title": "Ámame - Gran Combo+letra (Salsa Con Letra) HQ",
+    "count": 1,
+    "issueIds": [
+      "7745178162"
+    ],
+    "lastSeen": "2026-09-21T05:34:51Z"
+  },
+  {
+    "videoId": "xEfI0wp9ZBE",
+    "title": "ni perdon ni olvido segundo rosero karaoke",
+    "count": 1,
+    "issueIds": [
+      "7745166013"
+    ],
+    "lastSeen": "2026-09-21T05:23:04Z"
+  },
+  {
+    "videoId": "mu-TH81h6vM",
+    "title": "La tengo que encontrar Anthony Zambrano Karaoke @AnthonyZambrano",
+    "count": 1,
+    "issueIds": [
+      "7745161103"
+    ],
+    "lastSeen": "2026-09-21T05:17:49Z"
+  },
+  {
+    "videoId": "WqGKLNUCkWc",
+    "title": "La tengo que encontrar Antony Zambrano pista karaoke (demo)",
+    "count": 1,
+    "issueIds": [
+      "7745162667"
+    ],
+    "lastSeen": "2026-09-21T05:19:30Z"
+  },
+  {
+    "videoId": "0W6SNXYMoxw",
+    "title": "SEGUNDO ROSERO, Ni perdon ni olvido (karaoke)",
+    "count": 1,
+    "issueIds": [
+      "7745165096"
+    ],
+    "lastSeen": "2026-09-21T05:22:02Z"
+  },
+  {
+    "videoId": "fx3nKZdREWg",
+    "title": "La Ametralladora -  Chalino Sanchez y Saul Viera [Letra/Lyrics]",
+    "count": 1,
+    "issueIds": [
+      "7745158533"
+    ],
+    "lastSeen": "2026-09-21T05:15:40Z"
+  },
+  {
+    "videoId": "mQdhXWt6ZUI",
+    "title": "karaoke -  La Ametralladora - Chalino Sanchez",
+    "count": 1,
+    "issueIds": [
+      "7745156786"
+    ],
+    "lastSeen": "2026-09-21T05:14:58Z"
+  },
+  {
+    "videoId": "rymodxxagsw",
+    "title": "KARAOKE LA AMETRALLADORA CHALINO",
+    "count": 1,
+    "issueIds": [
+      "7745154657"
+    ],
+    "lastSeen": "2026-09-21T05:12:59Z"
+  },
+  {
+    "videoId": "3OuHGvnvSqY",
+    "title": "Karaoke Monterrey - Chalino Sánchez - Ametralladora",
+    "count": 1,
+    "issueIds": [
+      "7745154547"
+    ],
+    "lastSeen": "2026-09-21T05:12:51Z"
+  },
+  {
+    "videoId": "EKfn4K3nyAQ",
+    "title": "Solo Un Cigarrillo El Chico Jaramillo Karaoke",
+    "count": 1,
+    "issueIds": [
+      "7745119528"
+    ],
+    "lastSeen": "2026-09-21T04:40:26Z"
+  },
+  {
+    "videoId": "RqzzgwkaBlI",
+    "title": "EL BACAN  -- NORTEÑO -LOS EXPLOSIVOS DEL NORTE",
+    "count": 1,
+    "issueIds": [
+      "7745135894"
+    ],
+    "lastSeen": "2026-09-21T04:57:21Z"
+  },
+  {
+    "videoId": "TGt0gs62ir8",
+    "title": "Dile, Silvestre Dangond, Video Letra - Sentir Vallenato",
+    "count": 1,
+    "issueIds": [
+      "7745042806"
+    ],
+    "lastSeen": "2026-09-21T03:32:45Z"
+  },
+  {
+    "videoId": "6wkV8E7-KSY",
+    "title": "Daniela - Rodolfo Aicardi y Los Hispanos (Video Letra) | Discos Fuentes",
+    "count": 1,
+    "issueIds": [
+      "7744986158"
+    ],
+    "lastSeen": "2026-09-21T02:48:20Z"
+  },
+  {
+    "videoId": "E3uKBQNbC8s",
+    "title": "Dile Silvestre Dangond Letra",
+    "count": 1,
+    "issueIds": [
+      "7745042716"
+    ],
+    "lastSeen": "2026-09-21T03:32:40Z"
+  },
+  {
+    "videoId": "vvTOScNMQB4",
+    "title": "El Hijo Ausente - Pastor López (Video Letra) | Discos Fuentes",
+    "count": 1,
+    "issueIds": [
+      "7744982156"
+    ],
+    "lastSeen": "2026-09-21T02:44:32Z"
+  },
+  {
+    "videoId": "KCKe1K7lZYs",
+    "title": "MLP - YEISON JIMENEZ (LETRA)",
+    "count": 1,
+    "issueIds": [
+      "7744876581"
+    ],
+    "lastSeen": "2026-09-21T01:13:40Z"
+  },
+  {
+    "videoId": "BAU2MAwqwSc",
+    "title": "Ella es mi todo. Kaleth Morales (KARAOKE)",
+    "count": 1,
+    "issueIds": [
+      "7743165928"
+    ],
+    "lastSeen": "2026-09-20T00:29:35Z"
+  },
+  {
+    "videoId": "SyenI74fcHk",
+    "title": "Fonseca - Eres Mi Sueño (Letra/Lyrics)",
+    "count": 1,
+    "issueIds": [
+      "7743221357"
+    ],
+    "lastSeen": "2026-09-20T01:18:30Z"
+  },
+  {
+    "videoId": "bn05A45XkWU",
+    "title": "bn05A45XkWU",
+    "count": 1,
+    "issueIds": [
+      "7743074856"
+    ],
+    "lastSeen": "2026-09-19T22:59:15Z"
+  },
+  {
+    "videoId": "C3UH97L7oRs",
+    "title": "Vete Aléjate De Mí - Chico Jaramillo (Letra)",
+    "count": 1,
+    "issueIds": [
+      "7741943407"
+    ],
+    "lastSeen": "2026-09-19T07:36:02Z"
+  },
+  {
+    "videoId": "vZFAZbZeWsQ",
+    "title": "Hombres G - Devuélveme a mi chica // letra",
+    "count": 1,
+    "issueIds": [
+      "7741919717"
+    ],
+    "lastSeen": "2026-09-19T07:12:38Z"
+  },
+  {
+    "videoId": "4Yp4F4mfU9k",
+    "title": "de carne y hueso jq karaoke",
+    "count": 1,
+    "issueIds": [
+      "7741912695"
+    ],
+    "lastSeen": "2026-09-19T07:06:21Z"
+  },
+  {
+    "videoId": "6kbGQcmrol0",
+    "title": "ROCIO DURCAL KARAOKE | ME REFUGIE EN TU JUVENTUD KARAOKE | ALQUILER DE KARAOKE EN CALI",
+    "count": 1,
+    "issueIds": [
+      "7741894714"
+    ],
+    "lastSeen": "2026-09-19T06:50:06Z"
+  },
+  {
+    "videoId": "1l4_E-gdNOg",
+    "title": "Me refugié en tu juventud - Rocío Durcal - karaoke",
+    "count": 1,
+    "issueIds": [
+      "7741892564"
+    ],
+    "lastSeen": "2026-09-19T06:47:33Z"
+  },
+  {
+    "videoId": "p-Wm4h7FWqQ",
+    "title": "La Grande de Madrid - Corazón Embustero ; Letra + Video",
+    "count": 1,
+    "issueIds": [
+      "7741866997"
+    ],
+    "lastSeen": "2026-09-19T06:23:33Z"
+  },
+  {
+    "videoId": "VbeQI9boiwk",
+    "title": "Corazon Embustero La Grande De Madrid Letra",
+    "count": 1,
+    "issueIds": [
+      "7741867054"
+    ],
+    "lastSeen": "2026-09-19T06:23:37Z"
+  },
+  {
+    "videoId": "pG4U3WmOBRA",
+    "title": "Amanda Miguel - Asi No Te Amara Jamas (Versión Karaoke)",
+    "count": 1,
+    "issueIds": [
+      "7741867752"
+    ],
+    "lastSeen": "2026-09-19T06:24:30Z"
+  },
+  {
+    "videoId": "iePRbuIOvp8",
+    "title": "Corazon Embustero La grande madrid (LETRA)",
+    "count": 1,
+    "issueIds": [
+      "7741864949"
+    ],
+    "lastSeen": "2026-09-19T06:21:00Z"
+  },
+  {
+    "videoId": "yP4bQGYzuuA",
+    "title": "Joan Sebastian - Veinticinco Rosas (Versión Karaoke)",
+    "count": 1,
+    "issueIds": [
+      "7741831657"
+    ],
+    "lastSeen": "2026-09-19T05:48:30Z"
+  },
+  {
+    "videoId": "HJO_vIw6dZk",
+    "title": "Karaokanta - Pilar Montenegro - Quítame ese hombre",
+    "count": 1,
+    "issueIds": [
+      "7741816022"
+    ],
+    "lastSeen": "2026-09-19T05:31:20Z"
+  },
+  {
+    "videoId": "4DSlhM0iUdc",
+    "title": "Pilar Montenegro - Quitame Ese Hombre (Tex Mex) (Versión Karaoke)",
+    "count": 1,
+    "issueIds": [
+      "7741814778"
+    ],
+    "lastSeen": "2026-09-19T05:30:25Z"
+  },
+  {
+    "videoId": "sf2yKFWCucA",
+    "title": "Grupo Firme - El Beneficio De La Duda (Versión Karaoke)",
+    "count": 1,
+    "issueIds": [
+      "7741812297"
+    ],
+    "lastSeen": "2026-09-19T05:27:22Z"
+  },
+  {
+    "videoId": "RhbkVkIt_tU",
+    "title": "Yeison Jimenez - Costumbres (En Vivo) Lyrics (Video Letra)",
+    "count": 1,
+    "issueIds": [
+      "7741774349"
+    ],
+    "lastSeen": "2026-09-19T04:49:29Z"
+  },
+  {
+    "videoId": "vfVQgKGktAM",
+    "title": "Sobrevivire - Darío Gómez (Letra)",
+    "count": 1,
+    "issueIds": [
+      "7741782560"
+    ],
+    "lastSeen": "2026-09-19T04:59:42Z"
+  },
+  {
+    "videoId": "qi2db0gz-28",
+    "title": "Sobrevivire   Darío Gómez Letra",
+    "count": 1,
+    "issueIds": [
+      "7741782811"
+    ],
+    "lastSeen": "2026-09-19T05:00:04Z"
+  },
+  {
+    "videoId": "mhEyEQlgCDM",
+    "title": "Uno se cura - Raulín Rosendo - Letra",
+    "count": 1,
+    "issueIds": [
+      "7741771159"
+    ],
+    "lastSeen": "2026-09-19T04:46:06Z"
+  },
+  {
+    "videoId": "MZyo6lnvtzg",
+    "title": "RAULIN ROSENDO - UNO SE CURA (LETRA)",
+    "count": 1,
+    "issueIds": [
+      "7741769024"
+    ],
+    "lastSeen": "2026-09-19T04:44:26Z"
+  },
+  {
+    "videoId": "vblbI0xW3Xk",
+    "title": "Wisin & Yandel - Pam Pam",
+    "count": 1,
+    "issueIds": [
+      "7741752004"
+    ],
+    "lastSeen": "2026-09-19T04:26:58Z"
+  },
+  {
+    "videoId": "-cZdDPyiGaE",
+    "title": "HASTA QUE TE CONOCI  -  KARAOKE  -  JUAN GABRIEL",
+    "count": 1,
+    "issueIds": [
+      "7741713011"
+    ],
+    "lastSeen": "2026-09-19T03:48:20Z"
+  },
+  {
+    "videoId": "xdovzbXrxO4",
+    "title": "KARAOKE / JUAN GABRIEL / HASTA QUE TE CONOCI",
+    "count": 1,
+    "issueIds": [
+      "7741700443"
+    ],
+    "lastSeen": "2026-09-19T03:34:30Z"
+  },
+  {
+    "videoId": "wPjU7nFjP5I",
+    "title": "Wisin & Yandel - Pam Pam (Letra/Lyrics) | Latino Letra",
+    "count": 1,
+    "issueIds": [
+      "7741751924"
+    ],
+    "lastSeen": "2026-09-19T04:26:50Z"
+  },
+  {
+    "videoId": "Ttuiw_r04h4",
+    "title": "Wisin y Yandel - Pam Pam (Letra)",
+    "count": 1,
+    "issueIds": [
+      "7741751809"
+    ],
+    "lastSeen": "2026-09-19T04:26:42Z"
+  },
+  {
+    "videoId": "ZbbO1ecdqYc",
+    "title": "Karaokanta - José José - Lo pasado pasado - (CALIDAD PROFESIONAL)",
+    "count": 1,
+    "issueIds": [
+      "7741672598"
+    ],
+    "lastSeen": "2026-09-19T03:06:54Z"
+  },
+  {
+    "videoId": "c35e3uWK7i0",
+    "title": "Fogata 4K con buena música de ambiente",
+    "count": 1,
+    "issueIds": [
+      "7741585961"
+    ],
+    "lastSeen": "2026-09-19T01:54:33Z"
+  },
+  {
+    "videoId": "ifDm5lKXbw4",
+    "title": "Beso A Beso, Grupo Galé - Karaoke",
+    "count": 1,
+    "issueIds": [
+      "7741400202"
+    ],
+    "lastSeen": "2026-09-18T23:21:51Z"
+  },
+  {
+    "videoId": "QlLCJZI56w0",
+    "title": "“Hasta ayer” (Marc Anthony karaoke)",
+    "count": 1,
+    "issueIds": [
+      "7739499247"
+    ],
+    "lastSeen": "2026-09-18T04:40:54Z"
+  },
+  {
+    "videoId": "hbYCuNfOsuA",
+    "title": "ADRIANA LUCIA CEDRO KARAOKE. COMPLETO",
+    "count": 1,
+    "issueIds": [
+      "7739545467"
+    ],
+    "lastSeen": "2026-09-18T05:15:39Z"
+  },
+  {
+    "videoId": "cpednliUC_o",
+    "title": "Karaokanta - Paquita la del barrio - Rata de dos patas",
+    "count": 1,
+    "issueIds": [
+      "7739507237"
+    ],
+    "lastSeen": "2026-09-18T04:47:06Z"
+  },
+  {
     "videoId": "4i_JxNPUv5s",
-    "youtubeUrl": "https://www.youtube.com/watch?v=4i_JxNPUv5s",
-    "totalEvents": 1,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
+    "title": "Vicentico   Paisaje  Con Letra",
+    "count": 1,
+    "issueIds": [
+      "7739176965"
     ],
-    "firstSeen": "2026-09-18T00:55:28.471000Z",
-    "lastSeen": "2026-09-18T00:55:28.471000Z"
+    "lastSeen": "2026-09-18T00:55:28Z"
   },
   {
-    "title": "Juan Gabriel - Querida - Letra",
+    "videoId": "fEOdkXjwhn8",
+    "title": "Hombre G - Devuelveme A Mi Chica (Video Oficial) VideoMusic",
+    "count": 1,
+    "issueIds": [
+      "7739197212"
+    ],
+    "lastSeen": "2026-09-18T01:03:28Z"
+  },
+  {
+    "videoId": "XW3o_wjtOoA",
+    "title": "Ni Plata Ni Nada - Andrés Franco (Cover) En Vivo.",
+    "count": 1,
+    "issueIds": [
+      "7739400545"
+    ],
+    "lastSeen": "2026-09-18T03:26:18Z"
+  },
+  {
+    "videoId": "YY2z-m2Bh64",
+    "title": "BAD BUNNY - EoO (Video Visualizer) | DeBÍ TiRAR MáS FOToS",
+    "count": 1,
+    "issueIds": [
+      "7739268316"
+    ],
+    "lastSeen": "2026-09-18T01:52:33Z"
+  },
+  {
+    "videoId": "Cww1160s78A",
+    "title": "Paisaje - Vicentico // Letra //",
+    "count": 1,
+    "issueIds": [
+      "7739177143"
+    ],
+    "lastSeen": "2026-09-18T00:55:38Z"
+  },
+  {
     "videoId": "Ix7N60uIQh8",
-    "youtubeUrl": "https://www.youtube.com/watch?v=Ix7N60uIQh8",
-    "totalEvents": 1,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
+    "title": "Juan Gabriel - Querida - Letra",
+    "count": 1,
+    "issueIds": [
+      "7739067910"
     ],
-    "firstSeen": "2026-09-17T23:42:31.394000Z",
-    "lastSeen": "2026-09-17T23:42:31.394000Z"
+    "lastSeen": "2026-09-17T23:42:31Z"
   },
   {
-    "title": "Juan Gabriel Querida Karaoke",
     "videoId": "ooU5dUa6DJQ",
-    "youtubeUrl": "https://www.youtube.com/watch?v=ooU5dUa6DJQ",
-    "totalEvents": 1,
-    "errorCodes": [],
-    "reasons": [
-      "Detectado preventivamente en Cola (Pre-Flight)"
+    "title": "Juan Gabriel Querida Karaoke",
+    "count": 1,
+    "issueIds": [
+      "7731665053"
     ],
-    "firstSeen": "2026-09-14T16:06:44.568000Z",
-    "lastSeen": "2026-09-14T16:06:44.568000Z"
+    "lastSeen": "2026-09-14T16:06:44Z"
   }
 ]
